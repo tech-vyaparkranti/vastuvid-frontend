@@ -7414,6 +7414,69 @@ a.quanto-default-btn.sm-size {
   }
 }
 
+/* Ensure smooth-wrapper and smooth-content take full height */
+#smooth-wrapper {
+  min-height: 100vh;
+  position: relative;
+}
+
+#smooth-content {
+  min-height: 100%;
+  padding-bottom: 100px;
+  /* Adjust based on footer height */
+}
+
+/* Footer styling */
+.site-footer {
+  background-color: #1a1a1a;
+  /* Example background */
+  color: #fff;
+  padding: 20px 0;
+  position: relative;
+  /* Ensure footer is in normal flow */
+  z-index: 10;
+  /* Ensure footer is above other content */
+  margin-top: 40px;
+  /* Add space above footer */
+}
+
+/* Footer links */
+.footer-links {
+  list-style: none;
+  padding: 0;
+  margin: 10px 0 0;
+  display: flex;
+  gap: 20px;
+}
+
+.footer-links li a {
+  color: #fff;
+  text-decoration: none;
+}
+
+.footer-links li a:hover {
+  text-decoration: underline;
+}
+
+/* Ensure last section has enough bottom padding */
+.quanto-clients-area {
+  margin-bottom: 60px;
+  /* Prevent footer overlap */
+}
+
+/* Fix for sections with overflow-hidden */
+.overflow-hidden {
+  overflow: visible;
+  /* Adjust if clipping content */
+}
+
+/* Ensure container has proper clearance */
+.custom-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 15px;
+}
+
 /* Animation css end  */
 
 /*# sourceMappingURL=style.css.map */
