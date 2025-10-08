@@ -1,16 +1,32 @@
-# React + Vite
+### Frontend ↔ Backend connection (Laravel Sanctum, cookies)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+1) Create a `.env` file in `vastuvid-frontend` with your backend URL:
 
-Currently, two official plugins are available:
+```
+VITE_API_BASE_URL=http://localhost
+# or http://localhost:8000, or your local domain e.g. http://vastuvid.test
+```
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+2) Backend must allow cookies (same-site) and CORS for the frontend origin. In Laravel `.env`:
 
-## React Compiler
+```
+SESSION_DRIVER=cookie
+SESSION_DOMAIN=localhost
+SANCTUM_STATEFUL_DOMAINS=localhost,localhost:5173,127.0.0.1,127.0.0.1:5173
+APP_URL=http://localhost
+```
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+And in `config/cors.php` set `supports_credentials => true` and include your frontend origin in `allowed_origins`.
 
-## Expanding the ESLint configuration
+3) Use the provided `AuthContext` (`src/context/AuthContext.jsx`) which handles:
+- CSRF cookie via `/sanctum/csrf-cookie`
+- `POST /login`, `POST /logout`, and `GET /api/user`
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+Wrap your app with `AuthProvider` (already wired in `src/main.jsx`).
+
+
+
+
+installation need for setup :
+=============================
+npm i -D vite
