@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from 'react';
+import AppImage from './AppImage';
 import logo3 from "../assets/images/clients/logo-3.png";
 import logo4 from "../assets/images/clients/logo-4.png";
 import logo5 from "../assets/images/clients/logo-5.png";
@@ -356,7 +357,7 @@ const Portfolio = () => {
                                                 <div className="quanto-project-box overflow-hidden fade-anim" data-delay={0.30 + index * 0.15} data-direction="left">
                                                     <a href="portfolio-details.html">
                                                         <div className="quanto-project-thumb overflow-hidden img_reveal">
-                                                            <img src={project.img} alt="project-thumb" className="w-100" loading="lazy" />
+                                                            <AppImage src={project.img} alt="project-thumb" className="w-100" loading="lazy" />
                                                         </div>
                                                     </a>
                                                     <div className="quanto-project-content">
@@ -388,7 +389,7 @@ const Portfolio = () => {
                                                 <div className="quanto-project-box overflow-hidden fade-anim" data-delay={0.30 + index * 0.15} data-direction="right">
                                                     <a href="portfolio-details.html">
                                                         <div className="quanto-project-thumb overflow-hidden img_reveal">
-                                                            <img src={project.img} alt="project-thumb" className="w-100" loading="lazy" />
+                                                            <AppImage src={project.img} alt="project-thumb" className="w-100" loading="lazy" />
                                                         </div>
                                                     </a>
                                                     <div className="quanto-project-content">
@@ -425,7 +426,7 @@ const Portfolio = () => {
                                         { logo: logo8, delay: 1.05 },
                                     ].map((client, index) => (
                                         <div key={index} className="client-box fade-anim" data-delay={client.delay} data-direction="right">
-                                            <img src={client.logo} alt="client-logo" loading="lazy" />
+                                            <AppImage src={client.logo} alt="client-logo" loading="lazy" />
                                         </div>
                                     ))}
                                 </div>

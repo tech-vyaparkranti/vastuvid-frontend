@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from 'react';
+import AppImage from './AppImage';
 import logo3 from "../assets/images/clients/logo-3.png";
 import logo4 from "../assets/images/clients/logo-4.png";
 import logo5 from "../assets/images/clients/logo-5.png";
@@ -346,7 +347,7 @@ const Blog = () => {
                                         <div className="quanto-blog-box fade-anim" data-delay={0.30 + (index % 3) * 0.15} data-direction="right">
                                             <div className="quanto-blog-thumb">
                                                 <a href="./blog-details.html">
-                                                    <img src={blog.img} alt="blog-thumb" loading="lazy" />
+                                                    <AppImage src={blog.img} alt="blog-thumb" loading="lazy" />
                                                 </a>
                                             </div>
                                             <div className="quanto-blog-content">

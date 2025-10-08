@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from 'react';
+import AppImage from './AppImage';
 import { Link } from 'react-router-dom'; // Import Link for SPA navigation
 import 'swiper/css';
 import { SplitText } from 'gsap/SplitText';
@@ -347,12 +348,12 @@ const Team = () => {
                         <div className="container custom-container position-relative">
                             <Link to="#quanto-team-area" className="scroll-down section-link">
                                 Scroll down
-                                <img src="/assets/images/icons/scroll-down.svg" alt="Scroll down" loading="lazy" />
+                                <AppImage src="/assets/images/icons/scroll-down.svg" alt="Scroll down" loading="lazy" />
                             </Link>
                             <div className="row">
                                 <div className="col-12">
                                     <div className="quanto-hero__thumb text-center fade-anim" data-delay="0.30" data-direction="bottom">
-                                        <img
+                                        <AppImage
                                             src="/assets/images/hero/common-hero-thumb-4.png"
                                             alt="hero-thumb"
                                             data-speed="0.8"
@@ -400,7 +401,7 @@ const Team = () => {
                                     <div key={index} className="col-sm-6 col-md-6 col-lg-4 col-xl-3">
                                         <div className="quanto-team-box fade-anim" data-delay={0.30 + index * 0.15} data-direction="right">
                                             <figure className="team-thumb">
-                                                <img src={member.img} alt="team" className="w-100" loading="lazy" />
+                                                <AppImage src={member.img} alt="team" className="w-100" loading="lazy" />
                                                 <ul className="custom-ul">
                                                     <li>
                                                         <a href="#"><i className="fa-brands fa-facebook-f"></i></a>

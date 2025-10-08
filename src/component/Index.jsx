@@ -500,7 +500,7 @@ const Index = () => {
                 <div id="smooth-content">
                     <section className="quanto-hero-section overflow-hidden">
                         <div className="container custom-container">
-                            <div className="row">
+                            {/* <div className="row">
                                 <div className="col-12 position-relative">
                                     <div className="quanto-hero__content move-anim" data-delay="0.45">
                                         <h1 className="title word-anim" data-delay="0.60">
@@ -547,10 +547,10 @@ const Index = () => {
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div> */}
                             <div className="row">
                                 <div className="col-lg-12">
-                                    <div class="quanto-hero__thumb section-margin-top">
+                                    <div class="quanto-hero__thumb ">
                                         <div class="video-wrapper">
                                             <video ref={heroVideoRef} loop="" muted="" autoplay="" playsinline="">
                                                 <source
@@ -565,7 +565,7 @@ const Index = () => {
                         </div>
                     </section>
 
-                    <section className="quanto-about-section section-padding-top overflow-hidden">
+                    {/* <section className="quanto-about-section section-padding-top overflow-hidden">
                         <div className="container custom-container">
                             <div className="row justify-content-end">
                                 <div className="col-lg-10 col-xl-9 col-xxl-10">
@@ -589,7 +589,42 @@ const Index = () => {
                                 </div>
                             </div>
                         </div>
-                    </section>
+                    </section> */}
+
+                    <section className="quanto-about-section section-padding-top overflow-hidden">
+    <div className="container custom-container">
+        <div className="row justify-content-end align-items-center">
+            <div className="col-lg-2 col-xl-3 col-xxl-2">
+                <div className="quanto-about__image move-anim" data-delay="0.30">
+                    <img 
+                        src="/path-to-your-image.jpg" 
+                        alt="About Us" 
+                        className="img-fluid"
+                    />
+                </div>
+            </div>
+            <div className="col-lg-10 col-xl-9 col-xxl-10">
+                <div className="quanto-about__content">
+                    <h4 className="move-anim text_invert" data-delay="0.45">
+                        Our digital strategies and design expertise focus on promoting social economy businesses, cutting-edge brands, and eco-friendly products to motivate consumers to make informed decisions towards sustainable products and services
+                    </h4>
+                    <div className="about-info row-margin-top move-anim" data-delay="0.60">
+                        <p>
+                            Whether it's crafting a visually stunning brand identity, designing immersive digital experiences, or developing strategic marketing campaigns, we approach each project with meticulous attention to detail and an unwavering dedication to quality.
+                        </p>
+                        <Link to="/about" className="quanto-link-btn section-link">
+                            More about us
+                            <span>
+                                <i className="fa-solid fa-arrow-right arry1"></i>
+                                <i className="fa-solid fa-arrow-right arry2"></i>
+                            </span>
+                        </Link>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 
                     <section className="quanto-funfacts-section section-padding-top-bottom overflow-hidden">
                         <div className="container custom-container">
@@ -898,7 +933,7 @@ const Index = () => {
                         </div>
                     </section>
 
-                    <section className="quanto-pricing-section section-padding-top-bottom overflow-hidden">
+                    {/* <section className="quanto-pricing-section section-padding-top-bottom overflow-hidden">
                         <div className="container custom-container">
                             <div className="row">
                                 <div className="col-12">
@@ -954,9 +989,9 @@ const Index = () => {
                                 ))}
                             </div>
                         </div>
-                    </section>
+                    </section> */}
 
-                    <section className="quanto-team-section section-padding-top-bottom overflow-hidden">
+                    {/* <section className="quanto-team-section section-padding-top-bottom overflow-hidden">
                         <div className="container custom-container">
                             <div className="row">
                                 <div className="col-12">
@@ -980,7 +1015,7 @@ const Index = () => {
                                 ))}
                             </div>
                         </div>
-                    </section>
+                    </section> */}
                 </div>
             </div>
         </>

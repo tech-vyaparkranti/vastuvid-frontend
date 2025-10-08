@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from 'react';
+import AppImage from './AppImage';
 import { Link } from 'react-router-dom'; // Import Link for SPA navigation
 import 'swiper/css';
 import { SplitText } from 'gsap/SplitText';
@@ -344,12 +345,12 @@ const Pricing = () => {
                         <div className="container custom-container position-relative">
                             <Link to="#quanto-pricing-area" className="scroll-down section-link">
                                 Scroll down
-                                <img src="/assets/images/icons/scroll-down.svg" alt="Scroll down" loading="lazy" />
+                                <AppImage src="/assets/images/icons/scroll-down.svg" alt="Scroll down" loading="lazy" />
                             </Link>
                             <div className="row">
                                 <div className="col-12">
                                     <div className="quanto-hero__thumb text-end fade-anim" data-delay="0.30" data-direction="bottom">
-                                        <img
+                                        <AppImage
                                             src="/assets/images/hero/common-hero-thumb-5.png"
                                             alt="hero-thumb"
                                             data-speed="0.8"

@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from 'react';
+import AppImage from './AppImage';
 import { Link } from 'react-router-dom'; // Import Link for SPA navigation
 import 'swiper/css';
 import { SplitText } from 'gsap/SplitText';
@@ -324,12 +325,12 @@ const Service = () => {
                         <div className="container custom-container position-relative">
                             <Link to="#service-section" className="scroll-down section-link">
                                 Scroll down
-                                <img src="./assets/images/icons/scroll-down.svg" alt="Scroll down" loading="lazy" />
+                                <AppImage src="./assets/images/icons/scroll-down.svg" alt="Scroll down" loading="lazy" />
                             </Link>
                             <div className="row">
                                 <div className="col-12">
                                     <div className="quanto-hero__thumb text-end fade-anim" data-delay="0.30" data-direction="bottom">
-                                        <img
+                                        <AppImage
                                             src="./assets/images/hero/common-hero-thumb.png"
                                             alt="hero-thumb"
                                             data-speed="0.8"
@@ -360,7 +361,7 @@ const Service = () => {
                                             <div key={index} className="col-md-6 fade-anim" data-delay={0.30 + index * 0.15} data-direction="right">
                                                 <div className="quanto-service-box style-2">
                                                     <div className="quanto-iconbox-icon">
-                                                        <img src={service.icon} alt="service-icon" loading="lazy" />
+                                                        <AppImage src={service.icon} alt="service-icon" loading="lazy" />
                                                     </div>
                                                     <div className="quanto-iconbox-data">
                                                         <div className="quanto-iconbox-data-wrapper">

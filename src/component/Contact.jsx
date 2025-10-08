@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom'; // Import Link for SPA navigation
+import AppImage from './AppImage';
 import "../assets/css/plugins.css";
 import "../assets/css/style.css";
 import React, { useEffect, useRef } from 'react';
@@ -310,7 +311,7 @@ const Contact = () => {
                         <div className="container custom-container position-relative">
                             <Link to="#quanto-contact-section" className="scroll-down section-link">
                                 Scroll down
-                                <img src="/assets/images/icons/scroll-down.svg" alt="Scroll down" loading="lazy" />
+                                <AppImage src="/assets/images/icons/scroll-down.svg" alt="Scroll down" loading="lazy" />
                             </Link>
                             <div className="row">
                                 <div className="col-12">
