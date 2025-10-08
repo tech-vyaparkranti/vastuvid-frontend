@@ -15,10 +15,13 @@ import ErrorPage from './component/ErrorPage';
 import Pricing from './component/Pricing';
 import Navbar from './component/Navbar';
 import Footer from './component/Footer';
+// import "./assets/plugins/all.css"
+// import "./assets/plugins/odometer.css"
 
 const App = () => {
   return (
     <BrowserRouter>
+
       <Navbar />
       {/* <Layout> */}
       <Routes>
@@ -39,6 +42,7 @@ const App = () => {
       </Routes>
       {/* </Layout> */}
       <Footer />
+
     </BrowserRouter>
   );
 };

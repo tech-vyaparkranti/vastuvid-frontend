@@ -1,38 +1,35 @@
-// import Swiper from 'swiper';
-// import 'swiper/css';
-// import Odometer from 'odometer';
-// import 'odometer/themes/odometer.css';
-
-// import loader from "../assets/images/preloader.svg";
 import React, { useEffect, useRef, useState, useCallback } from 'react';
+import { Link } from 'react-router-dom'; // Import Link for SPA navigation
 import Swiper from 'swiper';
 import 'swiper/css';
-import "../assets/plugins/odometer.css"
-// GSAP Imports
+import Odometer from 'odometer';
+import 'odometer/themes/odometer-theme-minimal.css';
+import Aos from 'aos';
+import 'aos/dist/aos.css';
+import $ from 'jquery';
+import 'jquery-ui-dist/jquery-ui';
 import { gsap, Power2 } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ScrollSmoother } from 'gsap/ScrollSmoother';
 import { ScrollToPlugin } from 'gsap/ScrollToPlugin';
-gsap.registerPlugin(ScrollTrigger, ScrollSmoother, ScrollToPlugin);
+import { SplitText } from 'gsap/SplitText';
+import img1 from "../assets/images/clients/logo-3.png";
+import video4 from "../assets/images/video.mp4"
 
-// Uncomment and adjust for Odometer animation
-import Odometer from 'odometer';
-
-import "odometer/themes/odometer-theme-minimal.css";
+// Register GSAP plugins
+gsap.registerPlugin(ScrollTrigger, ScrollSmoother, ScrollToPlugin, SplitText);
 
 const runOdometer = (element) => {
     if (element) {
         const odometerElements = element.querySelectorAll('.odometer');
-        odometerElements.forEach(el => {
+        odometerElements.forEach((el) => {
             const finalValue = parseInt(el.getAttribute('data-odometer-final')) || 0;
             if (finalValue) {
-                // Initialize Odometer for animation
                 new Odometer({
                     el: el,
                     value: 0,
                     format: '(,ddd).dd',
                 });
-                // Animate to final value
                 setTimeout(() => {
                     el.odometer.update(finalValue);
                 }, 100);
@@ -47,649 +44,466 @@ const Index = () => {
     const cursorRef = useRef(null);
     const horizontalScrollRef = useRef(null);
     const hero5BgRef = useRef(null);
-
-    // State for preloader visibility
     const [preloaderVisible, setPreloaderVisible] = useState(true);
-
-    // Odometer Refs and Activation Tracking
     const counterItemRefs = useRef([]);
     const activatedCounters = useRef(new Set());
 
-    // Helper to store refs for multiple odometer items dynamically
     const setCounterRef = useCallback((el, index) => {
         if (el) {
-            // This allows us to track all dynamically rendered counter items
             counterItemRefs.current[index] = el;
         }
     }, []);
 
-    // ===============================================
-    // 1. Preloader (Simulated with a short delay)
-    // ===============================================
     useEffect(() => {
-        const timer = setTimeout(() => {
-            setPreloaderVisible(false);
-            // Refresh ScrollTrigger after preloader to recalculate animations
-            ScrollTrigger.refresh();
-        }, 800);
-        return () => clearTimeout(timer);
-    }, []);
-
-    // ===============================================
-    // 2. Sticky Menus & Background Image Setter
-    // ===============================================
-    useEffect(() => {
-        const handleScroll = () => {
-            const stickyMenu = document.getElementById('sticky-menu');
-            const quantoMenuArea = document.querySelector('.quanto-menu-area');
-            const scrollY = window.scrollY;
-
-            // Sticky Menu 1
-            if (stickyMenu) {
-                if (scrollY > 50) {
-                    stickyMenu.classList.add('sticky-menu');
-                } else {
-                    stickyMenu.classList.remove('sticky-menu');
-                }
-            }
-
-            // Sticky Menu 2
-            if (quantoMenuArea) {
-                if (scrollY >= 20) {
-                    quantoMenuArea.classList.add('sticky');
-                } else {
-                    quantoMenuArea.classList.remove('sticky');
-                }
-            }
-        };
-
-        // Set Background Image (data-bg-src to style="background-image:...")
-
-        window.addEventListener('scroll', handleScroll);
-        return () => window.removeEventListener('scroll', handleScroll);
-    }, []);
-
-    // ===============================================
-    // 3. Custom Cursor
-    // ===============================================
-    useEffect(() => {
-        const cursorElement = cursorRef.current;
-        if (!cursorElement) return;
-
-        const editCursor = (e) => {
-            const { clientX: x, clientY: y } = e;
-            cursorElement.style.left = x + 'px';
-            cursorElement.style.top = y + 'px';
-        };
-
-        window.addEventListener('mousemove', editCursor);
-
-        // Target elements that trigger cursor change
-        const pointerElements = document.querySelectorAll('a, .cursor-pointer');
-
-        const handleMouseOver = () => cursorElement.classList.add('cursor-active');
-        const handleMouseOut = () => cursorElement.classList.remove('cursor-active');
-
-        pointerElements.forEach(item => {
-            item.addEventListener('mouseover', handleMouseOver);
-            item.addEventListener('mouseout', handleMouseOut);
+        // Initialize AOS
+        Aos.init({
+            duration: 2000,
+            once: false, // Allow animations to replay on scroll
+            mirror: true, // Animate elements when scrolling past them again
         });
 
-        // Cleanup function
-        return () => {
-            window.removeEventListener('mousemove', editCursor);
-            pointerElements.forEach(item => {
-                item.removeEventListener('mouseover', handleMouseOver);
-                item.removeEventListener('mouseout', handleMouseOut);
-            });
-        };
-    }, []);
+        // GSAP Context for animations and cleanup
+        const ctx = gsap.context(() => {
+            // Preloader
+            setTimeout(() => {
+                setPreloaderVisible(false);
+                ScrollTrigger.refresh();
+            }, 800);
 
-    // ===============================================
-    // 4. Odometer Counter (using ScrollTrigger for activation)
-    // ===============================================
-    useEffect(() => {
-        // We use ScrollTrigger to detect when the counter enters the viewport
-        const triggers = counterItemRefs.current.map((item, index) => {
-            if (item && !activatedCounters.current.has(index)) {
-                return ScrollTrigger.create({
-                    trigger: item,
-                    start: "top bottom",
-                    onEnter: () => {
-                        runOdometer(item);
-                        activatedCounters.current.add(index);
-                    },
-                    once: true,
-                });
-            }
-            return null;
-        }).filter(t => t !== null);
+            // Sticky Menus & Background Image Setter
+            const handleScroll = () => {
+                const stickyMenu = document.getElementById('sticky-menu');
+                const quantoMenuArea = document.querySelector('.quanto-menu-area');
+                const scrollY = window.scrollY;
 
-        return () => triggers.forEach(t => t?.kill());
-    }, [setCounterRef]); // Added setCounterRef dependency for correctness
-
-    // ===============================================
-    // 5. Swiper Sliders
-    // ===============================================
-    useEffect(() => {
-        // ✅ Initialize Swiper after component mounts
-        if (typeof Swiper !== 'undefined') {
-            const testimonialSlider = new Swiper(".quanto-testimonial__content-slider", {
-                loop: true,
-                slidesPerView: 1,
-                spaceBetween: 20,
-                navigation: {
-                    nextEl: ".next-btn",
-                    prevEl: ".prev-btn",
-                },
-                autoplay: {
-                    delay: 3000,
-                    disableOnInteraction: false,
-                },
-            });
-            // Cleanup Swiper instance
-            return () => testimonialSlider.destroy();
-        }
-    }, []);
-
-    // ===============================================
-    // 6. Marquee
-    // ===============================================
-    useEffect(() => {
-        document.querySelectorAll('.marquee').forEach(marquee => {
-            // Clear existing clones if rerunning in dev mode
-            const existingClones = marquee.querySelectorAll('.marquee-item-container:nth-child(n+2)');
-            existingClones.forEach(clone => clone.remove());
-
-            const itemContainer = marquee.querySelector('.marquee-item-container');
-            if (itemContainer) {
-                const elements = itemContainer.querySelectorAll('.marquee-item').length;
-                const repeatCount = elements < 5 ? 5 : elements;
-
-                for (let i = 0; i < repeatCount; i++) {
-                    const clone = itemContainer.cloneNode(true);
-                    marquee.appendChild(clone);
+                if (stickyMenu) {
+                    if (scrollY > 50) {
+                        stickyMenu.classList.add('sticky-menu');
+                        quantoMenuArea?.classList.add('sticky');
+                    } else {
+                        stickyMenu.classList.remove('sticky-menu');
+                        quantoMenuArea?.classList.remove('sticky');
+                    }
                 }
-            }
-        });
-    }, []);
-
-    // ===============================================
-    // 7. GSAP Core Animations & Smooth Scroll
-    // ===============================================
-    useEffect(() => {
-        // Set default GSAP configuration
-        gsap.defaults({ ease: 'power2.out', duration: 0.5 });
-        const device_width = window.innerWidth;
-        let smoother = null;
-        let triggers = [];
-        let splitTextInstances = []; // To store SplitText instances for cleanup
-
-        // ScrollSmoother
-        if (device_width > 767) {
-            const hasSmooth = document.querySelector('#has_smooth');
-            if (hasSmooth && hasSmooth.classList.contains('has-smooth')) {
-                // Ensure ScrollSmoother hasn't been created already
-                if (ScrollSmoother.get() === null) {
-                    smoother = ScrollSmoother.create({
-                        smooth: 0.9,
-                        effects: device_width < 1025 ? false : true,
-                        smoothTouch: 0.1,
-                        normalizeScroll: { allowNestedScroll: true },
-                        ignoreMobileResize: true,
-                    });
-                }
-            }
-        }
-
-        // Horizontal Scroll
-        const horizontalSection = horizontalScrollRef.current;
-        if (device_width > 1199 && horizontalSection) {
-            const horizontalTrigger = gsap.to(horizontalSection, {
-                x: () => horizontalSection.scrollWidth * -1,
-                xPercent: 100,
-                scrollTrigger: {
-                    trigger: horizontalSection,
-                    start: 'center center',
-                    end: '+=3000px',
-                    pin: horizontalSection,
-                    scrub: true,
-                    invalidateOnRefresh: true,
-                },
-            });
-            triggers.push(horizontalTrigger.scrollTrigger);
-        }
-
-        // GSAP Move Animation (Text Split)
-        const text_animation = gsap.utils.toArray('.move-anim');
-        text_animation.forEach((splitTextLine) => {
-            // NOTE: window.SplitText is likely NOT defined as it's a Club GreenSock plugin.
-            // Assuming it's loaded globally via a script tag.
-            if (typeof window.SplitText === 'undefined') return;
-
-            var delay_value = parseFloat(splitTextLine.getAttribute('data-delay')) || 0.1;
-
-            const tl = gsap.timeline({
-                scrollTrigger: {
-                    trigger: splitTextLine,
-                    start: 'top 85%',
-                    duration: 1.3,
-                    scrub: false,
-                    toggleActions: 'play none none none',
-                },
-            });
-
-            const itemSplitted = new window.SplitText(splitTextLine, { type: 'lines' });
-            splitTextInstances.push(itemSplitted); // Store for cleanup
-            gsap.set(splitTextLine, { perspective: 400 });
-            itemSplitted.split({ type: 'lines' });
-
-            tl.from(itemSplitted.lines, {
-                duration: 1,
-                delay: delay_value,
-                opacity: 0,
-                rotationX: -80,
-                force3D: true,
-                transformOrigin: 'top center -50',
-                stagger: 0.1,
-            });
-            triggers.push(tl.scrollTrigger);
-        });
-
-        // GSAP Fade Animation (Code omitted as it was not fully provided)
-
-        // Color Change Two (Text Invert)
-        const textInvert = document.querySelector(".text_invert");
-        if (textInvert && typeof window.SplitText !== 'undefined') {
-            const splitt = new window.SplitText(textInvert, { type: "lines" });
-            splitTextInstances.push(splitt); // Store for cleanup
-
-            gsap.set(splitt.lines, { color: "#ddd", overflow: "hidden" });
-
-            splitt.lines.forEach((target) => {
-                const trigger = gsap.to(target, {
-                    color: "#000000",
-                    duration: 1,
-                    ease: "power2.out",
-                    backgroundPositionX: 0,
-                    scrollTrigger: {
-                        trigger: target,
-                        scrub: true,
-                        start: "top 55%",
-                        end: "bottom center",
-                    },
-                });
-                triggers.push(trigger.scrollTrigger);
-            });
-        }
-
-        // Animation Word (Word Animation)
-        const animation_word_anim_items = gsap.utils.toArray(".word-anim");
-        animation_word_anim_items.forEach((word_anim_item) => {
-            if (typeof window.SplitText === 'undefined') return;
-
-            const stagger_value = parseFloat(word_anim_item.getAttribute("data-stagger")) || 0.04;
-            const translateX_value = parseFloat(word_anim_item.getAttribute("data-translateX")) || 0;
-            const translateY_value = parseFloat(word_anim_item.getAttribute("data-translateY")) || 0;
-            const onscroll_value = parseInt(word_anim_item.getAttribute("data-on-scroll")) || 1;
-            const data_delay = parseFloat(word_anim_item.getAttribute("data-delay")) || 0.1;
-            const data_duration = parseFloat(word_anim_item.getAttribute("data-duration")) || 0.75;
-
-            const split_word = new window.SplitText(word_anim_item, { type: "chars, words" });
-            splitTextInstances.push(split_word); // Store for cleanup
-
-            const animationProps = {
-                duration: data_duration,
-                delay: data_delay,
-                autoAlpha: 0,
-                stagger: stagger_value,
-                x: translateX_value || (!translateY_value && onscroll_value === 0 ? 20 : 0),
-                y: translateY_value || 0,
-
             };
+            window.addEventListener('scroll', handleScroll);
 
-            if (onscroll_value === 1) {
-                animationProps.scrollTrigger = {
-                    trigger: word_anim_item,
-                    start: !translateX_value && !translateY_value ? "top 85%" : "top 90%",
+            // Set Background Image
+            $('[data-bg-src]').each(function () {
+                const src = $(this).attr('data-bg-src');
+                $(this).css('background-image', `url(${src})`).addClass('background-image').removeAttr('data-bg-src');
+            });
+
+            // Custom Cursor
+            const cursorElement = cursorRef.current;
+            if (cursorElement) {
+                const editCursor = (e) => {
+                    cursorElement.style.left = `${e.clientX}px`;
+                    cursorElement.style.top = `${e.clientY}px`;
                 };
+                window.addEventListener('mousemove', editCursor);
+                document.querySelectorAll('a, .cursor-pointer').forEach((item) => {
+                    item.addEventListener('mouseover', () => cursorElement.classList.add('cursor-active'));
+                    item.addEventListener('mouseout', () => cursorElement.classList.remove('cursor-active'));
+                });
             }
-            if (onscroll_value === 1 && !translateX_value && !translateY_value) {
-                animationProps.x = 20;
-                animationProps.duration = 1;
+
+            // Smooth Scrolling
+            if (window.innerWidth > 767 && document.querySelector('#has_smooth')) {
+                ScrollSmoother.create({
+                    smooth: 0.9,
+                    effects: window.innerWidth < 1500 ? false : true,
+                    smoothTouch: 0.1,
+                    normalizeScroll: { allowNestedScroll: true },
+                    ignoreMobileResize: true,
+                });
             }
 
-            const anim = gsap.from(split_word.words, animationProps);
-            if (anim.scrollTrigger) triggers.push(anim.scrollTrigger);
-        });
+            // Horizontal Scroll
+            const horizontalSection = horizontalScrollRef.current;
+            if (window.innerWidth > 1199 && horizontalSection) {
+                gsap.to(horizontalSection, {
+                    x: () => horizontalSection.scrollWidth * -1,
+                    xPercent: 100,
+                    scrollTrigger: {
+                        trigger: horizontalSection,
+                        start: 'center center',
+                        end: '+=3000px',
+                        pin: horizontalSection,
+                        scrub: true,
+                        invalidateOnRefresh: true,
+                    },
+                });
+            }
 
-        // Image Reveal Animation
+            // Hero Video Animation (Pinning)
+            const heroThumb = document.querySelector('.quanto-hero__thumb');
+            if (heroThumb) {
+                let mm = gsap.matchMedia();
+                mm.add('(min-width: 768px)', () => {
+                    const videoWrapper = heroThumb.querySelector('.video-wrapper');
+                    if (videoWrapper) {
+                        const tp_hero = gsap.timeline({
+                            scrollTrigger: {
+                                trigger: heroThumb,
+                                start: 'top 70',
+                                pin: true,
+                                scrub: 1,
+                                pinSpacing: true,
+                                end: 'bottom top',
+                            },
+                        });
+                        tp_hero.to(videoWrapper, { width: '100%', duration: 1.5, ease: 'power2.inOut' });
+                    }
+                });
+            }
 
-        // Hero Video Animation (Pinning)
-        const heroThumb = document.querySelector(".quanto-hero__thumb");
-        if (heroThumb) {
-            let mm = gsap.matchMedia();
+            // Move Animation
+            document.querySelectorAll('.move-anim').forEach((splitTextLine) => {
+                const delay_value = parseFloat(splitTextLine.getAttribute('data-delay')) || 0.1;
+                const tl = gsap.timeline({
+                    scrollTrigger: {
+                        trigger: splitTextLine,
+                        start: 'top 85%',
+                        duration: 1.3,
+                        toggleActions: 'play none none none',
+                    },
+                });
+                const itemSplitted = new SplitText(splitTextLine, { type: 'lines' });
+                gsap.set(splitTextLine, { perspective: 400 });
+                itemSplitted.split({ type: 'lines' });
+                tl.from(itemSplitted.lines, {
+                    duration: 1,
+                    delay: delay_value,
+                    opacity: 0,
+                    rotationX: -80,
+                    force3D: true,
+                    transformOrigin: 'top center -50',
+                    stagger: 0.1,
+                });
+            });
 
-            mm.add("(min-width: 768px)", () => {
-                const videoWrapper = heroThumb.querySelector(".video-wrapper");
+            // Fade Animation
+            document.querySelectorAll('.fade-anim').forEach((item) => {
+                const fade_direction = item.getAttribute('data-direction') || 'bottom';
+                const onscroll_value = item.getAttribute('data-on-scroll') || 1;
+                const duration_value = parseFloat(item.getAttribute('data-duration') || 1.15);
+                const fade_offset = parseFloat(item.getAttribute('data-offset') || 50);
+                const delay_value = parseFloat(item.getAttribute('data-delay') || 0.15);
+                const ease_value = item.getAttribute('data-ease') || 'power2.out';
+                const animation_settings = {
+                    opacity: 0,
+                    ease: ease_value,
+                    duration: duration_value,
+                    delay: delay_value,
+                };
+                if (fade_direction === 'top') animation_settings.y = -fade_offset;
+                if (fade_direction === 'left') animation_settings.x = -fade_offset;
+                if (fade_direction === 'bottom') animation_settings.y = fade_offset;
+                if (fade_direction === 'right') animation_settings.x = fade_offset;
+                if (onscroll_value == 1) {
+                    animation_settings.scrollTrigger = {
+                        trigger: item,
+                        start: 'top 85%',
+                    };
+                }
+                gsap.from(item, animation_settings);
+            });
 
-                if (videoWrapper) {
-                    const tp_hero = gsap.timeline({
+            // Word Animation
+            document.querySelectorAll('.word-anim').forEach((word_anim_item) => {
+                const stagger_value = parseFloat(word_anim_item.getAttribute('data-stagger') || 0.04);
+                const translateX_value = parseFloat(word_anim_item.getAttribute('data-translateX') || 0);
+                const translateY_value = parseFloat(word_anim_item.getAttribute('data-translateY') || 0);
+                const onscroll_value = parseInt(word_anim_item.getAttribute('data-on-scroll') || 1);
+                const data_delay = parseFloat(word_anim_item.getAttribute('data-delay') || 0.1);
+                const data_duration = parseFloat(word_anim_item.getAttribute('data-duration') || 0.75);
+                const split_word = new SplitText(word_anim_item, { type: 'chars, words' });
+                const animation_settings = {
+                    duration: data_duration,
+                    delay: data_delay,
+                    autoAlpha: 0,
+                    stagger: stagger_value,
+                    x: translateX_value || (!translateY_value && onscroll_value === 0 ? 20 : 0),
+                    y: translateY_value || 0,
+                };
+                if (onscroll_value === 1) {
+                    animation_settings.scrollTrigger = {
+                        trigger: word_anim_item,
+                        start: !translateX_value && !translateY_value ? 'top 85%' : 'top 90%',
+                    };
+                }
+                gsap.from(split_word.words, animation_settings);
+            });
+
+            // Text Invert Animation
+            const textInvert = document.querySelector('.text_invert');
+            if (textInvert) {
+                const splitt = new SplitText(textInvert, { type: 'lines' });
+                gsap.set(splitt.lines, { color: '#ddd', overflow: 'hidden' });
+                splitt.lines.forEach((target) => {
+                    gsap.to(target, {
+                        color: '#000000',
+                        duration: 1,
+                        ease: 'power2.out',
+                        backgroundPositionX: 0,
                         scrollTrigger: {
-                            trigger: heroThumb,
-                            start: "top 70",
-                            pin: true,
-                            scrub: 1,
-                            pinSpacing: true,
-                            end: "bottom top",
+                            trigger: target,
+                            scrub: true,
+                            start: 'top 55%',
+                            end: 'bottom center',
                         },
                     });
+                });
+            }
 
-                    tp_hero.to(videoWrapper, { width: "100%", duration: 1.5, ease: "power2.inOut" });
-                    triggers.push(tp_hero.scrollTrigger);
+            // Odometer Counter
+            counterItemRefs.current.forEach((item, index) => {
+                if (item && !activatedCounters.current.has(index)) {
+                    ScrollTrigger.create({
+                        trigger: item,
+                        start: 'top bottom',
+                        onEnter: () => {
+                            runOdometer(item);
+                            activatedCounters.current.add(index);
+                        },
+                        once: true,
+                    });
                 }
             });
-        }
 
-        // Quanto Service 2 Sticky Header (Pinning)
-        let sp = gsap.matchMedia();
-        sp.add("(min-width: 1200px)", () => {
-            if (document.querySelector(".quanto-service2-section")) {
-                const service2Trigger = ScrollTrigger.create({
-                    trigger: ".quanto-service2-section",
-                    start: "top -1%",
-                    end: "bottom 110.5%",
-                    pin: ".quanto-service2-section .quanto__header",
-                    pinSpacing: true,
+            // Swiper Slider
+            if (typeof Swiper !== 'undefined') {
+                const testimonialSlider = new Swiper('.quanto-testimonial__content-slider', {
+                    loop: true,
+                    slidesPerView: 1,
+                    spaceBetween: 20,
+                    navigation: {
+                        nextEl: '.next-btn',
+                        prevEl: '.prev-btn',
+                    },
+                    autoplay: {
+                        delay: 3000,
+                        disableOnInteraction: false,
+                    },
+                    thumbs: {
+                        swiper: new Swiper('.quanto-testimonial__thumb-slider', {
+                            loop: true,
+                            slidesPerView: 1,
+                            spaceBetween: 20,
+                        }),
+                    },
                 });
-                triggers.push(service2Trigger);
             }
-        });
 
-        // Sticky Blog Social Links
-        const blogSocialTrigger = gsap.to(".social-links-scroll", {
-            scrollTrigger: {
-                trigger: ".blog-item-details .social-links",
-                start: "top-=120 top",
-                end: "80% top",
-                pin: true,
-                pinSpacing: false,
-                scrub: true,
-            },
-        });
-        triggers.push(blogSocialTrigger.scrollTrigger);
+            // Marquee
+            document.querySelectorAll('.marquee').forEach((marquee) => {
+                const existingClones = marquee.querySelectorAll('.marquee-item-container:nth-child(n+2)');
+                existingClones.forEach((clone) => clone.remove());
+                const itemContainer = marquee.querySelector('.marquee-item-container');
+                if (itemContainer) {
+                    const elements = itemContainer.querySelectorAll('.marquee-item').length;
+                    const repeatCount = elements < 5 ? 5 : elements;
+                    for (let i = 0; i < repeatCount; i++) {
+                        const clone = itemContainer.cloneNode(true);
+                        marquee.appendChild(clone);
+                    }
+                }
+            });
 
-        // Cleanup function: kill GSAP instances and revert SplitText
-        return () => {
-            if (smoother) smoother.kill();
-            triggers.forEach(t => t?.kill());
-            splitTextInstances.forEach(split => split.revert());
-        };
-    }, []);
-
-    // ===============================================
-    // 8. Mouse-in/out Hover Effects (Quanto Pricing Box, Process Box)
-    // ===============================================
-
-    useEffect(() => {
-        // Wrap in gsap.context to handle cleanup automatically
-        const ctx = gsap.context(() => {
-            const tp_img_reveal = gsap.utils.toArray(".img_reveal");
-
-            tp_img_reveal.forEach((img_reveal) => {
-                const image = img_reveal.querySelector("img");
+            // Image Reveal Animation
+            gsap.utils.toArray('.img_reveal').forEach((img_reveal) => {
+                const image = img_reveal.querySelector('img');
                 if (!image) return;
-
                 const tl = gsap.timeline({
                     scrollTrigger: {
                         trigger: img_reveal,
-                        start: "top 90%",     // When to trigger
-                        toggleActions: "play none none none",
+                        start: 'top 90%',
+                        toggleActions: 'play none none none',
                     },
                 });
-
                 tl.set(img_reveal, { autoAlpha: 1 });
-                tl.from(img_reveal, {
-                    duration: 1,
-                    xPercent: -100,
-                    ease: " Power2.out",
-                });
-                tl.from(
-                    image,
-                    {
-                        duration: 1.5,
-                        xPercent: 100,
-                        scale: 1.5,
-                        ease: Power2.out,
-                    },
-                    0
-                );
+                tl.from(img_reveal, { duration: 1, xPercent: -100, ease: 'power2.out' });
+                tl.from(image, { duration: 1.5, xPercent: 100, scale: 1.5, ease: Power2.out }, 0);
             });
-        });
 
-        // Cleanup on unmount
-        return () => ctx.revert()
-    }, []);
+            // Mouse Hover Effects
+            const targetBoxes = document.querySelectorAll('.quanto-pricing-box, .process-box');
+            targetBoxes.forEach((box) => {
+                let overlay = box.querySelector('.hover-overlay');
+                if (!overlay) {
+                    overlay = document.createElement('div');
+                    overlay.className = 'hover-overlay';
+                    box.insertBefore(overlay, box.firstChild);
+                    gsap.set(overlay, { autoAlpha: 0, y: 0, x: 0 });
+                }
 
-    useEffect(() => {
-        const targetBoxes = document.querySelectorAll('.quanto-pricing-box, .process-box');
-        let cleanups = [];
+                const getDirection = (box, event) => {
+                    const rect = box.getBoundingClientRect();
+                    const mouseX = event.clientX - rect.left;
+                    const mouseY = event.clientY - rect.top;
+                    const centerX = rect.width / 2;
+                    const centerY = rect.height / 2;
+                    const relativeX = mouseX - centerX;
+                    const relativeY = mouseY - centerY;
+                    const angle = Math.atan2(relativeY, relativeX);
+                    const degrees = angle * (180 / Math.PI);
+                    if (degrees >= -45 && degrees <= 45) return 'right';
+                    if (degrees > 45 && degrees <= 135) return 'bottom';
+                    if (degrees > 135 || degrees <= -135) return 'left';
+                    return 'top';
+                };
 
-        targetBoxes.forEach((box) => {
-            // Create overlay element if it doesn't exist
-            let overlay = box.querySelector('.hover-overlay');
-            if (!overlay) {
-                overlay = document.createElement('div');
-                overlay.className = 'hover-overlay';
-                box.insertBefore(overlay, box.firstChild);
-                gsap.set(overlay, { autoAlpha: 0, y: 0, x: 0 });
+                const getAnimationProps = (direction, isEntering) => {
+                    const animProps = { autoAlpha: isEntering ? 1 : 0, x: 0, y: 0 };
+                    const distance = 100;
+                    switch (direction) {
+                        case 'right': animProps[isEntering ? 'startX' : 'x'] = distance + '%'; break;
+                        case 'left': animProps[isEntering ? 'startX' : 'x'] = -distance + '%'; break;
+                        case 'bottom': animProps[isEntering ? 'startY' : 'y'] = distance + '%'; break;
+                        case 'top': animProps[isEntering ? 'startY' : 'y'] = -distance + '%'; break;
+                    }
+                    return animProps;
+                };
+
+                const handleMouseEnter = (e) => {
+                    const direction = getDirection(box, e);
+                    const animProps = getAnimationProps(direction, true);
+                    gsap.fromTo(
+                        overlay,
+                        { autoAlpha: 0, x: animProps.startX || 0, y: animProps.startY || 0 },
+                        { duration: 0.5, autoAlpha: 1, x: 0, y: 0, ease: 'power2.out' }
+                    );
+                };
+
+                const handleMouseLeave = (e) => {
+                    const direction = getDirection(box, e);
+                    const animProps = getAnimationProps(direction, false);
+                    gsap.to(overlay, { duration: 0.5, ...animProps, ease: 'power2.in' });
+                };
+
+                box.addEventListener('mouseenter', handleMouseEnter);
+                box.addEventListener('mouseleave', handleMouseLeave);
+            });
+
+            // Video Control
+            const video = heroVideoRef.current;
+            const playBtn = playBtnRef.current;
+            if (video && playBtn) {
+                video.pause();
+                const handlePlay = () => {
+                    video.play();
+                    playBtn.classList.add('disabled');
+                    video.classList.add('pointer');
+                };
+                const handleVideoClick = () => {
+                    if (playBtn.classList.contains('disabled')) {
+                        video.pause();
+                        playBtn.classList.remove('disabled');
+                        video.classList.remove('pointer');
+                    }
+                };
+                playBtn.addEventListener('click', handlePlay);
+                video.addEventListener('click', handleVideoClick);
             }
 
-            // Helper function to determine mouse entry/exit direction
-            const getDirection = (box, event) => {
-                const rect = box.getBoundingClientRect();
-                const mouseX = event.clientX - rect.left;
-                const mouseY = event.clientY - rect.top;
-                const centerX = rect.width / 2;
-                const centerY = rect.height / 2;
-                const relativeX = mouseX - centerX;
-                const relativeY = mouseY - centerY;
-                const angle = Math.atan2(relativeY, relativeX);
-                const degrees = angle * (180 / Math.PI);
-
-                if (degrees >= -45 && degrees <= 45) return 'right';
-                if (degrees > 45 && degrees <= 135) return 'bottom';
-                if (degrees > 135 || degrees <= -135) return 'left';
-                return 'top';
-            };
-
-            const getAnimationProps = (direction, isEntering) => {
-                const animProps = { autoAlpha: isEntering ? 1 : 0, x: 0, y: 0 };
-                const distance = 100;
-
-                switch (direction) {
-                    case 'right': animProps[isEntering ? 'startX' : 'x'] = distance + '%'; break;
-                    case 'left': animProps[isEntering ? 'startX' : 'x'] = -distance + '%'; break;
-                    case 'bottom': animProps[isEntering ? 'startY' : 'y'] = distance + '%'; break;
-                    case 'top': animProps[isEntering ? 'startY' : 'y'] = -distance + '%'; break;
-                }
-                return animProps;
-            };
-
-            const handleMouseEnter = (e) => {
-                const direction = getDirection(box, e);
-                const animProps = getAnimationProps(direction, true);
-
-                gsap.fromTo(overlay, {
-                    autoAlpha: 0,
-                    x: animProps.startX || 0,
-                    y: animProps.startY || 0,
-                }, {
-                    duration: 0.5,
-                    autoAlpha: 1,
-                    x: 0,
-                    y: 0,
-                    ease: 'power2.out',
+            // Section Jump
+            document.querySelectorAll('.section-link').forEach((link) => {
+                link.addEventListener('click', (event) => {
+                    event.preventDefault();
+                    const targetID = link.getAttribute('href') || link.getAttribute('to');
+                    if (targetID === '#header') {
+                        gsap.to(window, { duration: 1.5, scrollTo: { y: 0 }, ease: 'power2.inOut' });
+                    } else {
+                        const targetSection = document.querySelector(targetID);
+                        if (targetSection) {
+                            gsap.to(window, { duration: 1, scrollTo: { y: targetSection, offsetY: 50 }, ease: 'power2.out' });
+                        } else {
+                            console.error(`Section with ID ${targetID} does not exist.`);
+                        }
+                    }
                 });
-            };
+            });
 
-            const handleMouseLeave = (e) => {
-                const direction = getDirection(box, e);
-                const animProps = getAnimationProps(direction, false);
-
-                gsap.to(overlay, {
-                    duration: 0.5,
-                    ...animProps,
-                    ease: 'power2.in',
+            // Sticky Team Animations
+            if (window.innerWidth >= 992) {
+                document.querySelectorAll('.gsap-sticky').forEach((element) => {
+                    ScrollTrigger.create({
+                        trigger: element,
+                        start: 'top 80px',
+                        end: '110% bottom',
+                        pin: element,
+                        pinSpacing: false,
+                    });
                 });
-            };
+            }
 
-            box.addEventListener('mouseenter', handleMouseEnter);
-            box.addEventListener('mouseleave', handleMouseLeave);
+            // Hero 5 Background Animation
+            const bgElement = hero5BgRef.current;
+            if (bgElement) {
+                gsap.set(bgElement, { top: '-300px', scale: 0.5 });
+                gsap.to(bgElement, { duration: 2, top: '0px', scale: 1, ease: 'power2.out', delay: 0.6 });
+            }
 
-            cleanups.push(() => {
-                box.removeEventListener('mouseenter', handleMouseEnter);
-                box.removeEventListener('mouseleave', handleMouseLeave);
+            // Testimonial Thumbnail Parallax
+            document.querySelectorAll('.testimonial-img').forEach((thumb) => {
+                const dataSpeed = parseFloat(thumb.getAttribute('data-speed') || 0.8);
+                gsap.to(thumb, {
+                    yPercent: 20 * (1 - dataSpeed),
+                    ease: 'none',
+                    scrollTrigger: {
+                        trigger: thumb,
+                        start: 'top bottom',
+                        end: 'bottom top',
+                        scrub: true,
+                    },
+                });
             });
         });
 
-        return () => cleanups.forEach(cleanup => cleanup());
-    }, []);
-
-    // ===============================================
-    // 9. Video Control
-    // ===============================================
-    useEffect(() => {
-        const video = heroVideoRef.current;
-        const playBtn = playBtnRef.current;
-
-        if (video && playBtn) {
-            video.pause();
-
-            const handlePlay = () => {
-                video.play();
-                playBtn.classList.add('disabled');
-                video.classList.add('pointer');
-            };
-
-            const handleVideoClick = () => {
-                if (playBtn.classList.contains('disabled')) {
-                    video.pause();
-                    playBtn.classList.remove('disabled');
-                    video.classList.remove('pointer');
-                }
-            };
-
-            playBtn.addEventListener('click', handlePlay);
-            video.addEventListener('click', handleVideoClick);
-
-            return () => {
-                playBtn.removeEventListener('click', handlePlay);
-                video.removeEventListener('click', handleVideoClick);
-            };
-        }
-    }, []);
-
-    // ===============================================
-    // 10. Section Jump (ScrollTo)
-    // ===============================================
-    useEffect(() => {
-        const links = document.querySelectorAll('.section-link');
-
-        const handleClick = function (event) {
-            event.preventDefault();
-            const targetID = this.getAttribute('to');
-
-            if (targetID === '#header') {
-                // ScrollToPlugin is required here
-                gsap.to(window, { duration: 1.5, scrollTo: { y: 0 }, ease: 'power2.inOut' });
-            } else {
-                const targetSection = document.querySelector(targetID);
-                if (targetSection) {
-                    // ScrollToPlugin is required here
-                    gsap.to(window, {
-                        duration: 1,
-                        scrollTo: { y: targetSection, offsetY: 50 },
-                        ease: 'power2.out',
-                    });
-                } else {
-                    console.error(`Section with ID ${targetID} does not exist.`);
-                }
+        // Cleanup
+        return () => {
+            ctx.revert();
+            window.removeEventListener('scroll', () => { });
+            window.removeEventListener('mousemove', () => { });
+            document.querySelectorAll('a, .cursor-pointer').forEach((item) => {
+                item.removeEventListener('mouseover', () => { });
+                item.removeEventListener('mouseout', () => { });
+            });
+            document.querySelectorAll('.section-link').forEach((link) => {
+                link.removeEventListener('click', () => { });
+            });
+            if (heroVideoRef.current && playBtnRef.current) {
+                heroVideoRef.current.removeEventListener('click', () => { });
+                playBtnRef.current.removeEventListener('click', () => { });
             }
         };
-
-        links.forEach(link => link.addEventListener('click', handleClick));
-        return () => links.forEach(link => link.removeEventListener('click', handleClick));
-    }, []);
-
-    // ===============================================
-    // 11. Sticky Team Animations (GSAP)
-    // ===============================================
-    useEffect(() => {
-        const stickyElements = document.querySelectorAll('.gsap-sticky');
-        let triggers = [];
-
-        if (window.innerWidth >= 992) {
-            stickyElements.forEach((element) => {
-                const trigger = ScrollTrigger.create({
-                    trigger: element,
-                    start: 'top 80px',
-                    end: '110% bottom',
-                    pin: element,
-                    pinSpacing: false,
-                });
-                triggers.push(trigger);
-            });
-        }
-        return () => triggers.forEach(t => t?.kill());
-    }, []);
-
-    // ===============================================
-    // 12. Hero 5 Background Animation
-    // ===============================================
-    useEffect(() => {
-        const bgElement = hero5BgRef.current;
-        if (bgElement) {
-            gsap.set(bgElement, { top: '-300px', scale: 0.5 });
-            gsap.to(bgElement, {
-                duration: 2,
-                top: '0px',
-                scale: 1,
-                ease: 'power2.out',
-                delay: 0.6
-            });
-        }
     }, []);
 
     return (
         <>
             <div className="cursor d-none d-lg-block" ref={cursorRef}></div>
-
             {preloaderVisible && (
                 <div className="preloader">
                     <div className="spinner-wrap">
                         <div className="preloader-logo">
-                            <img src="https://via.placeholder.com/150x50/000/fff?text=Logo" alt="" className="img-fluid" />
+                            <img src="/assets/images/preloader.svg" alt="Preloader" className="img-fluid" loading="lazy" />
                         </div>
                         <div className="spinner"></div>
                     </div>
                 </div>
             )}
-
-            <a href="#scroll-top" className="back-to-top-btn section-link" to="#header" id="scroll-top">
+            <Link to="#header" className="back-to-top-btn section-link" id="scroll-top">
                 <i className="fa-solid fa-arrow-up"></i>
-            </a>
-
-            <div className="has-smooth" id="has_smooth"></div>
-            <div id="smooth-wrapper">
-
+            </Link>
+            <div >
                 <div id="smooth-content">
                     <section className="quanto-hero-section overflow-hidden">
                         <div className="container custom-container">
                             <div className="row">
                                 <div className="col-12 position-relative">
                                     <div className="quanto-hero__content move-anim" data-delay="0.45">
-                                        <h1 className="title">
+                                        <h1 className="title word-anim" data-delay="0.60">
                                             Crafting your fantasies with a twist of{' '}
                                             <span>
                                                 <svg
@@ -709,34 +523,23 @@ const Index = () => {
                                         </h1>
                                     </div>
                                     <div className="quanto-hero__info">
-                                        <p className="word-anim" data-delay="0.60">
-                                            As long as your dreams revolve around something like; being
-                                            the proud owner spectacular website.
+                                        <p className="word-anim" data-delay="0.75">
+                                            As long as your dreams revolve around something like; being the proud owner spectacular website.
                                         </p>
-                                        <div className="client-info fade-anim" data-delay="0.60">
+                                        <div className="client-info fade-anim" data-delay="0.90">
                                             <div className="client-images">
-                                                <img
-                                                    src="https://via.placeholder.com/50x50/ccc/fff?text=A"
-                                                    alt="Client avatar"
-                                                />
-                                                <img
-                                                    src="https://via.placeholder.com/50x50/ccc/fff?text=B"
-                                                    alt="Client avatar"
-                                                />
-                                                <img
-                                                    src="https://via.placeholder.com/50x50/ccc/fff?text=C"
-                                                    alt="Client avatar"
-                                                />
+                                                {['A', 'B', 'C'].map((letter, index) => (
+                                                    <img
+                                                        key={index}
+                                                        src={`https://via.placeholder.com/50x50/ccc/fff?text=${letter}`}
+                                                        alt={`Client avatar ${letter}`}
+                                                        loading="lazy"
+                                                    />
+                                                ))}
                                             </div>
                                             <div className="client-data">
                                                 <h6 className="counter-item d-flex align-items-center" ref={(el) => setCounterRef(el, 0)}>
-
-                                                    <span
-                                                        className="odometer d-inline-block"
-                                                        data-odometer-final="2"
-                                                    >
-                                                        .
-                                                    </span>
+                                                    <span className="odometer d-inline-block" data-odometer-final="2"></span>
                                                     <em>k+ Clients</em>
                                                 </h6>
                                                 <span>Award winning agency</span>
@@ -747,15 +550,14 @@ const Index = () => {
                             </div>
                             <div className="row">
                                 <div className="col-lg-12">
-                                    <div className="quanto-hero__thumb section-margin-top">
-                                        <div className="video-wrapper">
-                                            <video ref={heroVideoRef} loop muted autoPlay playsInline>
+                                    <div class="quanto-hero__thumb section-margin-top">
+                                        <div class="video-wrapper">
+                                            <video ref={heroVideoRef} loop="" muted="" autoplay="" playsinline="">
                                                 <source
-                                                    src="https://res.cloudinary.com/ducryslbe/video/upload/v1740329511/Quanto/video.sakebul.com.mp4"
+                                                    src={video4}
                                                     type="video/mp4"
                                                 />
                                             </video>
-                                            <button ref={playBtnRef} className="play-btn">Play</button> {/* Static play button */}
                                         </div>
                                     </div>
                                 </div>
@@ -763,33 +565,25 @@ const Index = () => {
                         </div>
                     </section>
 
-                    {/* About Section - Complete */}
                     <section className="quanto-about-section section-padding-top overflow-hidden">
                         <div className="container custom-container">
                             <div className="row justify-content-end">
                                 <div className="col-lg-10 col-xl-9 col-xxl-10">
                                     <div className="quanto-about__content">
-                                        <h4 className="move-anim text_invert">
-                                            Our digital strategies and design expertise focus on
-                                            promoting social economy businesses, cutting-edge brands, and
-                                            eco-friendly products to motivate consumers to make informed
-                                            decisions towards sustainable products and services
+                                        <h4 className="move-anim text_invert" data-delay="0.45">
+                                            Our digital strategies and design expertise focus on promoting social economy businesses, cutting-edge brands, and eco-friendly products to motivate consumers to make informed decisions towards sustainable products and services
                                         </h4>
-                                        <div className="about-info row-margin-top move-anim" data-delay="0.5">
+                                        <div className="about-info row-margin-top move-anim" data-delay="0.60">
                                             <p>
-                                                Whether it's crafting a visually stunning brand identity,
-                                                designing immersive digital experiences, or developing
-                                                strategic marketing campaigns, we approach each project
-                                                with meticulous attention to detail and an unwavering
-                                                dedication to quality.
+                                                Whether it's crafting a visually stunning brand identity, designing immersive digital experiences, or developing strategic marketing campaigns, we approach each project with meticulous attention to detail and an unwavering dedication to quality.
                                             </p>
-                                            <a className="quanto-link-btn" href="/about">
+                                            <Link to="/about" className="quanto-link-btn section-link">
                                                 More about us
                                                 <span>
                                                     <i className="fa-solid fa-arrow-right arry1"></i>
                                                     <i className="fa-solid fa-arrow-right arry2"></i>
                                                 </span>
-                                            </a>
+                                            </Link>
                                         </div>
                                     </div>
                                 </div>
@@ -797,357 +591,150 @@ const Index = () => {
                         </div>
                     </section>
 
-                    {/* Funfacts Section - Complete */}
                     <section className="quanto-funfacts-section section-padding-top-bottom overflow-hidden">
                         <div className="container custom-container">
                             <div className="row">
                                 <div className="col-12">
                                     <div className="quanto-funfacts__wrapper">
-                                        <div
-                                            className="quanto-funfact-box fade-anim"
-                                            data-delay="0.30"
-                                            data-direction="right"
-                                        >
-                                            <h2 className="counter-item d-inline-flex align-items-center" ref={(el) => setCounterRef(el, 1)}>
-                                                <span
-                                                    className="odometer d-inline-block"
-                                                    data-odometer-final="17"
-                                                >
-                                                    .
-                                                </span>
-                                                <em>+</em>
-                                            </h2>
-                                            <span className="funfact-info">Years of agency experience</span>
-                                        </div>
-                                        <div
-                                            className="quanto-funfact-box fade-anim"
-                                            data-delay="0.30"
-                                            data-direction="right"
-                                        >
-                                            <h2 className="counter-item d-inline-flex align-items-center" ref={(el) => setCounterRef(el, 2)}>
-                                                <span
-                                                    className="odometer d-inline-block"
-                                                    data-odometer-final="220"
-                                                >
-                                                    .
-                                                </span>
-                                                <em>+</em>
-                                            </h2>
-                                            <span className="funfact-info">Successfully projects done</span>
-                                        </div>
-                                        <div
-                                            className="quanto-funfact-box fade-anim"
-                                            data-delay="0.30"
-                                            data-direction="right"
-                                        >
-                                            <h2 className="counter-item d-inline-flex align-items-center" ref={(el) => setCounterRef(el, 3)}>
-                                                <span
-                                                    className="odometer d-inline-block"
-                                                    data-odometer-final="46"
-                                                >
-                                                    .
-                                                </span>
-                                                <em>+</em>
-                                            </h2>
-                                            <span className="funfact-info">World-wide team members</span>
-                                        </div>
-                                        <div
-                                            className="quanto-funfact-box fade-anim"
-                                            data-delay="0.30"
-                                            data-direction="right"
-                                        >
-                                            <h2 className="counter-item d-inline-flex align-items-center" ref={(el) => setCounterRef(el, 4)}>
-                                                <span
-                                                    className="odometer d-inline-block"
-                                                    data-odometer-final="98"
-                                                >
-                                                    .
-                                                </span>
-                                                <em>%</em>
-                                            </h2>
-                                            <span className="funfact-info">Clients satisfied & retention</span>
-                                        </div>
+                                        {[
+                                            { value: 17, text: 'Years of agency experience', index: 1 },
+                                            { value: 220, text: 'Successfully projects done', index: 2 },
+                                            { value: 46, text: 'World-wide team members', index: 3 },
+                                            { value: 98, text: 'Clients satisfied & retention', unit: '%', index: 4 },
+                                        ].map((fact, index) => (
+                                            <div key={index} className="quanto-funfact-box fade-anim" data-delay={0.30 + index * 0.15} data-direction="right">
+                                                <h2 className="counter-item d-inline-flex align-items-center" ref={(el) => setCounterRef(el, fact.index)}>
+                                                    <span className="odometer d-inline-block" data-odometer-final={fact.value}></span>
+                                                    <em>{fact.unit || '+'}</em>
+                                                </h2>
+                                                <span className="funfact-info">{fact.text}</span>
+                                            </div>
+                                        ))}
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </section>
 
-                    {/* Project Section - Complete with static images */}
-                    <section ref={horizontalScrollRef} className="quanto-project-section bg-color-primary section-padding-top-bottom overflow-hidden">
+                    <section className="quanto-project-section bg-color-primary section-padding-top-bottom overflow-hidden" ref={horizontalScrollRef}>
                         <div className="container custom-container">
                             <div className="row g-0 gy-4 gy-md-0 justify-content-between">
                                 <div className="col-12 col-md-5 order-1 order-md-0">
                                     <div className="row g-0">
-                                        <div className="col-md-12 project-row-gap">
-                                            <div className="quanto-project-box overflow-hidden">
-                                                <a href="/portfolio-details">
-                                                    <div className="quanto-project-thumb overflow-hidden">
-                                                        <img
-                                                            src="https://via.placeholder.com/600x400/4a90e2/fff?text=Kinetic+Sandscapes"
-                                                            alt="Kinetic Sandscapes project"
-                                                            className="w-100 img_reveal"
-                                                        />
+                                        {[
+                                            { title: 'Kinetic Sandscapes', category: 'Branding', img: img1 },
+                                            { title: 'Brooklyn Brewery', category: 'Photography', img: img1 },
+                                            { title: 'Regenerative Farming', category: 'Branding', img: img1 },
+                                        ].map((project, index) => (
+                                            <div key={index} className={`col-md-${index === 0 ? '12' : index === 1 ? '8 mx-auto' : '12'} project-row-gap`}>
+                                                <div className="quanto-project-box overflow-hidden fade-anim" data-delay={0.30 + index * 0.15}>
+                                                    <Link to="/portfolio-details" className="section-link">
+                                                        <div className="quanto-project-thumb overflow-hidden">
+                                                            <img src={project.img} alt={`${project.title} project`} className="w-100 img_reveal" loading="lazy" />
+                                                        </div>
+                                                    </Link>
+                                                    <div className="quanto-project-content">
+                                                        <h5 className="text-color-white line-clamp-1">
+                                                            <Link to="/portfolio-details">{project.title}</Link>
+                                                        </h5>
+                                                        <span className="quanto-project-date text-color-white">
+                                                            2024 <i className="bi bi-dash"></i> {project.category}
+                                                        </span>
                                                     </div>
-                                                </a>
-                                                <div className="quanto-project-content">
-                                                    <h5 className="text-color-white line-clamp-1">
-                                                        <a href="/portfolio-details">Kinetic Sandscapes</a>
-                                                    </h5>
-                                                    <span className="quanto-project-date text-color-white">
-                                                        2024 <i className="bi bi-dash"></i> Branding
-                                                    </span>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div className="col-md-8 mx-auto project-row-gap">
-                                            <div className="quanto-project-box overflow-hidden">
-                                                <a href="/portfolio-details">
-                                                    <div className="quanto-project-thumb overflow-hidden">
-                                                        <img
-                                                            src="https://via.placeholder.com/400x300/50c878/fff?text=Brooklyn+Brewery"
-                                                            alt="Brooklyn Brewery project"
-                                                            className="w-100 img_reveal"
-                                                        />
-                                                    </div>
-                                                </a>
-                                                <div className="quanto-project-content">
-                                                    <h5 className="text-color-white line-clamp-1">
-                                                        <a href="/portfolio-details">Brooklyn Brewery</a>
-                                                    </h5>
-                                                    <span className="quanto-project-date text-color-white">
-                                                        2024 <i className="bi bi-dash"></i> Photography
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="col-md-12">
-                                            <div className="quanto-project-box overflow-hidden">
-                                                <a href="/portfolio-details">
-                                                    <div className="quanto-project-thumb overflow-hidden">
-                                                        <img
-                                                            src="https://via.placeholder.com/600x400/7ed321/fff?text=Regenerative+Farming"
-                                                            alt="Regenerative Farming project"
-                                                            className="w-100 img_reveal"
-                                                        />
-                                                    </div>
-                                                </a>
-                                                <div className="quanto-project-content">
-                                                    <h5 className="text-color-white line-clamp-1">
-                                                        <a href="/portfolio-details">Regenerative Farming</a>
-                                                    </h5>
-                                                    <span className="quanto-project-date text-color-white">
-                                                        2024 <i className="bi bi-dash"></i> Branding
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </div>
+                                        ))}
                                     </div>
                                 </div>
                                 <div className="col-12 col-md-6 order-0 order-md-1">
                                     <div className="row">
                                         <div className="col-12">
                                             <div className="quanto__header text-center text-md-end">
-                                                <a className="quanto-link-btn btn-dark" href="/portfolio-gallery">
+                                                <Link to="/portfolio-gallery" className="quanto-link-btn btn-dark section-link">
                                                     View more works
                                                     <span>
                                                         <i className="fa-solid fa-arrow-right arry1"></i>
                                                         <i className="fa-solid fa-arrow-right arry2"></i>
                                                     </span>
-                                                </a>
+                                                </Link>
                                             </div>
                                         </div>
-                                        <div className="col-md-10 ms-auto project-row-gap">
-                                            <div className="quanto-project-box overflow-hidden">
-                                                <a href="/portfolio-details">
-                                                    <div className="quanto-project-thumb max-655 overflow-hidden">
-                                                        <img
-                                                            src="https://via.placeholder.com/500x350/9013fe/fff?text=Hopscotch+Payments"
-                                                            alt="Hopscotch Payments project"
-                                                            className="w-100 img_reveal"
-                                                        />
+                                        {[
+                                            { title: 'Hopscotch Payments', category: 'Development', img: 'https://via.placeholder.com/500x350/9013fe/fff?text=Hopscotch+Payments', className: 'col-md-10 ms-auto project-row-gap' },
+                                            { title: 'Stories Worthwhile', category: 'UI/UX Design', img: 'https://via.placeholder.com/450x300/f5a623/fff?text=Stories+Worthwhile', className: 'col-md-9 me-auto project-row-gap' },
+                                            { title: 'Fintech Accelerator', category: 'UI/UX Design', img: 'https://via.placeholder.com/500x350/50e3c2/fff?text=Fintech+Accelerator', className: 'col-md-10 ms-auto' },
+                                        ].map((project, index) => (
+                                            <div key={index} className={project.className}>
+                                                <div className="quanto-project-box overflow-hidden fade-anim" data-delay={0.30 + (index + 3) * 0.15}>
+                                                    <Link to="/portfolio-details" className="section-link">
+                                                        <div className="quanto-project-thumb max-655 overflow-hidden">
+                                                            <img src={project.img} alt={`${project.title} project`} className="w-100 img_reveal" loading="lazy" />
+                                                        </div>
+                                                    </Link>
+                                                    <div className="quanto-project-content">
+                                                        <h5 className="text-color-white line-clamp-1">
+                                                            <Link to="/portfolio-details">{project.title}</Link>
+                                                        </h5>
+                                                        <span className="quanto-project-date text-color-white">
+                                                            2024 <i className="bi bi-dash"></i> {project.category}
+                                                        </span>
                                                     </div>
-                                                </a>
-                                                <div className="quanto-project-content">
-                                                    <h5 className="text-color-white line-clamp-1">
-                                                        <a href="/portfolio-details">Hopscotch Payments</a>
-                                                    </h5>
-                                                    <span className="quanto-project-date text-color-white">
-                                                        2024 <i className="bi bi-dash"></i> Development
-                                                    </span>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div className="col-md-9 me-auto project-row-gap">
-                                            <div className="quanto-project-box overflow-hidden">
-                                                <a href="/portfolio-details">
-                                                    <div className="quanto-project-thumb overflow-hidden">
-                                                        <img
-                                                            src="https://via.placeholder.com/450x300/f5a623/fff?text=Stories+Worthwhile"
-                                                            alt="Stories Worthwhile project"
-                                                            className="w-100 img_reveal"
-                                                        />
-                                                    </div>
-                                                </a>
-                                                <div className="quanto-project-content">
-                                                    <h5 className="text-color-white line-clamp-1">
-                                                        <a href="/portfolio-details">Stories Worthwhile</a>
-                                                    </h5>
-                                                    <span className="quanto-project-date text-color-white">
-                                                        2024 <i className="bi bi-dash"></i> UI/UX Design
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="col-md-10 ms-auto">
-                                            <div className="quanto-project-box overflow-hidden">
-                                                <a href="/portfolio-details">
-                                                    <div className="quanto-project-thumb overflow-hidden">
-                                                        <img
-                                                            src="https://via.placeholder.com/500x350/50e3c2/fff?text=Fintech+Accelerator"
-                                                            alt="Fintech Accelerator project"
-                                                            className="w-100 img_reveal"
-                                                        />
-                                                    </div>
-                                                </a>
-                                                <div className="quanto-project-content">
-                                                    <h5 className="text-color-white line-clamp-1">
-                                                        <a href="/portfolio-details">Fintech Accelerator</a>
-                                                    </h5>
-                                                    <span className="quanto-project-date text-color-white">
-                                                        2024 <i className="bi bi-dash"></i> UI/UX Design
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </div>
+                                        ))}
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </section>
 
-                    {/* Service Section - Complete with static icons */}
                     <section className="quanto-service-section section-padding-top-bottom overflow-hidden">
                         <div className="container custom-container">
                             <div className="row">
                                 <div className="col-12 col-lg-9 col-xl-7 col-xxl-6">
-                                    <div
-                                        className="quanto__header fade-anim"
-                                        data-delay="0.30"
-                                        data-direction="left"
-                                    >
-                                        <h3 className="title">We help you to build digital business</h3>
+                                    <div className="quanto__header fade-anim" data-delay="0.30" data-direction="left">
+                                        <h3 className="title word-anim" data-delay="0.45">We help you to build digital business</h3>
                                     </div>
                                 </div>
                             </div>
                             <div className="row g-4 row-padding-top">
-                                <div className="col-md-6 col-lg-4 col-xxl-3">
-                                    <div className="quanto-service-box move-anim">
-                                        <div className="quanto-iconbox-icon">
-                                            <img
-                                                src="https://via.placeholder.com/60x60/4a90e2/fff?text=BS"
-                                                alt="Brand Strategy icon"
-                                            />
-                                        </div>
-                                        <div className="quanto-iconbox-data">
-                                            <div className="quanto-iconbox-data-wrapper">
-                                                <h5>Brand Strategy</h5>
-                                                <p>Brand identity design is key to success with Quanto agency.</p>
+                                {[
+                                    { title: 'Brand Strategy', icon: 'https://via.placeholder.com/60x60/4a90e2/fff?text=BS' },
+                                    { title: 'Web Development', icon: 'https://via.placeholder.com/60x60/50c878/fff?text=WD' },
+                                    { title: 'UI/UX Design', icon: 'https://via.placeholder.com/60x60/7ed321/fff?text=UX' },
+                                    { title: 'Digital Marketing', icon: 'https://via.placeholder.com/60x60/f5a623/fff?text=DM' },
+                                ].map((service, index) => (
+                                    <div key={index} className="col-md-6 col-lg-4 col-xxl-3">
+                                        <div className="quanto-service-box move-anim" data-delay={0.30 + index * 0.15}>
+                                            <div className="quanto-iconbox-icon">
+                                                <img src={service.icon} alt={`${service.title} icon`} loading="lazy" />
                                             </div>
-                                            <a className="quanto-link-btn" href="/service-details">
-                                                View details
-                                                <span>
-                                                    <i className="fa-solid fa-arrow-right arry1"></i>
-                                                    <i className="fa-solid fa-arrow-right arry2"></i>
-                                                </span>
-                                            </a>
+                                            <div className="quanto-iconbox-data">
+                                                <div className="quanto-iconbox-data-wrapper">
+                                                    <h5>{service.title}</h5>
+                                                    <p>Brand identity design is key to success with Quanto agency.</p>
+                                                </div>
+                                                <Link to="/service-details" className="quanto-link-btn section-link">
+                                                    View details
+                                                    <span>
+                                                        <i className="fa-solid fa-arrow-right arry1"></i>
+                                                        <i className="fa-solid fa-arrow-right arry2"></i>
+                                                    </span>
+                                                </Link>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div className="col-md-6 col-lg-4 col-xxl-3">
-                                    <div className="quanto-service-box move-anim">
-                                        <div className="quanto-iconbox-icon">
-                                            <img
-                                                src="https://via.placeholder.com/60x60/50c878/fff?text=WD"
-                                                alt="Web Development icon"
-                                            />
-                                        </div>
-                                        <div className="quanto-iconbox-data">
-                                            <div className="quanto-iconbox-data-wrapper">
-                                                <h5>Web Development</h5>
-                                                <p>Brand identity design is key to success with Quanto agency.</p>
-                                            </div>
-                                            <a className="quanto-link-btn" href="/service-details">
-                                                View details
-                                                <span>
-                                                    <i className="fa-solid fa-arrow-right arry1"></i>
-                                                    <i className="fa-solid fa-arrow-right arry2"></i>
-                                                </span>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="col-md-6 col-lg-4 col-xxl-3">
-                                    <div className="quanto-service-box move-anim">
-                                        <div className="quanto-iconbox-icon">
-                                            <img
-                                                src="https://via.placeholder.com/60x60/7ed321/fff?text=UX"
-                                                alt="UI/UX Design icon"
-                                            />
-                                        </div>
-                                        <div className="quanto-iconbox-data">
-                                            <div className="quanto-iconbox-data-wrapper">
-                                                <h5>UI/UX Design</h5>
-                                                <p>Brand identity design is key to success with Quanto agency.</p>
-                                            </div>
-                                            <a className="quanto-link-btn" href="/service-details">
-                                                View details
-                                                <span>
-                                                    <i className="fa-solid fa-arrow-right arry1"></i>
-                                                    <i className="fa-solid fa-arrow-right arry2"></i>
-                                                </span>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="col-md-6 col-lg-4 col-xxl-3">
-                                    <div className="quanto-service-box move-anim">
-                                        <div className="quanto-iconbox-icon">
-                                            <img
-                                                src="https://via.placeholder.com/60x60/f5a623/fff?text=DM"
-                                                alt="Digital Marketing icon"
-                                            />
-                                        </div>
-                                        <div className="quanto-iconbox-data">
-                                            <div className="quanto-iconbox-data-wrapper">
-                                                <h5>Digital Marketing</h5>
-                                                <p>Brand identity design is key to success with Quanto agency.</p>
-                                            </div>
-                                            <a className="quanto-link-btn" href="/service-details">
-                                                View details
-                                                <span>
-                                                    <i className="fa-solid fa-arrow-right arry1"></i>
-                                                    <i className="fa-solid fa-arrow-right arry2"></i>
-                                                </span>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
+                                ))}
                             </div>
                         </div>
                     </section>
 
-                    {/* Testimonial Section - Complete with static images */}
                     <section className="quanto-testimonial-section section-padding-top overflow-hidden">
                         <div className="container custom-container">
                             <div className="row">
                                 <div className="col-12">
                                     <div className="quanto__header">
-                                        <h3
-                                            className="title fade-anim"
-                                            data-delay="0.30"
-                                            data-direction="right"
-                                        >
+                                        <h3 className="title word-anim" data-delay="0.30" data-direction="right">
                                             Client testimonials
                                         </h3>
                                     </div>
@@ -1155,101 +742,47 @@ const Index = () => {
                             </div>
                             <div className="row g-4 justify-content-between">
                                 <div className="col-12 col-lg-6 col-xl-5">
-                                    <div
-                                        className="swiper quanto-testimonial__thumb-slider h-100 fade-anim"
-                                        data-delay="0.30"
-                                        data-direction="right"
-                                    >
+                                    <div className="swiper quanto-testimonial__thumb-slider h-100 fade-anim" data-delay="0.30" data-direction="right">
                                         <div className="swiper-wrapper">
-                                            <div className="swiper-slide">
-                                                <div
-                                                    className="testimonial-img"
-                                                    data-speed="0.8"
-                                                    style={{
-                                                        backgroundImage:
-                                                            'ur[](https://via.placeholder.com/300x300/ccc/fff?text=Testimonial+1)',
-                                                    }}
-                                                ></div>
-                                            </div>
-                                            <div className="swiper-slide">
-                                                <div
-                                                    className="testimonial-img"
-                                                    data-speed="0.8"
-                                                    style={{
-                                                        backgroundImage:
-                                                            'ur[](https://via.placeholder.com/300x300/ccc/fff?text=Testimonial+2)',
-                                                    }}
-                                                ></div>
-                                            </div>
-                                            <div className="swiper-slide">
-                                                <div
-                                                    className="testimonial-img"
-                                                    data-speed="0.8"
-                                                    style={{
-                                                        backgroundImage:
-                                                            'ur[](https://via.placeholder.com/300x300/ccc/fff?text=Testimonial+3)',
-                                                    }}
-                                                ></div>
-                                            </div>
-                                            <div className="swiper-slide">
-                                                <div
-                                                    className="testimonial-img"
-                                                    data-speed="0.8"
-                                                    style={{
-                                                        backgroundImage:
-                                                            'ur[](https://via.placeholder.com/300x300/ccc/fff?text=Testimonial+4)',
-                                                    }}
-                                                ></div>
-                                            </div>
-                                            <div className="swiper-slide">
-                                                <div
-                                                    className="testimonial-img"
-                                                    data-speed="0.8"
-                                                    style={{
-                                                        backgroundImage:
-                                                            'ur[](https://via.placeholder.com/300x300/ccc/fff?text=Testimonial+5)',
-                                                    }}
-                                                ></div>
-                                            </div>
+                                            {['1', '2', '3', '4', '5'].map((num, index) => (
+                                                <div key={index} className="swiper-slide">
+                                                    <div
+                                                        className="testimonial-img"
+                                                        data-speed="0.8"
+                                                        style={{
+                                                            backgroundImage: `ur[](https://via.placeholder.com/300x300/ccc/fff?text=Testimonial+${num})`,
+                                                        }}
+                                                    ></div>
+                                                </div>
+                                            ))}
                                         </div>
                                     </div>
                                 </div>
                                 <div className="col-12 col-lg-6 col-xl-6">
                                     <div className="swiper quanto-testimonial__content-slider">
                                         <div className="swiper-wrapper">
-                                            <div className="swiper-slide">
-                                                <div className="testimonial-content">
-                                                    <p>
-                                                        “Quanto team quickly understood our business
-                                                        requirements and were proactive and flexible with our
-                                                        ongoing support and developments. You can definitely
-                                                        trust them for complex project requirements as they are
-                                                        top-notch in their field and we can only recommend it.”
-                                                    </p>
-                                                    <div className="author">
-                                                        <h5 className="author-title">Jenny Bennett</h5>
-                                                        <span className="author-designation">
-                                                            Senior Marketing Manager at Caya
-                                                        </span>
+                                            {[
+                                                {
+                                                    text: 'Quanto team quickly understood our business requirements and were proactive and flexible with our ongoing support and developments. You can definitely trust them for complex project requirements as they are top-notch in their field and we can only recommend it.',
+                                                    author: 'Jenny Bennett',
+                                                    designation: 'Senior Marketing Manager at Caya',
+                                                },
+                                                {
+                                                    text: 'The Quanto team delivered exceptional results, transforming our digital presence with their innovative approach. Their attention to detail and commitment to quality are unmatched.',
+                                                    author: 'Michael Chen',
+                                                    designation: 'CTO at InnovateTech',
+                                                },
+                                            ].map((testimonial, index) => (
+                                                <div key={index} className="swiper-slide">
+                                                    <div className="testimonial-content fade-anim" data-delay={0.30 + index * 0.15}>
+                                                        <p>{testimonial.text}</p>
+                                                        <div className="author">
+                                                            <h5 className="author-title">{testimonial.author}</h5>
+                                                            <span className="author-designation">{testimonial.designation}</span>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div className="swiper-slide">
-                                                <div className="testimonial-content">
-                                                    <p>
-                                                        “The Quanto team delivered exceptional results,
-                                                        transforming our digital presence with their innovative
-                                                        approach. Their attention to detail and commitment to
-                                                        quality are unmatched.”
-                                                    </p>
-                                                    <div className="author">
-                                                        <h5 className="author-title">Michael Chen</h5>
-                                                        <span className="author-designation">
-                                                            CTO at InnovateTech
-                                                        </span>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                            ))}
                                         </div>
                                     </div>
                                     <div className="quanto-testimonial__navigation">
@@ -1265,317 +798,189 @@ const Index = () => {
                         </div>
                     </section>
 
-                    {/* Clients Section - Complete with static logos */}
                     <div className="clients-area section-padding-top overflow-hidden">
                         <div className="clients__wrapper">
                             <div className="container custom-container">
                                 <div className="row align-items-end">
                                     <div className="col-md-6">
                                         <div className="quanto__header text-center text-md-start">
-                                            <p
-                                                className="title mx-auto mx-md-0 fade-anim"
-                                                data-delay="0.30"
-                                                data-direction="left"
-                                            >
+                                            <p className="title mx-auto mx-md-0 word-anim" data-delay="0.30" data-direction="left">
                                                 We worked with largest global brands
                                             </p>
                                         </div>
                                     </div>
                                     <div className="col-md-6 ps-md-0">
                                         <div className="quanto__header logo">
-                                            <div
-                                                className="client-box fade-anim"
-                                                data-delay="0.30"
-                                                data-direction="right"
-                                            >
-                                                <img src="https://via.placeholder.com/100x40/000/fff?text=Logo1" alt="Client logo" />
-                                            </div>
-                                            <div
-                                                className="client-box fade-anim"
-                                                data-delay="0.30"
-                                                data-direction="right"
-                                            >
-                                                <img src="https://via.placeholder.com/100x40/000/fff?text=Logo2" alt="Client logo" />
-                                            </div>
+                                            {['Logo1', 'Logo2'].map((logo, index) => (
+                                                <div key={index} className="client-box fade-anim" data-delay={0.30 + index * 0.15} data-direction="right">
+                                                    <img src={`https://via.placeholder.com/100x40/000/fff?text=${logo}`} alt="Client logo" loading="lazy" />
+                                                </div>
+                                            ))}
                                         </div>
                                     </div>
                                 </div>
                                 <div className="row">
                                     <div className="col-12 clients__box-wrapper">
-                                        <div className="client-box d-none">
-                                            <img src="https://via.placeholder.com/100x40/000/fff?text=Logo1" alt="Client logo" />
-                                        </div>
-                                        <div className="client-box d-none">
-                                            <img src="https://via.placeholder.com/100x40/000/fff?text=Logo2" alt="Client logo" />
-                                        </div>
-                                        <div
-                                            className="client-box fade-anim"
-                                            data-delay="0.30"
-                                            data-direction="right"
-                                        >
-                                            <img src="https://via.placeholder.com/100x40/000/fff?text=Logo3" alt="Client logo" />
-                                        </div>
-                                        <div
-                                            className="client-box fade-anim"
-                                            data-delay="0.30"
-                                            data-direction="right"
-                                        >
-                                            <img src="https://via.placeholder.com/100x40/000/fff?text=Logo4" alt="Client logo" />
-                                        </div>
-                                        <div
-                                            className="client-box fade-anim"
-                                            data-delay="0.30"
-                                            data-direction="right"
-                                        >
-                                            <img src="https://via.placeholder.com/100x40/000/fff?text=Logo5" alt="Client logo" />
-                                        </div>
-                                        <div
-                                            className="client-box fade-anim"
-                                            data-delay="0.30"
-                                            data-direction="right"
-                                        >
-                                            <img src="https://via.placeholder.com/100x40/000/fff?text=Logo6" alt="Client logo" />
-                                        </div>
-                                        <div
-                                            className="client-box fade-anim"
-                                            data-delay="0.30"
-                                            data-direction="right"
-                                        >
-                                            <img src="https://via.placeholder.com/100x40/000/fff?text=Logo7" alt="Client logo" />
-                                        </div>
-                                        <div
-                                            className="client-box fade-anim"
-                                            data-delay="0.30"
-                                            data-direction="right"
-                                        >
-                                            <img src="https://via.placeholder.com/100x40/000/fff?text=Logo8" alt="Client logo" />
-                                        </div>
+                                        {['Logo1', 'Logo2'].map((logo, index) => (
+                                            <div key={index} className="client-box d-none">
+                                                <img src={`https://via.placeholder.com/100x40/000/fff?text=${logo}`} alt="Client logo" loading="lazy" />
+                                            </div>
+                                        ))}
+                                        {['Logo3', 'Logo4', 'Logo5', 'Logo6', 'Logo7', 'Logo8', 'Logo9', 'Logo10'].map((logo, index) => (
+                                            <div key={index} className="client-box fade-anim" data-delay={0.30 + index * 0.15} data-direction="right">
+                                                <img src={`https://via.placeholder.com/100x40/000/fff?text=${logo}`} alt="Client logo" loading="lazy" />
+                                            </div>
+                                        ))}
                                         <div className="client-box d-none d-sm-block d-md-none d-lg-block border-0"></div>
-                                        <div
-                                            className="client-box fade-anim"
-                                            data-delay="0.30"
-                                            data-direction="right"
-                                        >
-                                            <img src="https://via.placeholder.com/100x40/000/fff?text=Logo9" alt="Client logo" />
-                                        </div>
-                                        <div
-                                            className="client-box fade-anim"
-                                            data-delay="0.30"
-                                            data-direction="right"
-                                        >
-                                            <img src="https://via.placeholder.com/100x40/000/fff?text=Logo10" alt="Client logo" />
-                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    {/* Blog Section - Complete with static thumbnails */}
                     <section className="quanto-blog-section section-padding-top-bottom overflow-hidden">
                         <div className="container custom-container">
                             <div className="row g-3 align-items-end">
                                 <div className="col-12 col-lg-9 col-xl-7 col-xxl-6">
                                     <div className="quanto__header text-center text-md-start">
-                                        <h3
-                                            className="title fade-anim"
-                                            data-delay="0.30"
-                                            data-direction="left"
-                                        >
+                                        <h3 className="title word-anim" data-delay="0.30" data-direction="left">
                                             Latest blog to boost your productivity
                                         </h3>
                                     </div>
                                 </div>
                                 <div className="col-12 col-lg-3 col-xl-5 col-xxl-6">
                                     <div className="quanto__headerr d-flex justify-content-center justify-content-lg-end">
-                                        <a className="quanto-link-btn" href="/blog-grid">
+                                        <Link to="/blog-grid" className="quanto-link-btn section-link">
                                             View all articles
                                             <span>
                                                 <i className="fa-solid fa-arrow-right arry1"></i>
                                                 <i className="fa-solid fa-arrow-right arry2"></i>
                                             </span>
-                                        </a>
+                                        </Link>
                                     </div>
                                 </div>
                             </div>
                             <div className="row g-4 row-padding-top">
-                                <div className="col-md-6 col-lg-4">
-                                    <div
-                                        className="quanto-blog-box fade-anim"
-                                        data-delay="0.30"
-                                        data-direction="right"
-                                    >
-                                        <div className="quanto-blog-thumb">
-                                            <a href="/blog-details">
-                                                <img src="https://via.placeholder.com/400x250/4a90e2/fff?text=Blog+1" alt="Blog thumbnail" />
-                                            </a>
-                                        </div>
-                                        <div className="quanto-blog-content">
-                                            <h5 className="line-clamp-2">
-                                                <a href="/blog-details">
-                                                    Reveal business opportunities with our five point brand audit
-                                                </a>
-                                            </h5>
-                                            <span className="quanto-blog-date">March 8, 2024</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="col-md-6 col-lg-4">
-                                    <div
-                                        className="quanto-blog-box fade-anim"
-                                        data-delay="0.45"
-                                        data-direction="right"
-                                    >
-                                        <div className="quanto-blog-thumb">
-                                            <a href="/blog-details">
-                                                <img src="https://via.placeholder.com/400x250/50c878/fff?text=Blog+2" alt="Blog thumbnail" />
-                                            </a>
-                                        </div>
-                                        <div className="quanto-blog-content">
-                                            <h5 className="line-clamp-2">
-                                                <a href="/blog-details">
-                                                    Quanto agency revolutionizes work with the power of ai-driven
-                                                </a>
-                                            </h5>
-                                            <span className="quanto-blog-date">March 8, 2024</span>
+                                {[
+                                    {
+                                        title: 'Reveal business opportunities with our five point brand audit',
+                                        img: 'https://via.placeholder.com/400x250/4a90e2/fff?text=Blog+1',
+                                        date: 'March 8, 2024',
+                                    },
+                                    {
+                                        title: 'Quanto agency revolutionizes work with the power of ai-driven',
+                                        img: 'https://via.placeholder.com/400x250/50c878/fff?text=Blog+2',
+                                        date: 'March 8, 2024',
+                                    },
+                                    {
+                                        title: 'How young leaders can take charge of their professional growth',
+                                        img: 'https://via.placeholder.com/400x250/7ed321/fff?text=Blog+3',
+                                        date: 'March 8, 2024',
+                                    },
+                                ].map((blog, index) => (
+                                    <div key={index} className="col-md-6 col-lg-4">
+                                        <div className="quanto-blog-box fade-anim" data-delay={0.30 + index * 0.15} data-direction="right">
+                                            <div className="quanto-blog-thumb">
+                                                <Link to="/blog-details" className="section-link">
+                                                    <img src={blog.img} alt="Blog thumbnail" loading="lazy" />
+                                                </Link>
+                                            </div>
+                                            <div className="quanto-blog-content">
+                                                <h5 className="line-clamp-2">
+                                                    <Link to="/blog-details">{blog.title}</Link>
+                                                </h5>
+                                                <span className="quanto-blog-date">{blog.date}</span>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div className="col-md-6 col-lg-4">
-                                    <div className="quanto-blog-box fade-anim" data-delay="0.60">
-                                        <div className="quanto-blog-thumb">
-                                            <a href="/blog-details">
-                                                <img src="https://via.placeholder.com/400x250/7ed321/fff?text=Blog+3" alt="Blog thumbnail" />
-                                            </a>
-                                        </div>
-                                        <div className="quanto-blog-content">
-                                            <h5 className="line-clamp-2">
-                                                <a href="/blog-details">
-                                                    How young leaders can take charge of their professional growth
-                                                </a>
-                                            </h5>
-                                            <span className="quanto-blog-date">March 8, 2024</span>
-                                        </div>
-                                    </div>
-                                </div>
+                                ))}
                             </div>
                         </div>
                     </section>
 
-                    {/* Additional Complete Sections for Full Preview - Pricing (Example) */}
                     <section className="quanto-pricing-section section-padding-top-bottom overflow-hidden">
                         <div className="container custom-container">
                             <div className="row">
                                 <div className="col-12">
                                     <div className="quanto__header text-center">
-                                        <h3 className="title">Our Pricing Plans</h3>
+                                        <h3 className="title word-anim" data-delay="0.30">Our Pricing Plans</h3>
                                     </div>
                                 </div>
                             </div>
                             <div className="row g-4">
-                                <div className="col-md-4">
-                                    <div className="quanto-pricing-box">
-                                        <h4>Basic Plan</h4>
-                                        <p>$99/month</p>
-                                        <ul>
-                                            <li>Basic Features</li>
-                                            <li>Support</li>
-                                        </ul>
+                                {[
+                                    { title: 'Basic Plan', price: '$99/month', features: ['Basic Features', 'Support'] },
+                                    { title: 'Standard Plan', price: '$199/month', features: ['Advanced Features', 'Priority Support'] },
+                                    { title: 'Premium Plan', price: '$299/month', features: ['All Features', '24/7 Support'] },
+                                ].map((plan, index) => (
+                                    <div key={index} className="col-md-4">
+                                        <div className="quanto-pricing-box fade-anim" data-delay={0.30 + index * 0.15}>
+                                            <h4>{plan.title}</h4>
+                                            <p>{plan.price}</p>
+                                            <ul>
+                                                {plan.features.map((feature, i) => (
+                                                    <li key={i}>{feature}</li>
+                                                ))}
+                                            </ul>
+                                        </div>
                                     </div>
-                                </div>
-                                <div className="col-md-4">
-                                    <div className="quanto-pricing-box">
-                                        <h4>Standard Plan</h4>
-                                        <p>$199/month</p>
-                                        <ul>
-                                            <li>Advanced Features</li>
-                                            <li>Priority Support</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div className="col-md-4">
-                                    <div className="quanto-pricing-box">
-                                        <h4>Premium Plan</h4>
-                                        <p>$299/month</p>
-                                        <ul>
-                                            <li>All Features</li>
-                                            <li>24/7 Support</li>
-                                        </ul>
-                                    </div>
-                                </div>
+                                ))}
                             </div>
                         </div>
                     </section>
 
-                    {/* Process Section (Example) */}
                     <section className="quanto-process-section section-padding-top-bottom overflow-hidden">
                         <div className="container custom-container">
                             <div className="row">
                                 <div className="col-12">
                                     <div className="quanto__header text-center">
-                                        <h3 className="title">Our Process</h3>
+                                        <h3 className="title word-anim" data-delay="0.30">Our Process</h3>
                                     </div>
                                 </div>
                             </div>
                             <div className="row g-4">
-                                <div className="col-md-3">
-                                    <div className="process-box">
-                                        <h5>Discovery</h5>
-                                        <p>Understand your needs.</p>
+                                {[
+                                    { title: 'Discovery', text: 'Understand your needs.' },
+                                    { title: 'Design', text: 'Create concepts.' },
+                                    { title: 'Development', text: 'Build the solution.' },
+                                    { title: 'Launch', text: 'Go live and support.' },
+                                ].map((step, index) => (
+                                    <div key={index} className="col-md-3">
+                                        <div className="process-box fade-anim" data-delay={0.30 + index * 0.15}>
+                                            <h5>{step.title}</h5>
+                                            <p>{step.text}</p>
+                                        </div>
                                     </div>
-                                </div>
-                                <div className="col-md-3">
-                                    <div className="process-box">
-                                        <h5>Design</h5>
-                                        <p>Create concepts.</p>
-                                    </div>
-                                </div>
-                                <div className="col-md-3">
-                                    <div className="process-box">
-                                        <h5>Development</h5>
-                                        <p>Build the solution.</p>
-                                    </div>
-                                </div>
-                                <div className="col-md-3">
-                                    <div className="process-box">
-                                        <h5>Launch</h5>
-                                        <p>Go live and support.</p>
-                                    </div>
-                                </div>
+                                ))}
                             </div>
                         </div>
                     </section>
 
-                    {/* Team Section (Example) */}
                     <section className="quanto-team-section section-padding-top-bottom overflow-hidden">
                         <div className="container custom-container">
                             <div className="row">
                                 <div className="col-12">
                                     <div className="quanto__header text-center">
-                                        <h3 className="title">Our Team</h3>
+                                        <h3 className="title word-anim" data-delay="0.30">Our Team</h3>
                                     </div>
                                 </div>
                             </div>
                             <div className="row g-4">
-                                <div className="col-md-3">
-                                    <div className="gsap-sticky">
-                                        <img src="https://via.placeholder.com/250x300/ccc/fff?text=Team+1" alt="Team Member" />
-                                        <h5>John Doe</h5>
-                                        <p>Designer</p>
+                                {[
+                                    { name: 'John Doe', role: 'Designer', img: 'https://via.placeholder.com/250x300/ccc/fff?text=Team+1' },
+                                    { name: 'Jane Smith', role: 'Developer', img: 'https://via.placeholder.com/250x300/ccc/fff?text=Team+2' },
+                                ].map((member, index) => (
+                                    <div key={index} className="col-md-3">
+                                        <div className="gsap-sticky fade-anim" data-delay={0.30 + index * 0.15}>
+                                            <img src={member.img} alt="Team Member" loading="lazy" />
+                                            <h5>{member.name}</h5>
+                                            <p>{member.role}</p>
+                                        </div>
                                     </div>
-                                </div>
-                                <div className="col-md-3">
-                                    <div className="gsap-sticky">
-                                        <img src="https://via.placeholder.com/250x300/ccc/fff?text=Team+2" alt="Team Member" />
-                                        <h5>Jane Smith</h5>
-                                        <p>Developer</p>
-                                    </div>
-                                </div>
-                                {/* Add more team members as needed */}
+                                ))}
                             </div>
                         </div>
                     </section>
-
                 </div>
             </div>
         </>
