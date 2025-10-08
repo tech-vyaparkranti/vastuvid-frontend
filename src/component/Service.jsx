@@ -103,71 +103,9 @@ const Service = () => {
             };
 
             // Smooth Scrolling
-            if (window.innerWidth > 767 && document.querySelector("#has_smooth")) {
-                smootherRef.current = ScrollSmoother.create({
-                    smooth: 0.9,
-                    effects: window.innerWidth < 1500 ? false : true,
-                    smoothTouch: 0.1,
-                    normalizeScroll: { allowNestedScroll: true },
-                    ignoreMobileResize: true,
-                });
-            }
+
 
             // Hover Overlay Animations for Service and Pricing Boxes
-            document.querySelectorAll(".quanto-service-box, .quanto-pricing-box").forEach((box) => {
-                const overlay = document.createElement("div");
-                overlay.className = "hover-overlay";
-                box.insertBefore(overlay, box.firstChild);
-                gsap.set(overlay, { autoAlpha: 0, x: 0, y: 0 });
-
-                const getDirection = (box, event) => {
-                    const rect = box.getBoundingClientRect();
-                    const mouseX = event.clientX - rect.left;
-                    const mouseY = event.clientY - rect.top;
-                    const centerX = rect.width / 2;
-                    const centerY = rect.height / 2;
-                    const relativeX = mouseX - centerX;
-                    const relativeY = mouseY - centerY;
-                    const angle = Math.atan2(relativeY, relativeX);
-                    const degrees = angle * (180 / Math.PI);
-                    if (degrees >= -45 && degrees <= 45) return "right";
-                    if (degrees > 45 && degrees <= 135) return "bottom";
-                    if (degrees > 135 || degrees <= -135) return "left";
-                    return "top";
-                };
-
-                box.addEventListener("mouseenter", (e) => {
-                    const direction = getDirection(box, e);
-                    const animProps = {
-                        autoAlpha: 1,
-                        x: 0,
-                        y: 0,
-                        duration: 0.5,
-                        ease: "power2.out",
-                    };
-                    const distance = 100;
-                    if (direction === "right") animProps.startX = `${distance}%`;
-                    if (direction === "left") animProps.startX = `-${distance}%`;
-                    if (direction === "bottom") animProps.startY = `${distance}%`;
-                    if (direction === "top") animProps.startY = `-${distance}%`;
-                    gsap.fromTo(overlay, { autoAlpha: 0, x: animProps.startX || 0, y: animProps.startY || 0 }, animProps);
-                });
-
-                box.addEventListener("mouseleave", (e) => {
-                    const direction = getDirection(box, e);
-                    const animProps = {
-                        autoAlpha: 0,
-                        duration: 0.5,
-                        ease: "power2.in",
-                    };
-                    const distance = 100;
-                    if (direction === "right") animProps.x = `${distance}%`;
-                    if (direction === "left") animProps.x = `-${distance}%`;
-                    if (direction === "bottom") animProps.y = `${distance}%`;
-                    if (direction === "top") animProps.y = `-${distance}%`;
-                    gsap.to(overlay, animProps);
-                });
-            });
 
             // Move Animation for Service and Pricing Content
             document.querySelectorAll(".move-anim").forEach((splitTextLine) => {

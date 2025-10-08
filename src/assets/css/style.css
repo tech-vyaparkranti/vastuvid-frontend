@@ -340,9 +340,9 @@ input:-webkit-autofill:focus {
 }
 
 /* Common Class */
-.section-margin-top {
+/* .section-margin-top {
   margin-top: 130px;
-}
+} */
 
 .section-margin-bottom {
   margin-bottom: 130px;
@@ -383,9 +383,9 @@ input:-webkit-autofill:focus {
 }
 
 @media only screen and (max-width: 1199.98px) {
-  .section-margin-top {
+  /* .section-margin-top {
     margin-top: 80px;
-  }
+  } */
 
   .section-margin-bottom {
     margin-bottom: 80px;
@@ -427,9 +427,9 @@ input:-webkit-autofill:focus {
 }
 
 @media only screen and (max-width: 991.98px) {
-  .section-margin-top {
+  /* .section-margin-top {
     margin-top: 65px;
-  }
+  } */
 
   .section-margin-bottom {
     margin-bottom: 65px;
@@ -501,7 +501,7 @@ input:-webkit-autofill:focus {
 
 /* Common Class End */
 .bg-color-primary {
-  background-color: var(--color-primary);
+  background-color: #841c4e;
 }
 
 .text-color-primary {
@@ -908,7 +908,7 @@ body::-webkit-scrollbar-thumb {
 }
 
 .quanto-link-btn.btn-pill {
-  background-color: var(--color-primary);
+  background-color: #63334E !important;
   color: var(--color-white);
   border: none;
   padding: 14px 20px 14px 24px;
@@ -1081,6 +1081,8 @@ body::-webkit-scrollbar-thumb {
   background-color: var(--color-white);
 }
 
+
+
 @media only screen and (min-width: 992px) {
   .quanto-header.v6 .sticky-wrap {
     padding-block: 14px;
@@ -1139,6 +1141,11 @@ body::-webkit-scrollbar-thumb {
   color: var(--color-white);
 }
 
+h2,
+h3 {
+  color: #63334E !important;
+}
+
 .quanto-header.dark-header.sticky-menu {
   background-color: var(--color-primary);
 }
@@ -1171,13 +1178,16 @@ body::-webkit-scrollbar-thumb {
 }
 
 .main-menu a {
-  color: var(--color-primary);
-  font-weight: 600;
+  color: #63334E !important;
+  font-weight: 700;
   position: relative;
-  font-size: 18px;
+  font-size: 20px;
   display: block;
   letter-spacing: -0.18px;
   line-height: 144.444%;
+
+
+
 }
 
 .main-menu>ul>li {
@@ -2127,26 +2137,26 @@ a.quanto-default-btn.sm-size {
 /*================================================
 03. Hero css
 =================================================*/
-.quanto-hero-section {
+/* .quanto-hero-section {
   padding-top: 200px;
-}
+} */
 
 @media only screen and (max-width: 1399.98px) {
-  .quanto-hero-section {
+  /* .quanto-hero-section {
     padding-top: 160px;
-  }
+  } */
 }
 
 @media only screen and (max-width: 1199.98px) {
-  .quanto-hero-section {
+  /* .quanto-hero-section {
     padding-top: 150px;
-  }
+  } */
 }
 
 @media only screen and (max-width: 991.98px) {
-  .quanto-hero-section {
+  /* .quanto-hero-section {
     padding-top: 130px;
-  }
+  } */
 }
 
 @media only screen and (max-width: 1399.98px) {
@@ -3301,6 +3311,7 @@ a.quanto-default-btn.sm-size {
   font-style: normal;
   font-weight: 400;
   line-height: 144.444%;
+  color: #841c4e;
 }
 
 /*================================================
@@ -3623,7 +3634,7 @@ a.quanto-default-btn.sm-size {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  background-color: var(--color-white);
+  background-color: #F9F7F7;
   padding: 48px 40px 44px;
   height: 100%;
 }
@@ -3708,7 +3719,7 @@ a.quanto-default-btn.sm-size {
 }
 
 .quanto-service-section {
-  background-color: var(--color-2);
+  background-color: white;
 }
 
 @media only screen and (min-width: 1400px) {

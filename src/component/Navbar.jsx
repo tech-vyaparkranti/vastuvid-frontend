@@ -253,7 +253,15 @@ const Navbar = () => {
                     </div>
                 </div>
             </div>
-            <header class="quanto-header main-header bg-color-white" id="sticky-menu">
+            <style>
+                {`
+                .sticky-menu{
+                background:white;
+                }
+                
+                `}
+            </style>
+            <header class="quanto-header main-header bg-white" id="sticky-menu">
                 <div class="sticky-wrap">
                     <div class="sticky-active">
                         <div class="container custom-container">
@@ -261,7 +269,7 @@ const Navbar = () => {
                                 <div class="col-8 col-sm-auto">
                                     <div class="header-logo">
                                         <Link to="index.html">
-                                            <img src={logo} alt="logo" />
+                                            <img src={logo} alt="logo" style={{ filter: 'brightness(1.3)' }} />
                                         </Link>
                                     </div>
                                 </div>
@@ -299,7 +307,7 @@ const Navbar = () => {
                                                     </li>
 
                                                     <li >
-                                                        <Link class="no-border" to="/teams">Team</Link>
+                                                        <Link to="/teams">Team</Link>
 
                                                     </li>
                                                     <li>

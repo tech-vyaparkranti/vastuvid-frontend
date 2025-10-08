@@ -15,7 +15,7 @@ import { ScrollToPlugin } from 'gsap/ScrollToPlugin';
 import { SplitText } from 'gsap/SplitText';
 import img1 from "../assets/images/clients/logo-3.png";
 import video4 from "../assets/images/video.mp4"
-
+import client from "../assets/images/client.webp"
 // Register GSAP plugins
 gsap.registerPlugin(ScrollTrigger, ScrollSmoother, ScrollToPlugin, SplitText);
 
@@ -143,17 +143,17 @@ const Index = () => {
                 mm.add('(min-width: 768px)', () => {
                     const videoWrapper = heroThumb.querySelector('.video-wrapper');
                     if (videoWrapper) {
-                        const tp_hero = gsap.timeline({
+                        gsap.to(videoWrapper, {
+                            width: '100%',
+                            ease: 'power2.inOut',
+                            duration: 2, // ⚡ plays smoothly
                             scrollTrigger: {
                                 trigger: heroThumb,
-                                start: 'top 70',
-                                pin: true,
-                                scrub: 1,
-                                pinSpacing: true,
-                                end: 'bottom top',
-                            },
+                                start: 'top 80%', // 👈 when section top reaches 80% of viewport
+                                toggleActions: 'play none none none', // 👈 plays once
+                                markers: false  // set true for debugging
+                            }
                         });
-                        tp_hero.to(videoWrapper, { width: '100%', duration: 1.5, ease: 'power2.inOut' });
                     }
                 });
             }
@@ -243,7 +243,7 @@ const Index = () => {
                 gsap.set(splitt.lines, { color: '#ddd', overflow: 'hidden' });
                 splitt.lines.forEach((target) => {
                     gsap.to(target, {
-                        color: '#000000',
+                        color: '#63334E',
                         duration: 1,
                         ease: 'power2.out',
                         backgroundPositionX: 0,
@@ -498,9 +498,9 @@ const Index = () => {
             </Link>
             <div >
                 <div id="smooth-content">
-                    <section className="quanto-hero-section overflow-hidden">
-                        <div className="container custom-container">
-                            <div className="row">
+                    <section className="quanto-hero-section">
+                        <div className="container-fluid custom-container">
+                            {/* <div className="row">
                                 <div className="col-12 position-relative">
                                     <div className="quanto-hero__content move-anim" data-delay="0.45">
                                         <h1 className="title word-anim" data-delay="0.60">
@@ -547,9 +547,9 @@ const Index = () => {
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div> */}
                             <div className="row">
-                                <div className="col-lg-12">
+                                <div className="col-lg-12 " style={{ padding: "0px" }}>
                                     <div class="quanto-hero__thumb section-margin-top">
                                         <div class="video-wrapper">
                                             <video ref={heroVideoRef} loop="" muted="" autoplay="" playsinline="">
@@ -577,7 +577,7 @@ const Index = () => {
                                             <p>
                                                 Whether it's crafting a visually stunning brand identity, designing immersive digital experiences, or developing strategic marketing campaigns, we approach each project with meticulous attention to detail and an unwavering dedication to quality.
                                             </p>
-                                            <Link to="/about" className="quanto-link-btn section-link">
+                                            <Link to="/about" className="quanto-link-btn section-link" style={{ color: " #63334E", fontSize: "24px" }}>
                                                 More about us
                                                 <span>
                                                     <i className="fa-solid fa-arrow-right arry1"></i>
@@ -711,7 +711,7 @@ const Index = () => {
                                             </div>
                                             <div className="quanto-iconbox-data">
                                                 <div className="quanto-iconbox-data-wrapper">
-                                                    <h5>{service.title}</h5>
+                                                    <h5 style={{ color: "#63334E" }}>{service.title}</h5>
                                                     <p>Brand identity design is key to success with Quanto agency.</p>
                                                 </div>
                                                 <Link to="/service-details" className="quanto-link-btn section-link">
@@ -734,7 +734,7 @@ const Index = () => {
                             <div className="row">
                                 <div className="col-12">
                                     <div className="quanto__header">
-                                        <h3 className="title word-anim" data-delay="0.30" data-direction="right">
+                                        <h3 className="title word-anim" style={{ color: " #63334E !important" }} data-delay="0.30" data-direction="right">
                                             Client testimonials
                                         </h3>
                                     </div>
@@ -813,7 +813,7 @@ const Index = () => {
                                         <div className="quanto__header logo">
                                             {['Logo1', 'Logo2'].map((logo, index) => (
                                                 <div key={index} className="client-box fade-anim" data-delay={0.30 + index * 0.15} data-direction="right">
-                                                    <img src={`https://via.placeholder.com/100x40/000/fff?text=${logo}`} alt="Client logo" loading="lazy" />
+                                                    <img src={client} alt="Client logo" loading="lazy" />
                                                 </div>
                                             ))}
                                         </div>
