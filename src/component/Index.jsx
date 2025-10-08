@@ -5,6 +5,7 @@
 
 // import loader from "../assets/images/preloader.svg";
 import React, { useEffect, useRef, useState, useCallback } from 'react';
+import apiClient from '../lib/http';
 import Swiper from 'swiper';
 import 'swiper/css';
 import "../assets/plugins/odometer.css"
@@ -73,6 +74,12 @@ const Index = () => {
             ScrollTrigger.refresh();
         }, 800);
         return () => clearTimeout(timer);
+    }, []);
+
+    useEffect(() => {
+        apiClient.get('/api/test-users').then((response) => {
+            console.log(response.data, 'response users');
+        });
     }, []);
 
     // ===============================================
@@ -749,9 +756,9 @@ const Index = () => {
                                 <div className="col-lg-12">
                                     <div className="quanto-hero__thumb section-margin-top">
                                         <div className="video-wrapper">
-                                            <video ref={heroVideoRef} loop muted autoPlay playsInline>
+                                            <video ref={heroVideoRef} loop muted autoPlay playsInline preload="auto">
                                                 <source
-                                                    src="https://res.cloudinary.com/ducryslbe/video/upload/v1740329511/Quanto/video.sakebul.com.mp4"
+                                                    src="/video.mp4"
                                                     type="video/mp4"
                                                 />
                                             </video>

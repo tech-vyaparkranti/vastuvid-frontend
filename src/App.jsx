@@ -15,6 +15,9 @@ import ErrorPage from './component/ErrorPage';
 import Pricing from './component/Pricing';
 import Navbar from './component/Navbar';
 import Footer from './component/Footer';
+import Login from './component/Login';
+import Dashboard from './component/Dashboard';
+import ProtectedRoute from './component/ProtectedRoute';
 
 const App = () => {
   return (
@@ -23,6 +26,15 @@ const App = () => {
       {/* <Layout> */}
       <Routes>
         <Route path="/" element={<Index />} />
+        <Route path="/login" element={<Login />} />
+        <Route
+          path="/dashboard"
+          element={
+            <ProtectedRoute>
+              <Dashboard />
+            </ProtectedRoute>
+          }
+        />
         <Route path="/about" element={<About />} />
         <Route path="/service" element={<Service />} />
         <Route path="/service-details" element={<ServiceDetails />} />

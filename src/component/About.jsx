@@ -6,6 +6,8 @@ import logo6 from "../assets/images/clients/logo-6.png";
 import logo7 from "../assets/images/clients/logo-7.png";
 import logo8 from "../assets/images/clients/logo-8.png"; // Fixed duplicate import
 import 'swiper/css';
+import { SplitText } from 'gsap/SplitText';
+
 import 'swiper/css/navigation';
 import 'swiper/css/autoplay';
 import 'odometer/themes/odometer-theme-default.css';
@@ -14,10 +16,10 @@ import 'jquery-ui-dist/jquery-ui';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ScrollSmoother } from 'gsap/ScrollSmoother';
-import { SplitText } from 'gsap/SplitText';
 import { Swiper } from 'swiper';
 import { Navigation, Autoplay, EffectFade } from 'swiper/modules';
 import Odometer from 'odometer';
+import Aos from 'aos';
 
 // Register GSAP plugins
 gsap.registerPlugin(ScrollTrigger, ScrollSmoother, SplitText);
@@ -30,7 +32,13 @@ const About = () => {
     const gsapContext = useRef(null);
 
     useEffect(() => {
-        // GSAP Context for cleanup
+        Aos.init({
+            duration: 2000,
+            once: false, // Allow animations to replay on scroll
+            mirror: true, // Animate elements when scrolling past them again
+        });
+        // GSAP Context 
+        // for cleanup
         gsapContext.current = gsap.context(() => {
             // Preloader
             $(".preloader").delay(800).fadeOut("slow");
@@ -408,16 +416,7 @@ const About = () => {
             }
 
             // Blog Social Links
-            gsap.to(".social-links-scroll", {
-                scrollTrigger: {
-                    trigger: ".blog-item-details .social-links",
-                    start: "top-=120 top",
-                    end: "80% top",
-                    pin: true,
-                    pinSpacing: false,
-                    scrub: true,
-                },
-            });
+
 
             // Section Jump
             document.querySelectorAll(".section-link").forEach((link) => {
@@ -763,6 +762,21 @@ const About = () => {
                                         </div>
                                     </div>
                                 </div>
+                                <style>
+                                    {
+                                        `
+                                        #smooth-wrapper {
+    min-height: 100vh;
+    position: relative;
+}
+
+#smooth-content {
+    min-height: 100%;
+    padding-bottom: 120px; /* Reserve space for footer */
+}
+                                        `
+                                    }
+                                </style>
                             </div>
                         </div>
                     </section>
@@ -774,7 +788,7 @@ const About = () => {
                                 </div>
                                 <div className="col-12 clients__box-wrapper">
                                     {[
-                                        { logo: logo3, delay: 0.30 },
+                                        { logo: logo3, delay: 3000 },
                                         { logo: logo4, delay: 0.45 },
                                         { logo: logo5, delay: 0.60 },
                                         { logo: logo6, delay: 0.75 },
