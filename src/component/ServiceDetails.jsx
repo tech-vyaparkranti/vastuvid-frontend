@@ -1,6 +1,4 @@
 import React, { useEffect, useRef } from 'react';
-import AppImage from './AppImage';
-import AppVideo from './AppVideo';
 import { Link } from 'react-router-dom'; // Import Link for SPA navigation
 import 'swiper/css';
 import 'swiper/css/navigation';
@@ -291,12 +289,12 @@ const ServiceDetails = () => {
                         <div className="container custom-container position-relative">
                             <Link to="#quanto-service-details-section" className="scroll-down section-link">
                                 Scroll down
-                                <AppImage src="/assets/images/icons/scroll-down.svg" alt="Scroll down" loading="lazy" />
+                                <img src="/assets/images/icons/scroll-down.svg" alt="Scroll down" loading="lazy" />
                             </Link>
                             <div className="row">
                                 <div className="col-12">
                                     <div className="quanto-hero__thumb text-center fade-anim" data-delay="0.30" data-direction="bottom">
-                                        <AppImage
+                                        <img
                                             src="/assets/images/hero/common-hero-thumb-2.png"
                                             alt="hero-thumb"
                                             data-speed="0.8"
@@ -397,13 +395,16 @@ const ServiceDetails = () => {
                         <div className="container custom-container">
                             <div className="row">
                                 <div className="col-12">
-                                    <AppVideo
+                                    <video
+                                        muted
+                                        autoPlay
+                                        loop
+                                        src="https://res.cloudinary.com/ducryslbe/video/upload/v1740329511/Quanto/video.sakebul.com.mp4"
                                         className="quanto-video d-block w-100 fade-anim"
                                         data-speed="0.8"
                                         id="quanto-video-2"
                                         data-delay="0.30"
-                                        sources={[{ src: 'https://res.cloudinary.com/ducryslbe/video/upload/v1740329511/Quanto/video.sakebul.com.mp4', type: 'video/mp4' }]}
-                                    />
+                                    ></video>
                                     <button className="play-btn">Play</button>
                                 </div>
                             </div>

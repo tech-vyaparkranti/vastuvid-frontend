@@ -1,5 +1,4 @@
 import React, { useEffect, useRef } from 'react';
-import AppImage from './AppImage';
 import logo3 from "../assets/images/clients/logo-3.png";
 import logo4 from "../assets/images/clients/logo-4.png";
 import logo5 from "../assets/images/clients/logo-5.png";
@@ -509,9 +508,9 @@ const About = () => {
                     </section>
                     <div className="quanto-video-area style-2 overflow-hidden">
                         <div className="container custom-container position-relative">
-                                <a href="#quanto-funfacts-section" className="scroll-down section-link">
+                            <a href="#quanto-funfacts-section" className="scroll-down section-link">
                                 Scroll down
-                                <AppImage src="./assets/images/icons/scroll-down.svg" alt="Scroll down" loading="lazy" />
+                                <img src="./assets/images/icons/scroll-down.svg" alt="Scroll down" loading="lazy" />
                             </a>
                             <div className="row">
                                 <div className="col-12">
@@ -569,7 +568,7 @@ const About = () => {
                             <div className="row g-4 justify-content-between row-padding-top overflow-hidden">
                                 <div className="col-md-6 col-xl-5 col-xxl-4 d-flex align-items-xl-center order-1 order-xl-0 overflow-hidden">
                                     <div className="img_reveal overflow-hidden">
-                                        <AppImage
+                                        <img
                                             src="./assets/images/about/about-thumb-2-1.png"
                                             alt="about-thumb"
                                             className="w-100"
@@ -594,7 +593,7 @@ const About = () => {
                                         </a>
                                         <figure className="overflow-hidden">
                                             <div className="img_reveal overflow-hidden">
-                                                <AppImage
+                                                <img
                                                     src="./assets/images/about/about-thumb-2-2.png"
                                                     alt="about-thumb"
                                                     loading="lazy"
@@ -605,7 +604,7 @@ const About = () => {
                                 </div>
                                 <div className="col-md-6 col-xl-2 d-flex align-items-xl-center order-xl-2 overflow-hidden">
                                     <div className="img_reveal overflow-hidden">
-                                        <AppImage
+                                        <img
                                             src="./assets/images/about/about-thumb-2-3.png"
                                             alt="about-thumb"
                                             className="w-100"
