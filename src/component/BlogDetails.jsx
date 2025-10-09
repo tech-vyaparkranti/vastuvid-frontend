@@ -1,4 +1,5 @@
 import React from 'react'
+import AppImage from './AppImage'
 
 const BlogDetails = () => {
     return (
@@ -58,11 +59,11 @@ const BlogDetails = () => {
                                                 </div>
                                             </div>
                                             <div class="img-box overflow-hidden">
-                                                <img
+                                                <AppImage
                                                     src="./assets/images/blog/blog-details-1.png"
                                                     alt="blog"
                                                     data-speed="0.8"
-                                                    class="w-100 d-block"
+                                                    className="w-100 d-block"
                                                 />
                                             </div>
                                             <div class="content-box row-padding-top">
@@ -118,7 +119,7 @@ const BlogDetails = () => {
                                                                 captivating environment.
                                                             </p>
                                                             <blockquote>
-                                                                <img
+                                                                <AppImage
                                                                     src="./assets/images/icons/blockquote.svg"
                                                                     alt="blockquote"
                                                                 />
@@ -149,11 +150,11 @@ const BlogDetails = () => {
                                                                 envisioned a space where users could.
                                                             </p>
                                                             <div class="quanto-single-thumb overflow-hidden">
-                                                                <img
+                                                                <AppImage
                                                                     src="./assets/images/blog/blog-details-img-1.png"
                                                                     alt="blog-details"
                                                                     data-speed="0.8"
-                                                                    class="w-100"
+                                                                    className="w-100"
                                                                 />
                                                             </div>
                                                             <p class="blog-text">
@@ -194,7 +195,7 @@ const BlogDetails = () => {
                                                                 <li class="comment-item">
                                                                     <div class="post-comment">
                                                                         <div class="comment-avater">
-                                                                            <img
+                                                                            <AppImage
                                                                                 src="assets/images/blog/comment-avater.png"
                                                                                 alt="Comment Author"
                                                                             />
@@ -232,7 +233,7 @@ const BlogDetails = () => {
                                                                         <li class="comment-item">
                                                                             <div class="post-comment">
                                                                                 <div class="comment-avater">
-                                                                                    <img
+                                                                                    <AppImage
                                                                                         src="assets/images/blog/comment-avater2.png"
                                                                                         alt="Comment Author"
                                                                                     />
@@ -375,7 +376,7 @@ const BlogDetails = () => {
                                     >
                                         <div class="quanto-blog-thumb">
                                             <a href="./blog-details.html">
-                                                <img
+                                                <AppImage
                                                     src="./assets/images/blog/blog-thumb-5.png"
                                                     alt="blog-thumb"
                                                 />
@@ -395,7 +396,7 @@ const BlogDetails = () => {
                                     <div class="quanto-blog-box fade-anim" data-delay="0.60">
                                         <div class="quanto-blog-thumb">
                                             <a href="./blog-details.html">
-                                                <img
+                                                <AppImage
                                                     src="./assets/images/blog/blog-thumb-6.png"
                                                     alt="blog-thumb"
                                                 />
@@ -419,7 +420,7 @@ const BlogDetails = () => {
                                     >
                                         <div class="quanto-blog-thumb">
                                             <a href="./blog-details.html">
-                                                <img
+                                                <AppImage
                                                     src="./assets/images/blog/blog-thumb-7.png"
                                                     alt="blog-thumb"
                                                 />

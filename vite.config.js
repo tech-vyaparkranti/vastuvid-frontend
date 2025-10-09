@@ -9,4 +9,10 @@ export default defineConfig({
     port: 3000,
     cors: true,
   },
+  build: {
+    outDir: 'build', // ✅ Output folder (default was 'dist')
+    assetsDir: 'assets', // optional: keeps assets inside /build/assets
+    sourcemap: false, // optional: disable source maps for smaller build
+    emptyOutDir: true, // clear old build before new one
+  },
 })

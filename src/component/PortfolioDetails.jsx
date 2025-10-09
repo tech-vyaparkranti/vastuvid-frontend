@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from 'react';
+import AppImage from './AppImage';
 import { Link } from 'react-router-dom'; // Import Link for SPA navigation
 import 'swiper/css'; // Optional, only if you plan to add Swiper sliders
 import 'odometer/themes/odometer-theme-default.css'; // Optional, only if you plan to add Odometer counters
@@ -248,12 +249,12 @@ const PortfolioDetails = () => {
                         <div className="container custom-container position-relative">
                             <Link to="#quanto-portfolio-details-section" className="scroll-down section-link">
                                 Scroll down
-                                <img src="/assets/images/icons/scroll-down.svg" alt="Scroll down" loading="lazy" />
+                                <AppImage src="/assets/images/icons/scroll-down.svg" alt="Scroll down" loading="lazy" />
                             </Link>
                             <div className="row">
                                 <div className="col-12">
                                     <div className="quanto-hero__thumb text-end fade-anim" data-delay="0.30" data-direction="bottom">
-                                        <img
+                                        <AppImage
                                             src="/assets/images/portfolio-details/portfolio-details-thumb.png"
                                             alt="Image Area"
                                             data-speed="0.8"
@@ -320,7 +321,7 @@ const PortfolioDetails = () => {
                                     '/assets/images/portfolio-details/portfolio-details-fig-3.png',
                                 ].map((src, index) => (
                                     <div key={index} className={`col-${index === 2 ? '12' : 'sm-6'} overflow-hidden portfolio-details__image fade-anim`} data-delay={0.30 + index * 0.15}>
-                                        <img
+                                        <AppImage
                                             src={src}
                                             alt="portfolio-details-fig"
                                             data-speed="0.8"
