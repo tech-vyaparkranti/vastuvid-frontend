@@ -44,23 +44,8 @@ const About = () => {
             $(".preloader").delay(800).fadeOut("slow");
 
             // Sticky Menu
-            const handleScroll = () => {
-                const scroll = window.scrollY;
-                if (scroll > 50) {
-                    $("#sticky-menu").addClass("sticky-menu");
-                    $(".quanto-menu-area").addClass("sticky");
-                } else {
-                    $("#sticky-menu").removeClass("sticky-menu");
-                    $(".quanto-menu-area").removeClass("sticky");
-                }
-            };
-            window.addEventListener("scroll", handleScroll);
 
             // Set Background Image
-            $("[data-bg-src]").each(function () {
-                const src = $(this).attr("data-bg-src");
-                $(this).css("background-image", `url(${src})`).addClass("background-image").removeAttr("data-bg-src");
-            });
 
             // Custom Cursor
             const cursor = document.querySelector(".cursor");
@@ -76,7 +61,7 @@ const About = () => {
                 });
             }
 
-            // Odometer Counter
+            //  Odometer Counter
             document.querySelectorAll(".counter-item .odometer").forEach((el) => {
                 const odometer = new Odometer({
                     el: el,
@@ -98,147 +83,147 @@ const About = () => {
             });
 
             // Swiper Sliders
-            const initializeSwiper = (selector, config) => {
-                const element = document.querySelector(selector);
-                if (element) {
-                    const swiper = new Swiper(element, config);
-                    swiperInstances.current.push(swiper);
-                    return swiper;
-                }
-                return null;
-            };
+            // const initializeSwiper = (selector, config) => {
+            //     const element = document.querySelector(selector);
+            //     if (element) {
+            //         const swiper = new Swiper(element, config);
+            //         swiperInstances.current.push(swiper);
+            //         return swiper;
+            //     }
+            //     return null;
+            // };
 
             // Testimonial Content Slider
-            const thumbSlider = initializeSwiper(".quanto-testimonial__thumb-slider", {
-                effect: "fade",
-                fadeEffect: { crossFade: true },
-                loop: true,
-                allowTouchMove: false,
-            });
+            // const thumbSlider = initializeSwiper(".quanto-testimonial__thumb-slider", {
+            //     effect: "fade",
+            //     fadeEffect: { crossFade: true },
+            //     loop: true,
+            //     allowTouchMove: false,
+            // });
 
-            initializeSwiper(".quanto-testimonial__content-slider", {
-                spaceBetween: 24,
-                slidesPerView: 1,
-                loop: true,
-                speed: 800,
-                navigation: {
-                    nextEl: ".quanto-testimonial__next",
-                    prevEl: ".quanto-testimonial__prev",
-                },
-                thumbs: thumbSlider ? { swiper: thumbSlider } : undefined,
-                allowTouchMove: thumbSlider ? false : true,
-            });
+            // initializeSwiper(".quanto-testimonial__content-slider", {
+            //     spaceBetween: 24,
+            //     slidesPerView: 1,
+            //     loop: true,
+            //     speed: 800,
+            //     navigation: {
+            //         nextEl: ".quanto-testimonial__next",
+            //         prevEl: ".quanto-testimonial__prev",
+            //     },
+            //     thumbs: thumbSlider ? { swiper: thumbSlider } : undefined,
+            //     allowTouchMove: thumbSlider ? false : true,
+            // });
 
             // Project Slider
-            initializeSwiper(".quanto-project__slider", {
-                slidesPerView: 1,
-                loop: true,
-                spaceBetween: 15,
-                navigation: {
-                    nextEl: ".quanto-project__slider-navigation .next-btn",
-                    prevEl: ".quanto-project__slider-navigation .prev-btn",
-                },
-                breakpoints: {
-                    576: { spaceBetween: 20, slidesPerView: 1.3 },
-                    768: { spaceBetween: 25, slidesPerView: 1.5 },
-                    992: { spaceBetween: 30, slidesPerView: 2 },
-                    1200: { spaceBetween: 40, slidesPerView: 2.3 },
-                },
-            });
+            // initializeSwiper(".quanto-project__slider", {
+            //     slidesPerView: 1,
+            //     loop: true,
+            //     spaceBetween: 15,
+            //     navigation: {
+            //         nextEl: ".quanto-project__slider-navigation .next-btn",
+            //         prevEl: ".quanto-project__slider-navigation .prev-btn",
+            //     },
+            //     breakpoints: {
+            //         576: { spaceBetween: 20, slidesPerView: 1.3 },
+            //         768: { spaceBetween: 25, slidesPerView: 1.5 },
+            //         992: { spaceBetween: 30, slidesPerView: 2 },
+            //         1200: { spaceBetween: 40, slidesPerView: 2.3 },
+            //     },
+            // });
 
-            // Testimonial2 Slider
-            initializeSwiper(".quanto-testimonial2__slider", {
-                loop: true,
-                slidesPerView: 1,
-                spaceBetween: 10,
-                autoplay: { delay: 3000, disableOnInteraction: false },
-                breakpoints: {
-                    768: { slidesPerView: 2, spaceBetween: 25 },
-                    1200: { spaceBetween: 30, slidesPerView: 2 },
-                    1400: { spaceBetween: 40, slidesPerView: 2.5 },
-                },
-            });
+            // // Testimonial2 Slider
+            // initializeSwiper(".quanto-testimonial2__slider", {
+            //     loop: true,
+            //     slidesPerView: 1,
+            //     spaceBetween: 10,
+            //     autoplay: { delay: 3000, disableOnInteraction: false },
+            //     breakpoints: {
+            //         768: { slidesPerView: 2, spaceBetween: 25 },
+            //         1200: { spaceBetween: 30, slidesPerView: 2 },
+            //         1400: { spaceBetween: 40, slidesPerView: 2.5 },
+            //     },
+            // });
 
             // Testimonial3 Slider
-            initializeSwiper(".testimonial3-slider", {
-                slidesPerView: 1,
-                spaceBetween: 20,
-                loop: true,
-                navigation: {
-                    nextEl: ".testimonial3-navigation .next-btn",
-                    prevEl: ".testimonial3-navigation .prev-btn",
-                },
-                autoplay: { delay: 5000, disableOnInteraction: false },
-            });
+            // initializeSwiper(".testimonial3-slider", {
+            //     slidesPerView: 1,
+            //     spaceBetween: 20,
+            //     loop: true,
+            //     navigation: {
+            //         nextEl: ".testimonial3-navigation .next-btn",
+            //         prevEl: ".testimonial3-navigation .prev-btn",
+            //     },
+            //     autoplay: { delay: 5000, disableOnInteraction: false },
+            // });
 
-            // Marquee
-            $(".marquee").each(function () {
-                const $marquee = $(this);
-                const $itemContainer = $marquee.find(".marquee-item-container");
-                const elements = $itemContainer.find(".marquee-item").length;
-                const repeatCount = elements < 5 ? 5 : elements;
-                for (let i = 0; i < repeatCount; i++) {
-                    $itemContainer.clone().appendTo($marquee);
-                }
-            });
+            // // Marquee
+            // $(".marquee").each(function () {
+            //     const $marquee = $(this);
+            //     const $itemContainer = $marquee.find(".marquee-item-container");
+            //     const elements = $itemContainer.find(".marquee-item").length;
+            //     const repeatCount = elements < 5 ? 5 : elements;
+            //     for (let i = 0; i < repeatCount; i++) {
+            //         $itemContainer.clone().appendTo($marquee);
+            //     }
+            // });
 
 
 
             // Hover Overlay Animations
-            document.querySelectorAll(".quanto-pricing-box, .process-box").forEach((box) => {
-                const overlay = document.createElement("div");
-                overlay.className = "hover-overlay";
-                box.insertBefore(overlay, box.firstChild);
-                gsap.set(overlay, { autoAlpha: 0, x: 0, y: 0 });
+            // document.querySelectorAll(".quanto-pricing-box, .process-box").forEach((box) => {
+            //     const overlay = document.createElement("div");
+            //     overlay.className = "hover-overlay";
+            //     box.insertBefore(overlay, box.firstChild);
+            //     gsap.set(overlay, { autoAlpha: 0, x: 0, y: 0 });
 
-                const getDirection = (box, event) => {
-                    const rect = box.getBoundingClientRect();
-                    const mouseX = event.clientX - rect.left;
-                    const mouseY = event.clientY - rect.top;
-                    const centerX = rect.width / 2;
-                    const centerY = rect.height / 2;
-                    const relativeX = mouseX - centerX;
-                    const relativeY = mouseY - centerY;
-                    const angle = Math.atan2(relativeY, relativeX);
-                    const degrees = angle * (180 / Math.PI);
-                    if (degrees >= -45 && degrees <= 45) return "right";
-                    if (degrees > 45 && degrees <= 135) return "bottom";
-                    if (degrees > 135 || degrees <= -135) return "left";
-                    return "top";
-                };
+            //     const getDirection = (box, event) => {
+            //         const rect = box.getBoundingClientRect();
+            //         const mouseX = event.clientX - rect.left;
+            //         const mouseY = event.clientY - rect.top;
+            //         const centerX = rect.width / 2;
+            //         const centerY = rect.height / 2;
+            //         const relativeX = mouseX - centerX;
+            //         const relativeY = mouseY - centerY;
+            //         const angle = Math.atan2(relativeY, relativeX);
+            //         const degrees = angle * (180 / Math.PI);
+            //         if (degrees >= -45 && degrees <= 45) return "right";
+            //         if (degrees > 45 && degrees <= 135) return "bottom";
+            //         if (degrees > 135 || degrees <= -135) return "left";
+            //         return "top";
+            //     };
 
-                box.addEventListener("mouseenter", (e) => {
-                    const direction = getDirection(box, e);
-                    const animProps = {
-                        autoAlpha: 1,
-                        x: 0,
-                        y: 0,
-                        duration: 0.5,
-                        ease: "power2.out",
-                    };
-                    const distance = 100;
-                    if (direction === "right") animProps.startX = `${distance}%`;
-                    if (direction === "left") animProps.startX = `-${distance}%`;
-                    if (direction === "bottom") animProps.startY = `${distance}%`;
-                    if (direction === "top") animProps.startY = `-${distance}%`;
-                    gsap.fromTo(overlay, { autoAlpha: 0, x: animProps.startX || 0, y: animProps.startY || 0 }, animProps);
-                });
+            //     box.addEventListener("mouseenter", (e) => {
+            //         const direction = getDirection(box, e);
+            //         const animProps = {
+            //             autoAlpha: 1,
+            //             x: 0,
+            //             y: 0,
+            //             duration: 0.5,
+            //             ease: "power2.out",
+            //         };
+            //         const distance = 100;
+            //         if (direction === "right") animProps.startX = `${distance}%`;
+            //         if (direction === "left") animProps.startX = `-${distance}%`;
+            //         if (direction === "bottom") animProps.startY = `${distance}%`;
+            //         if (direction === "top") animProps.startY = `-${distance}%`;
+            //         gsap.fromTo(overlay, { autoAlpha: 0, x: animProps.startX || 0, y: animProps.startY || 0 }, animProps);
+            //     });
 
-                box.addEventListener("mouseleave", (e) => {
-                    const direction = getDirection(box, e);
-                    const animProps = {
-                        autoAlpha: 0,
-                        duration: 0.5,
-                        ease: "power2.in",
-                    };
-                    const distance = 100;
-                    if (direction === "right") animProps.x = `${distance}%`;
-                    if (direction === "left") animProps.x = `-${distance}%`;
-                    if (direction === "bottom") animProps.y = `${distance}%`;
-                    if (direction === "top") animProps.y = `-${distance}%`;
-                    gsap.to(overlay, animProps);
-                });
-            });
+            //     box.addEventListener("mouseleave", (e) => {
+            //         const direction = getDirection(box, e);
+            //         const animProps = {
+            //             autoAlpha: 0,
+            //             duration: 0.5,
+            //             ease: "power2.in",
+            //         };
+            //         const distance = 100;
+            //         if (direction === "right") animProps.x = `${distance}%`;
+            //         if (direction === "left") animProps.x = `-${distance}%`;
+            //         if (direction === "bottom") animProps.y = `${distance}%`;
+            //         if (direction === "top") animProps.y = `-${distance}%`;
+            //         gsap.to(overlay, animProps);
+            //     });
+            // });
 
             // Video Control
             const video = document.getElementById("quanto-video-2");
@@ -260,23 +245,23 @@ const About = () => {
             }
 
             // Horizontal Scroll
-            if (window.innerWidth > 1199) {
-                const horizontalSection = document.querySelector(".horizontal-scroll");
-                if (horizontalSection) {
-                    gsap.to(horizontalSection, {
-                        x: () => horizontalSection.scrollWidth * -1,
-                        xPercent: 100,
-                        scrollTrigger: {
-                            trigger: horizontalSection,
-                            start: "center center",
-                            end: "+=3000px",
-                            pin: true,
-                            scrub: true,
-                            invalidateOnRefresh: true,
-                        },
-                    });
-                }
-            }
+            // if (window.innerWidth > 1199) {
+            //     const horizontalSection = document.querySelector(".horizontal-scroll");
+            //     if (horizontalSection) {
+            //         gsap.to(horizontalSection, {
+            //             x: () => horizontalSection.scrollWidth * -1,
+            //             xPercent: 100,
+            //             scrollTrigger: {
+            //                 trigger: horizontalSection,
+            //                 start: "center center",
+            //                 end: "+=3000px",
+            //                 pin: true,
+            //                 scrub: true,
+            //                 invalidateOnRefresh: true,
+            //             },
+            //         });
+            //     }
+            // }
 
             // Move Animation
             document.querySelectorAll(".move-anim").forEach((splitTextLine) => {

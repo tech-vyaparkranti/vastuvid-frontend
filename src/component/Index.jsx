@@ -367,7 +367,7 @@ const Index = () => {
             const video = heroVideoRef.current;
             const playBtn = playBtnRef.current;
             if (video && playBtn) {
-                const videoSpeed = 1.5; // Example: 0.5 for half speed (slower)
+                const videoSpeed = 2; // Example: 0.5 for half speed (slower)
                 // Example: 1.5 for one and a half speed (faster)
 
                 video.playbackRate = videoSpeed;
@@ -378,7 +378,7 @@ const Index = () => {
                 };
                 const handleVideoClick = () => {
                     if (playBtn.classList.contains('disabled')) {
-                        video.pause();
+                        // video.pause();
                         playBtn.classList.remove('disabled');
                         video.classList.remove('pointer');
                     }
@@ -482,57 +482,10 @@ const Index = () => {
             <div >
                 <div id="smooth-content">
                     <section className="quanto-hero-section overflow-hidden">
-                        <div className="container custom-container">
+                        <div className="container-fluid custom-container">
+
                             <div className="row">
-                                <div className="col-12 position-relative">
-                                    <div className="quanto-hero__content move-anim" data-delay="0.45">
-                                        <h1 className="title word-anim" data-delay="0.60">
-                                            Crafting your fantasies with a twist of{' '}
-                                            <span>
-                                                <svg
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                    width="110"
-                                                    height="110"
-                                                    viewBox="0 0 110 110"
-                                                    fill="none"
-                                                >
-                                                    <path
-                                                        d="M60.5 0H49.5L53.0145 50.2065L19.9982 12.22L12.22 19.9982L50.2065 53.0145L1.44248e-06 49.5L0 60.5L50.2065 56.9856L12.22 90.0018L19.9982 97.78L53.0145 59.7935L49.5 110H60.5L56.9855 59.7935L90.0018 97.78L97.78 90.0018L59.7935 56.9855L110 60.5V49.5L59.7936 53.0145L97.78 19.9982L90.0018 12.22L56.9855 50.2065L60.5 0Z"
-                                                        fill="currentColor"
-                                                    />
-                                                </svg>{' '}
-                                                creativity
-                                            </span>
-                                        </h1>
-                                    </div>
-                                    <div className="quanto-hero__info">
-                                        <p className="word-anim" data-delay="0.75">
-                                            As long as your dreams revolve around something like; being the proud owner spectacular website.
-                                        </p>
-                                        <div className="client-info fade-anim" data-delay="0.90">
-                                            <div className="client-images">
-                                                {['A', 'B', 'C'].map((letter, index) => (
-                                                    <img
-                                                        key={index}
-                                                        src={`https://via.placeholder.com/50x50/ccc/fff?text=${letter}`}
-                                                        alt={`Client avatar ${letter}`}
-                                                        loading="lazy"
-                                                    />
-                                                ))}
-                                            </div>
-                                            <div className="client-data">
-                                                <h6 className="counter-item d-flex align-items-center" ref={(el) => setCounterRef(el, 0)}>
-                                                    <span className="odometer d-inline-block" data-odometer-final="2"></span>
-                                                    <em>k+ Clients</em>
-                                                </h6>
-                                                <span>Award winning agency</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="row">
-                                <div className="col-lg-12">
+                                <div className="col-lg-12" style={{ padding: "0px" }}>
                                     <div class="quanto-hero__thumb section-margin-top">
                                         <div class="video-wrapper">
                                             <video ref={heroVideoRef} loop="" muted autoplay="" playsinline="">
