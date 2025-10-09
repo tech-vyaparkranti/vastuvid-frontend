@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useLayoutEffect } from 'react';
+import React, { useLayoutEffect } from 'react';
 import { Link } from 'react-router-dom';
 import $ from "jquery"
 import logo from "../assets/images/logo.png"
@@ -338,12 +338,12 @@ const Navbar = () => {
                                             <li><Link to="/about">About Us</Link></li>
                                             <li > <Link to="/service">Service</Link></li>
                                             <li>
-                                                        <Link to="/package">Packages</Link>
-                                                    </li>
-                                                    <li>
-                                                        <Link to="/projects">Projects</Link>
-                                                    </li>
-     
+                                                <Link to="/package">Packages</Link>
+                                            </li>
+                                            <li>
+                                                <Link to="/projects">Projects</Link>
+                                            </li>
+
                                             {/* <li >
                                                 <Link to="/portfolio">Portfolio</Link>
 
