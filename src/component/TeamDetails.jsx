@@ -1,5 +1,4 @@
 import React, { useEffect, useRef } from 'react';
-import AppImage from './AppImage';
 import { Link } from 'react-router-dom'; // Import Link for SPA navigation
 import 'swiper/css'; // Optional, only if you plan to add Swiper sliders
 import 'odometer/themes/odometer-theme-default.css'; // Optional, only if you plan to add Odometer counters
@@ -239,12 +238,12 @@ const TeamDetails = () => {
                             <div className="row g-4 justify-content-between">
                                 <div className="col-xl-6 col-xxl-5">
                                     <div className="team-details__thumb fade-anim" data-delay="0.30" data-direction="left">
-                                        <AppImage
+                                        <img
                                             src="/assets/images/team-details/team-details-thumb.png"
-                        						alt="team-details__thumb"
-                        						data-speed="0.8"
-                        						className="w-100"
-                        						loading="lazy"
+                                            alt="team-details__thumb"
+                                            data-speed="0.8"
+                                            className="w-100"
+                                            loading="lazy"
                                         />
                                     </div>
                                 </div>

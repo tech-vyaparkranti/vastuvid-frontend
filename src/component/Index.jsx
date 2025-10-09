@@ -504,9 +504,9 @@ const Index = () => {
             </Link>
             <div >
                 <div id="smooth-content">
-                    <section className="quanto-hero-section">
-                        <div className="container-fluid custom-container">
-                            {/* <div className="row">
+                    <section className="quanto-hero-section overflow-hidden">
+                        <div className="container custom-container">
+                            <div className="row">
                                 <div className="col-12 position-relative">
                                     <div className="quanto-hero__content move-anim" data-delay="0.45">
                                         <h1 className="title word-anim" data-delay="0.60">
@@ -553,10 +553,9 @@ const Index = () => {
                                         </div>
                                     </div>
                                 </div>
-                            </div> */}
-
+                            </div>
                             <div className="row">
-                                <div className="col-lg-12 " style={{ padding: "0px" }}>
+                                <div className="col-lg-12">
                                     <div class="quanto-hero__thumb section-margin-top">
                                         <div class="video-wrapper">
                                             <video ref={heroVideoRef} loop="" muted autoplay="" playsinline="">
@@ -572,7 +571,6 @@ const Index = () => {
                         </div>
                     </section>
 
-
                     <section className="quanto-about-section section-padding-top overflow-hidden">
                         <div className="container custom-container">
                             <div className="row justify-content-end">
@@ -585,7 +583,7 @@ const Index = () => {
                                             <p>
                                                 Whether it's crafting a visually stunning brand identity, designing immersive digital experiences, or developing strategic marketing campaigns, we approach each project with meticulous attention to detail and an unwavering dedication to quality.
                                             </p>
-                                            <Link to="/about" className="quanto-link-btn section-link" style={{ color: " #63334E", fontSize: "24px" }}>
+                                            <Link to="/about" className="quanto-link-btn section-link">
                                                 More about us
                                                 <span>
                                                     <i className="fa-solid fa-arrow-right arry1"></i>
