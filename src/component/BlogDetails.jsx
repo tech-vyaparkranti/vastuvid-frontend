@@ -10,7 +10,7 @@ const BlogDetails = () => {
             {/* <div class="preloader">
       <div class="spinner-wrap">
         <div class="preloader-logo">
-          <img src="assets/images/preloader.svg" alt="" class="img-fluid" />
+          <img src="assets/images/VastuLogo.png" alt="" class="img-fluid" />
         </div>
         <div class="spinner"></div>
       </div>

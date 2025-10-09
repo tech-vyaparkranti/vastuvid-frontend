@@ -223,7 +223,7 @@ const TeamDetails = () => {
             <div className="preloader">
                 <div className="spinner-wrap">
                     <div className="preloader-logo">
-                        <img src="/assets/images/preloader.svg" alt="Preloader" className="img-fluid" loading="lazy" />
+                        <img src="/assets/images/VastuLogo.png" alt="Preloader" className="img-fluid" loading="lazy" />
                     </div>
                     <div className="spinner"></div>
                 </div>

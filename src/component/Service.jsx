@@ -1,5 +1,5 @@
-import React, { useEffect, useRef } from 'react';
-import { Link } from 'react-router-dom'; 
+import React, { useEffect, useRef, useState } from 'react';
+import { Link } from 'react-router-dom';
 import 'swiper/css';
 import { SplitText } from 'gsap/SplitText';
 import 'swiper/css/navigation';
@@ -24,20 +24,38 @@ const Service = () => {
     const swiperInstances = useRef([]);
     const smootherRef = useRef(null);
     const gsapContext = useRef(null);
+    const [showAllServices, setShowAllServices] = useState(false);
+
+    // Complete list of services
+    const allServices = [
+        { title: "Advanced Digital Solution", icon: "assets/images/service/service-icon-1.svg", desc: "Brand identity design a the have to success whether you breath onfire quanto agency." },
+        { title: "UI/UX & Product Innovation", icon: "assets/images/service/service-icon-2.svg", desc: "Brand identity design a the have to success whether you breath onfire quanto agency." },
+        { title: "Market Analysis & Planning", icon: "assets/images/service/service-icon-3.svg", desc: "Brand identity design a the have to success whether you breath onfire quanto agency." },
+        { title: "Business Campaign Strategy", icon: "assets/images/service/service-icon-4.svg", desc: "Brand identity design a the have to success whether you breath onfire quanto agency." },
+        { title: "Mobile App Development", icon: "assets/images/service/service-icon-1.svg", desc: "Create powerful mobile applications for iOS and Android platforms with cutting-edge technology." },
+        { title: "Web Development", icon: "assets/images/service/service-icon-2.svg", desc: "Build responsive and scalable web applications tailored to your business needs." },
+        { title: "Cloud Solutions", icon: "assets/images/service/service-icon-3.svg", desc: "Leverage cloud technology for secure, scalable, and efficient business operations." },
+        { title: "Data Analytics", icon: "assets/images/service/service-icon-4.svg", desc: "Transform your data into actionable insights with advanced analytics solutions." },
+        { title: "Cybersecurity Services", icon: "assets/images/service/service-icon-1.svg", desc: "Protect your digital assets with comprehensive security solutions and monitoring." },
+        { title: "Digital Marketing", icon: "assets/images/service/service-icon-2.svg", desc: "Boost your online presence with strategic digital marketing campaigns." },
+        { title: "E-commerce Solutions", icon: "assets/images/service/service-icon-3.svg", desc: "Build powerful online stores with seamless shopping experiences." },
+        { title: "AI & Machine Learning", icon: "assets/images/service/service-icon-4.svg", desc: "Implement intelligent automation and predictive analytics for your business." },
+    ];
+
+    // Show only first 8 services initially
+    const displayedServices = showAllServices ? allServices : allServices.slice(0, 8);
+    const hasMoreServices = allServices.length > 8;
 
     useEffect(() => {
         Aos.init({
             duration: 2000,
-            once: false, // Allow animations to replay on scroll
-            mirror: true, // Animate elements when scrolling past them again
+            once: false,
+            mirror: true,
         });
 
-        // GSAP Context for cleanup
         gsapContext.current = gsap.context(() => {
-            // Preloader
             $(".preloader").delay(800).fadeOut("slow");
 
-            // Sticky Menu
             const handleScroll = () => {
                 const scroll = window.scrollY;
                 if (scroll > 50) {
@@ -50,13 +68,11 @@ const Service = () => {
             };
             window.addEventListener("scroll", handleScroll);
 
-            // Set Background Image
             $("[data-bg-src]").each(function () {
                 const src = $(this).attr("data-bg-src");
                 $(this).css("background-image", `url(${src})`).addClass("background-image").removeAttr("data-bg-src");
             });
 
-            // Custom Cursor
             const cursor = document.querySelector(".cursor");
             if (cursor) {
                 const editCursor = (e) => {
@@ -70,7 +86,6 @@ const Service = () => {
                 });
             }
 
-            // Odometer Counter (optional, if you want to add counters to the service page)
             document.querySelectorAll(".counter-item .odometer").forEach((el) => {
                 const odometer = new Odometer({
                     el: el,
@@ -91,23 +106,6 @@ const Service = () => {
                 observer.observe(el);
             });
 
-            // Swiper Sliders (optional, if you want to add a slider to the service page)
-            const initializeSwiper = (selector, config) => {
-                const element = document.querySelector(selector);
-                if (element) {
-                    const swiper = new Swiper(element, config);
-                    swiperInstances.current.push(swiper);
-                    return swiper;
-                }
-                return null;
-            };
-
-            // Smooth Scrolling
-
-
-            // Hover Overlay Animations for Service and Pricing Boxes
-
-            // Move Animation for Service and Pricing Content
             document.querySelectorAll(".move-anim").forEach((splitTextLine) => {
                 const delay_value = splitTextLine.getAttribute("data-delay") || 0.1;
                 const tl = gsap.timeline({
@@ -132,7 +130,6 @@ const Service = () => {
                 });
             });
 
-            // Fade Animation for Service and Pricing Boxes
             document.querySelectorAll(".fade-anim").forEach((item) => {
                 const fade_direction = item.getAttribute("data-direction") || "bottom";
                 const onscroll_value = item.getAttribute("data-on-scroll") || 1;
@@ -159,7 +156,6 @@ const Service = () => {
                 gsap.from(item, animation_settings);
             });
 
-            // Word Animation for Titles
             document.querySelectorAll(".word-anim").forEach((word_anim_item) => {
                 const stagger_value = parseFloat(word_anim_item.getAttribute("data-stagger") || 0.04);
                 const translateX_value = word_anim_item.getAttribute("data-translateX") || false;
@@ -186,7 +182,6 @@ const Service = () => {
                 gsap.from(split_word.words, animation_settings);
             });
 
-            // Image Parallax Animation for Hero Thumbnail
             document.querySelectorAll(".quanto-hero__thumb").forEach((thumb) => {
                 const image = thumb.querySelector("img");
                 const dataSpeed = parseFloat(thumb.querySelector("img").getAttribute("data-speed") || 0.8);
@@ -202,7 +197,6 @@ const Service = () => {
                 });
             });
 
-            // Section Jump for Scroll Links
             document.querySelectorAll(".section-link").forEach((link) => {
                 link.addEventListener("click", (event) => {
                     event.preventDefault();
@@ -213,51 +207,197 @@ const Service = () => {
                         const targetSection = document.querySelector(targetID);
                         if (targetSection) {
                             gsap.to(window, { duration: 1, scrollTo: { y: targetSection, offsetY: 50 } });
-                        } else {
-                            console.error(`Section with ID ${targetID} does not exist.`);
                         }
                     }
                 });
             });
         });
 
-        // Cleanup
         return () => {
             swiperInstances.current.forEach((swiper) => swiper.destroy(true, true));
             if (smootherRef.current) smootherRef.current.kill();
             gsapContext.current.revert();
-            window.removeEventListener("scroll", () => { });
-            window.removeEventListener("mousemove", () => { });
-            document.querySelectorAll("a, .cursor-pointer").forEach((item) => {
-                item.removeEventListener("mouseover", () => { });
-                item.removeEventListener("mouseout", () => { });
-            });
-            document.querySelectorAll(".section-link").forEach((link) => {
-                link.removeEventListener("click", () => { });
-            });
-            console.log("Cleaned up animations and event listeners");
         };
     }, []);
 
+    const handleViewMore = () => {
+        setShowAllServices(!showAllServices);
+        setTimeout(() => {
+            ScrollTrigger.refresh();
+        }, 100);
+    };
+
     return (
         <>
+            <style>{`
+                .quanto-service-box.style-2 {
+                    position: relative;
+                    overflow: hidden;
+                    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+                    border: 2px solid transparent;
+                }
+
+                .quanto-service-box.style-2::before {
+                    content: '';
+                    position: absolute;
+                    top: 0;
+                    left: -100%;
+                    width: 100%;
+                    height: 100%;
+                    background: linear-gradient(120deg, transparent, rgba(255, 105, 180, 0.15), transparent);
+                    transition: left 0.6s ease;
+                }
+
+                .quanto-service-box.style-2:hover::before {
+                    left: 100%;
+                }
+
+                .quanto-service-box.style-2:hover {
+                    transform: translateY(-10px);
+                    border-color: #FF69B4;
+                    box-shadow: 0 15px 40px rgba(255, 105, 180, 0.3);
+                }
+
+                .quanto-iconbox-icon {
+                    transition: all 0.4s ease;
+                }
+
+                .quanto-service-box.style-2:hover .quanto-iconbox-icon {
+                    transform: scale(1.1) rotate(5deg);
+                    filter: drop-shadow(0 5px 15px rgba(255, 105, 180, 0.4));
+                }
+
+                .quanto-service-box.style-2:hover .quanto-iconbox-icon img {
+                    animation: iconBounce 0.6s ease;
+                }
+
+                @keyframes iconBounce {
+                    0%, 100% { transform: translateY(0); }
+                    50% { transform: translateY(-10px); }
+                }
+
+                .quanto-service-box.style-2 h5 {
+                    transition: color 0.3s ease;
+                }
+
+                .quanto-service-box.style-2:hover h5 {
+                    color: #FF69B4;
+                }
+
+                .quanto-link-btn {
+                    position: relative;
+                    transition: all 0.3s ease;
+                }
+
+                .quanto-link-btn span {
+                    display: inline-block;
+                    transition: transform 0.3s ease;
+                }
+
+                .quanto-service-box.style-2:hover .quanto-link-btn {
+                    color: #FF69B4;
+                }
+
+                .quanto-service-box.style-2:hover .quanto-link-btn span {
+                    transform: translateX(5px);
+                }
+
+                .quanto-link-btn .arry1 {
+                    transition: all 0.3s ease;
+                }
+
+                .quanto-link-btn .arry2 {
+                    position: absolute;
+                    left: 0;
+                    opacity: 0;
+                    transition: all 0.3s ease;
+                }
+
+                .quanto-service-box.style-2:hover .quanto-link-btn .arry1 {
+                    opacity: 0;
+                    transform: translateX(10px);
+                }
+
+                .quanto-service-box.style-2:hover .quanto-link-btn .arry2 {
+                    opacity: 1;
+                    transform: translateX(5px);
+                }
+
+                .quanto-service-box.style-2 p {
+                    transition: color 0.3s ease;
+                }
+
+                .quanto-service-box.style-2:hover p {
+                    color: #666;
+                }
+
+                .view-more-btn {
+                    background: linear-gradient(135deg, #FF69B4 0%, #FF1493 100%);
+                    border: 2px solid #FF69B4;
+                    color: white;
+                    padding: 15px 35px;
+                    cursor: pointer;
+                    transition: all 0.4s ease;
+                    position: relative;
+                    overflow: hidden;
+                    border-radius: 50px;
+                }
+
+                .view-more-btn::before {
+                    content: '';
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    width: 0;
+                    height: 0;
+                    border-radius: 50%;
+                    background: rgba(255, 255, 255, 0.3);
+                    transform: translate(-50%, -50%);
+                    transition: width 0.6s ease, height 0.6s ease;
+                }
+
+                .view-more-btn:hover::before {
+                    width: 300px;
+                    height: 300px;
+                }
+
+                .view-more-btn:hover {
+                    transform: scale(1.05);
+                    box-shadow: 0 10px 30px rgba(255, 105, 180, 0.4);
+                    border-color: white;
+                }
+
+                .view-more-btn span {
+                    position: relative;
+                    z-index: 1;
+                    display: inline-block;
+                    transition: transform 0.3s ease;
+                }
+
+                .view-more-btn:hover span {
+                    transform: translateY(-3px);
+                }
+
+                @keyframes pulse {
+                    0%, 100% {
+                        box-shadow: 0 0 0 0 rgba(255, 105, 180, 0.7);
+                    }
+                    50% {
+                        box-shadow: 0 0 0 10px rgba(255, 105, 180, 0);
+                    }
+                }
+
+                .quanto-service-box.style-2:hover {
+                    animation: pulse 2s infinite;
+                }
+            `}</style>
             <div className="cursor d-none d-lg-block"></div>
             <Link to="#header" id="scroll-top" className="back-to-top-btn section-link">
                 <i className="fa-solid fa-arrow-up"></i>
             </Link>
             <div>
                 <div id="smooth-content">
-                    {/* <section className="quanto-hero-service-section section-padding-bottom overflow-hidden">
-                        <div className="container custom-container">
-                            <div className="row g-4">
-                                <div className="col-lg-12 col-xxl-11">
-                                    <div className="quanto-hero-service__content move-anim" data-delay="0.45">
-                                        <h1 className="title word-anim" data-delay="0.60">Inspiring leadership through design</h1>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </section> */}
+                    
                     <div className="quanto-video-area style-2 overflow-hidden">
                         <div className="container custom-container position-relative">
                             <Link to="#service-section" className="scroll-down section-link">
@@ -268,7 +408,6 @@ const Service = () => {
                                 <div className="col-12">
                                     <div className="quanto-hero__thumb text-end fade-anim" data-delay="0.30" data-direction="bottom">
                                         <img
-                                            // src="assets/images/hero/common-hero-thumb.png"
                                             src="ServiceImages/horse.webp"
                                             alt="hero-thumb"
                                             data-speed="0.8"
@@ -281,6 +420,7 @@ const Service = () => {
                             </div>
                         </div>
                     </div>
+
                     <section className="quanto-service2-section section-padding-top-bottom overflow-hidden" id="service-section">
                         <div className="container custom-container">
                             <div className="row gx-4 gy-5 justify-content-between">
@@ -323,72 +463,59 @@ const Service = () => {
                             </div>
                         </div>
                     </section>
-                    <section className="quanto-pricing-area bg-color-2 section-padding-top-bottom">
+
+                    <section className="quanto-service2-section bg-color-2 section-padding-top-bottom overflow-hidden" id="all-services-section">
                         <div className="container custom-container">
-                            <div className="row">
+                            <div className="row gx-4 gy-5">
                                 <div className="col-12">
-                                    <div className="quanto__header">
-                                        <h3 className="title text-center text-lg-start fade-anim word-anim" data-delay="0.30" data-direction="left">
-                                            Find your right plan
-                                        </h3>
+                                    <div className="quanto__header text-center text-lg-start">
+                                        <h3 className="title move-anim word-anim" data-delay="0.30">Our Complete Service Portfolio</h3>
                                     </div>
                                 </div>
                             </div>
-                            <div className="row g-4 row-padding-top">
-                                {[
-                                    { title: "Standard", price: "$990", desc: "Ideal for small businesses or startups." },
-                                    { title: "Professional", price: "$1800", desc: "Ideal for small businesses or startups." },
-                                    { title: "Enterprise", price: "$2900", desc: "Ideal for small businesses or startups." },
-                                ].map((plan, index) => (
-                                    <div key={index} className="col-md-6 col-xl-4">
-                                        <div className="quanto-pricing-box bg-white fade-anim" data-delay={0.30 + index * 0.15} data-direction="right">
-                                            <h5 className="pricing-title word-anim" data-delay={0.30 + index * 0.15}>{plan.title}</h5>
-                                            <p className="pricing-info move-anim" data-delay={0.45 + index * 0.15}>{plan.desc}</p>
-                                            <h3 className="pricing move-anim" data-delay={0.60 + index * 0.15}>{plan.price}</h3>
-                                            <div className="pricing-list">
-                                                <ul className="custom-ul">
-                                                    {[
-                                                        "Access to all basic features",
-                                                        "Work customization",
-                                                        "Mobile and desktop app",
-                                                        "Access to all design templates",
-                                                        "Priority customer support",
-                                                    ].map((feature, idx) => (
-                                                        <li key={idx} className="move-anim" data-delay={0.75 + index * 0.15 + idx * 0.05}>
-                                                            <svg
-                                                                xmlns="http://www.w3.org/2000/svg"
-                                                                width="24"
-                                                                height="24"
-                                                                viewBox="0 0 24 24"
-                                                                fill="none"
-                                                            >
-                                                                <path
-                                                                    fillRule="evenodd"
-                                                                    clipRule="evenodd"
-                                                                    d="M8.26686 17.2517L23.3996 2.09009C18.5966 8.6869 13.7937 15.2841 9.01958 21.9098L0.599609 11.6671C3.17479 13.5188 5.72074 15.3708 8.2673 17.2513L8.26686 17.2517Z"
-                                                                    fill="currentColor"
-                                                                />
-                                                            </svg>
-                                                            {feature}
-                                                        </li>
-                                                    ))}
-                                                </ul>
+                            <div className="row g-114 quanto-service2__row row-padding-top">
+                                {displayedServices.map((service, index) => (
+                                    <div key={index} className="col-md-6 col-xl-3 fade-anim" data-delay={0.30 + (index % 8) * 0.15} data-direction="right">
+                                        <div className="quanto-service-box style-2">
+                                            <div className="quanto-iconbox-icon">
+                                                <img src={service.icon} alt="service-icon" loading="lazy" />
                                             </div>
-                                            <Link to="/contact" className="quanto-link-btn btn-pill">
-                                                Go with this plan
-                                                <span>
-                                                    <i className="fa-solid fa-arrow-right arry1"></i>
-                                                    <i className="fa-solid fa-arrow-right arry2"></i>
-                                                </span>
-                                            </Link>
+                                            <div className="quanto-iconbox-data">
+                                                <div className="quanto-iconbox-data-wrapper">
+                                                    <h5 className="word-anim" data-delay={0.30 + (index % 8) * 0.15}>{service.title}</h5>
+                                                    <p className="move-anim" data-delay={0.45 + (index % 8) * 0.15}>{service.desc}</p>
+                                                </div>
+                                                <Link to="/service-details" className="quanto-link-btn">
+                                                    View details
+                                                    <span>
+                                                        <i className="fa-solid fa-arrow-right arry1"></i>
+                                                        <i className="fa-solid fa-arrow-right arry2"></i>
+                                                    </span>
+                                                </Link>
+                                            </div>
                                         </div>
                                     </div>
                                 ))}
                             </div>
+                            {hasMoreServices && (
+                                <div className="row">
+                                    <div className="col-12 text-center" style={{ marginTop: '40px' }}>
+                                        <button 
+                                            onClick={handleViewMore}
+                                            className="view-more-btn"
+                                        >
+                                            {showAllServices ? 'View Less' : 'View More Services'}
+                                            <span>
+                                                <i className={`fa-solid fa-arrow-${showAllServices ? 'up' : 'down'} arry1`}></i>
+                                                <i className={`fa-solid fa-arrow-${showAllServices ? 'up' : 'down'} arry2`}></i>
+                                            </span>
+                                        </button>
+                                    </div>
+                                </div>
+                            )}
                         </div>
                     </section>
                 </div>
-
             </div>
         </>
     );

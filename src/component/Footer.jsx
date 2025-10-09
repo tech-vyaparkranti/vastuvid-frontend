@@ -16,6 +16,17 @@ const Footer = () => {
     }, [])
     return (
         <>
+        <style>{`
+            .footer-divider {
+                    width: 100%;
+                    height: 3px;
+                    background: linear-gradient(90deg, #f2ebeeff, #f0ebedff);
+                    margin: 15px 0;
+                    border-radius: 2px;
+            }
+        
+        `}</style>
+         
             <footer className="footer-area bg-color-primary overflow-hidden">
                 <div className="marquee-container fade-anim">
                     <div className="marquee">
@@ -38,6 +49,8 @@ const Footer = () => {
                         </a>
                     </div>
                 </div>
+                <div className="footer-divider"></div>
+
                 <div className="footer__center section-padding-top-bottom">
                     <div className="container custom-container">
                         <div className="row">

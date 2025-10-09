@@ -1,13 +1,7 @@
 import React, { useEffect, useRef } from 'react';
-import logo3 from "../assets/images/clients/logo-3.png";
-import logo4 from "../assets/images/clients/logo-4.png";
-import logo5 from "../assets/images/clients/logo-5.png";
-import logo6 from "../assets/images/clients/logo-6.png";
-import logo7 from "../assets/images/clients/logo-7.png";
-import logo8 from "../assets/images/clients/logo-8.png"; // Fixed duplicate import
+import { Link } from 'react-router-dom';
 import 'swiper/css';
 import { SplitText } from 'gsap/SplitText';
-
 import 'swiper/css/navigation';
 import 'swiper/css/autoplay';
 import 'odometer/themes/odometer-theme-default.css';
@@ -20,10 +14,10 @@ import { Swiper } from 'swiper';
 import { Navigation, Autoplay, EffectFade } from 'swiper/modules';
 import Odometer from 'odometer';
 import Aos from 'aos';
+import VastuMissionVision from './VastuMissionVision';
 
 // Register GSAP plugins
 gsap.registerPlugin(ScrollTrigger, ScrollSmoother, SplitText);
-// Register Swiper modules
 Swiper.use([Navigation, Autoplay, EffectFade]);
 
 const About = () => {
@@ -34,18 +28,12 @@ const About = () => {
     useEffect(() => {
         Aos.init({
             duration: 2000,
-            once: false, // Allow animations to replay on scroll
-            mirror: true, // Animate elements when scrolling past them again
+            once: false,
+            mirror: true,
         });
-        // GSAP Context 
-        // for cleanup
+
         gsapContext.current = gsap.context(() => {
-            // Preloader
             $(".preloader").delay(800).fadeOut("slow");
-
-            // Sticky Menu
-
-            // Set Background Image
 
             // Custom Cursor
             const cursor = document.querySelector(".cursor");
@@ -61,7 +49,30 @@ const About = () => {
                 });
             }
 
-            //  Odometer Counter
+            // Floating Symbols Animation
+            gsap.to(".floating-symbol", {
+                y: "random(-30, 30)",
+                x: "random(-20, 20)",
+                rotation: "random(-15, 15)",
+                duration: "random(3, 5)",
+                repeat: -1,
+                yoyo: true,
+                ease: "sine.inOut",
+                stagger: {
+                    amount: 2,
+                    from: "random"
+                }
+            });
+
+            // Mandala Rotation
+            gsap.to(".mandala-bg", {
+                rotation: 360,
+                duration: 60,
+                repeat: -1,
+                ease: "none"
+            });
+
+            // Odometer Counter
             document.querySelectorAll(".counter-item .odometer").forEach((el) => {
                 const odometer = new Odometer({
                     el: el,
@@ -81,187 +92,6 @@ const About = () => {
                 );
                 observer.observe(el);
             });
-
-            // Swiper Sliders
-            // const initializeSwiper = (selector, config) => {
-            //     const element = document.querySelector(selector);
-            //     if (element) {
-            //         const swiper = new Swiper(element, config);
-            //         swiperInstances.current.push(swiper);
-            //         return swiper;
-            //     }
-            //     return null;
-            // };
-
-            // Testimonial Content Slider
-            // const thumbSlider = initializeSwiper(".quanto-testimonial__thumb-slider", {
-            //     effect: "fade",
-            //     fadeEffect: { crossFade: true },
-            //     loop: true,
-            //     allowTouchMove: false,
-            // });
-
-            // initializeSwiper(".quanto-testimonial__content-slider", {
-            //     spaceBetween: 24,
-            //     slidesPerView: 1,
-            //     loop: true,
-            //     speed: 800,
-            //     navigation: {
-            //         nextEl: ".quanto-testimonial__next",
-            //         prevEl: ".quanto-testimonial__prev",
-            //     },
-            //     thumbs: thumbSlider ? { swiper: thumbSlider } : undefined,
-            //     allowTouchMove: thumbSlider ? false : true,
-            // });
-
-            // Project Slider
-            // initializeSwiper(".quanto-project__slider", {
-            //     slidesPerView: 1,
-            //     loop: true,
-            //     spaceBetween: 15,
-            //     navigation: {
-            //         nextEl: ".quanto-project__slider-navigation .next-btn",
-            //         prevEl: ".quanto-project__slider-navigation .prev-btn",
-            //     },
-            //     breakpoints: {
-            //         576: { spaceBetween: 20, slidesPerView: 1.3 },
-            //         768: { spaceBetween: 25, slidesPerView: 1.5 },
-            //         992: { spaceBetween: 30, slidesPerView: 2 },
-            //         1200: { spaceBetween: 40, slidesPerView: 2.3 },
-            //     },
-            // });
-
-            // // Testimonial2 Slider
-            // initializeSwiper(".quanto-testimonial2__slider", {
-            //     loop: true,
-            //     slidesPerView: 1,
-            //     spaceBetween: 10,
-            //     autoplay: { delay: 3000, disableOnInteraction: false },
-            //     breakpoints: {
-            //         768: { slidesPerView: 2, spaceBetween: 25 },
-            //         1200: { spaceBetween: 30, slidesPerView: 2 },
-            //         1400: { spaceBetween: 40, slidesPerView: 2.5 },
-            //     },
-            // });
-
-            // Testimonial3 Slider
-            // initializeSwiper(".testimonial3-slider", {
-            //     slidesPerView: 1,
-            //     spaceBetween: 20,
-            //     loop: true,
-            //     navigation: {
-            //         nextEl: ".testimonial3-navigation .next-btn",
-            //         prevEl: ".testimonial3-navigation .prev-btn",
-            //     },
-            //     autoplay: { delay: 5000, disableOnInteraction: false },
-            // });
-
-            // // Marquee
-            // $(".marquee").each(function () {
-            //     const $marquee = $(this);
-            //     const $itemContainer = $marquee.find(".marquee-item-container");
-            //     const elements = $itemContainer.find(".marquee-item").length;
-            //     const repeatCount = elements < 5 ? 5 : elements;
-            //     for (let i = 0; i < repeatCount; i++) {
-            //         $itemContainer.clone().appendTo($marquee);
-            //     }
-            // });
-
-
-
-            // Hover Overlay Animations
-            // document.querySelectorAll(".quanto-pricing-box, .process-box").forEach((box) => {
-            //     const overlay = document.createElement("div");
-            //     overlay.className = "hover-overlay";
-            //     box.insertBefore(overlay, box.firstChild);
-            //     gsap.set(overlay, { autoAlpha: 0, x: 0, y: 0 });
-
-            //     const getDirection = (box, event) => {
-            //         const rect = box.getBoundingClientRect();
-            //         const mouseX = event.clientX - rect.left;
-            //         const mouseY = event.clientY - rect.top;
-            //         const centerX = rect.width / 2;
-            //         const centerY = rect.height / 2;
-            //         const relativeX = mouseX - centerX;
-            //         const relativeY = mouseY - centerY;
-            //         const angle = Math.atan2(relativeY, relativeX);
-            //         const degrees = angle * (180 / Math.PI);
-            //         if (degrees >= -45 && degrees <= 45) return "right";
-            //         if (degrees > 45 && degrees <= 135) return "bottom";
-            //         if (degrees > 135 || degrees <= -135) return "left";
-            //         return "top";
-            //     };
-
-            //     box.addEventListener("mouseenter", (e) => {
-            //         const direction = getDirection(box, e);
-            //         const animProps = {
-            //             autoAlpha: 1,
-            //             x: 0,
-            //             y: 0,
-            //             duration: 0.5,
-            //             ease: "power2.out",
-            //         };
-            //         const distance = 100;
-            //         if (direction === "right") animProps.startX = `${distance}%`;
-            //         if (direction === "left") animProps.startX = `-${distance}%`;
-            //         if (direction === "bottom") animProps.startY = `${distance}%`;
-            //         if (direction === "top") animProps.startY = `-${distance}%`;
-            //         gsap.fromTo(overlay, { autoAlpha: 0, x: animProps.startX || 0, y: animProps.startY || 0 }, animProps);
-            //     });
-
-            //     box.addEventListener("mouseleave", (e) => {
-            //         const direction = getDirection(box, e);
-            //         const animProps = {
-            //             autoAlpha: 0,
-            //             duration: 0.5,
-            //             ease: "power2.in",
-            //         };
-            //         const distance = 100;
-            //         if (direction === "right") animProps.x = `${distance}%`;
-            //         if (direction === "left") animProps.x = `-${distance}%`;
-            //         if (direction === "bottom") animProps.y = `${distance}%`;
-            //         if (direction === "top") animProps.y = `-${distance}%`;
-            //         gsap.to(overlay, animProps);
-            //     });
-            // });
-
-            // Video Control
-            const video = document.getElementById("quanto-video-2");
-            const playBtn = document.querySelector(".play-btn");
-            if (video && playBtn) {
-                video.pause();
-                playBtn.addEventListener("click", () => {
-                    video.play();
-                    playBtn.classList.add("disabled");
-                    video.classList.add("pointer");
-                });
-                video.addEventListener("click", () => {
-                    if (playBtn.classList.contains("disabled")) {
-                        video.pause();
-                        playBtn.classList.remove("disabled");
-                        video.classList.remove("pointer");
-                    }
-                });
-            }
-
-            // Horizontal Scroll
-            // if (window.innerWidth > 1199) {
-            //     const horizontalSection = document.querySelector(".horizontal-scroll");
-            //     if (horizontalSection) {
-            //         gsap.to(horizontalSection, {
-            //             x: () => horizontalSection.scrollWidth * -1,
-            //             xPercent: 100,
-            //             scrollTrigger: {
-            //                 trigger: horizontalSection,
-            //                 start: "center center",
-            //                 end: "+=3000px",
-            //                 pin: true,
-            //                 scrub: true,
-            //                 invalidateOnRefresh: true,
-            //             },
-            //         });
-            //     }
-            // }
 
             // Move Animation
             document.querySelectorAll(".move-anim").forEach((splitTextLine) => {
@@ -342,203 +172,683 @@ const About = () => {
                 gsap.from(split_word.words, animation_settings);
             });
 
-            // Hero Video Animation
-            if (window.innerWidth >= 768) {
-                const heroThumb = document.querySelector(".quanto-hero__thumb");
-                if (heroThumb) {
-                    const videoWrapper = heroThumb.querySelector(".video-wrapper");
-                    if (videoWrapper) {
-                        gsap.timeline({
-                            scrollTrigger: {
-                                trigger: heroThumb,
-                                start: "top 70",
-                                pin: true,
-                                scrub: 1,
-                                pinSpacing: true,
-                                end: "bottom top",
-                            },
-                        }).to(videoWrapper, {
-                            width: "100%",
-                            duration: 1.5,
-                            ease: "power2.inOut",
-                        });
-                    }
-                }
-            }
-
-            // Image Reveal Animation
-            document.querySelectorAll(".img_reveal").forEach((img_reveal) => {
-                const image = img_reveal.querySelector("img");
-                const tl = gsap.timeline({
+            // Belief Section Cards Animation
+            gsap.utils.toArray(".belief-card").forEach((card, i) => {
+                gsap.from(card, {
                     scrollTrigger: {
-                        trigger: img_reveal,
-                        start: "top 70%",
+                        trigger: card,
+                        start: "top 80%",
                     },
+                    y: 100,
+                    opacity: 0,
+                    duration: 1,
+                    delay: i * 0.2,
+                    ease: "power2.out"
                 });
-                tl.set(img_reveal, { autoAlpha: 1 })
-                    .from(img_reveal, { xPercent: -100, ease: "power2.out", duration: 1 })
-                    .from(image, { xPercent: 100, scale: 1.5, ease: "power2.out", duration: 1.5 }, "-=1.5");
             });
 
-            // Service Section Pinning
-            if (window.innerWidth >= 1200 && document.querySelector(".quanto-service2-section")) {
-                ScrollTrigger.create({
-                    trigger: ".quanto-service2-section",
-                    start: "top -1%",
-                    end: "bottom 110.5%",
-                    pin: ".quanto-service2-section .quanto__header",
-                    pinSpacing: true,
-                });
-            }
-
-            // Blog Social Links
-
-
-            // Section Jump
-
-            // Team Animations
-            if (window.innerWidth >= 992) {
-                document.querySelectorAll(".gsap-sticky").forEach((element) => {
-                    ScrollTrigger.create({
-                        trigger: element,
-                        start: "top 80px",
-                        end: "110% bottom",
-                        pin: element,
-                        pinSpacing: false,
+            // Mission Vision Cards Hover
+            document.querySelectorAll(".mission-vision-card").forEach((card) => {
+                card.addEventListener("mouseenter", () => {
+                    gsap.to(card, {
+                        scale: 1.05,
+                        boxShadow: "0 25px 70px rgba(236, 72, 153, 0.25)",
+                        duration: 0.4,
+                        ease: "power2.out"
                     });
                 });
-            }
 
-            // Hero Background Animation
-            if (document.querySelector('.hero5-bg')) {
-                gsap.set('.hero5-bg', { top: '-300px', scale: 0.5 });
-                gsap.to('.hero5-bg', {
-                    duration: 2,
-                    top: '0px',
-                    scale: 1,
-                    ease: 'power2.out',
-                    delay: 0.6,
+                card.addEventListener("mouseleave", () => {
+                    gsap.to(card, {
+                        scale: 1,
+                        boxShadow: "0 15px 40px rgba(0, 0, 0, 0.1)",
+                        duration: 0.4,
+                        ease: "power2.in"
+                    });
                 });
-            }
+            });
+
+            // Team Card Hover
+            document.querySelectorAll(".vastu-team-card").forEach((box) => {
+                const overlay = document.createElement("div");
+                overlay.className = "hover-overlay-vastu";
+                box.insertBefore(overlay, box.firstChild);
+                gsap.set(overlay, { autoAlpha: 0, scale: 0.8 });
+
+                box.addEventListener("mouseenter", () => {
+                    gsap.to(overlay, {
+                        autoAlpha: 1,
+                        scale: 1,
+                        duration: 0.6,
+                        ease: "power2.out",
+                    });
+                    gsap.to(box, {
+                        y: -10,
+                        boxShadow: "0 20px 60px rgba(236, 72, 153, 0.3)",
+                        duration: 0.4,
+                        ease: "power2.out"
+                    });
+                });
+
+                box.addEventListener("mouseleave", () => {
+                    gsap.to(overlay, {
+                        autoAlpha: 0,
+                        scale: 0.8,
+                        duration: 0.6,
+                        ease: "power2.in",
+                    });
+                    gsap.to(box, {
+                        y: 0,
+                        boxShadow: "0 10px 30px rgba(0, 0, 0, 0.1)",
+                        duration: 0.4,
+                        ease: "power2.in"
+                    });
+                });
+            });
         });
 
-        // Cleanup
         return () => {
             swiperInstances.current.forEach((swiper) => swiper.destroy(true, true));
             if (smootherRef.current) smootherRef.current.kill();
             gsapContext.current.revert();
-            window.removeEventListener("scroll", () => { });
-            window.removeEventListener("mousemove", () => { });
-            document.querySelectorAll("a, .cursor-pointer").forEach((item) => {
-                item.removeEventListener("mouseover", () => { });
-                item.removeEventListener("mouseout", () => { });
-            });
-            document.querySelectorAll(".section-link").forEach((link) => {
-                link.removeEventListener("click", () => { });
-            });
-            console.log("Cleaned up animations and event listeners");
         };
     }, []);
 
     return (
         <>
+            <style>{`
+                .vastu-page {
+                    background: linear-gradient(135deg, #fff5f7 0%, #ffffff 50%, #fff0f5 100%);
+                }
+
+                /* Banner Section */
+                .vastu-banner {
+                    position: relative;
+                    min-height: 70vh;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    overflow: hidden;
+                    background: linear-gradient(135deg, rgba(236, 72, 153, 0.05) 0%, rgba(255, 255, 255, 0.95) 100%);
+                }
+
+                .banner-content {
+                    position: relative;
+                    z-index: 2;
+                    text-align: center;
+                    padding: 60px 20px;
+                }
+
+                .banner-title {
+                    font-size: 3.5rem;
+                    font-weight: 700;
+                    color: #1a1a1a;
+                    font-family: 'Georgia', serif;
+                    margin-bottom: 20px;
+                    line-height: 1.2;
+                }
+
+                .banner-subtitle {
+                    font-size: 1.3rem;
+                    color: #ec4899;
+                    font-weight: 500;
+                    margin-bottom: 30px;
+                }
+
+                .banner-description {
+                    font-size: 1.1rem;
+                    color: #666;
+                    max-width: 700px;
+                    margin: 0 auto 40px;
+                    line-height: 1.8;
+                }
+
+                /* Floating Elements */
+                .mandala-bg {
+                    position: absolute;
+                    width: 800px;
+                    height: 800px;
+                    top: -200px;
+                    right: -200px;
+                    opacity: 0.12;
+                    pointer-events: none;
+                    z-index: 0;
+                    filter: drop-shadow(0 0 20px rgba(190, 24, 93, 0.3));
+                }
+
+                .floating-symbols {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    pointer-events: none;
+                    z-index: 1;
+                }
+
+                .floating-symbol {
+                    position: absolute;
+                    font-size: 2rem;
+                    opacity: 0.08;
+                    color: #ec4899;
+                }
+
+                /* Belief Section */
+                .belief-section {
+                    position: relative;
+                    padding: 100px 0;
+                }
+
+                .belief-header {
+                    text-align: center;
+                    margin-bottom: 60px;
+                }
+
+                .belief-title {
+                    font-size: 2.5rem;
+                    font-weight: 700;
+                    color: #1a1a1a;
+                    font-family: 'Georgia', serif;
+                    margin-bottom: 20px;
+                }
+
+                .belief-grid {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+                    gap: 30px;
+                    margin-top: 50px;
+                }
+
+                .belief-card {
+                    background: white;
+                    padding: 40px 30px;
+                    border-radius: 20px;
+                    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08);
+                    transition: all 0.4s ease;
+                    border: 2px solid transparent;
+                    position: relative;
+                    overflow: hidden;
+                }
+
+                .belief-card::before {
+                    content: '';
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 4px;
+                    background: linear-gradient(90deg, #ec4899, #db2777);
+                }
+
+                .belief-card:hover {
+                    transform: translateY(-10px);
+                    border-color: #ec4899;
+                    box-shadow: 0 25px 60px rgba(236, 72, 153, 0.2);
+                }
+
+                .belief-icon {
+                    width: 70px;
+                    height: 70px;
+                    background: linear-gradient(135deg, #ec4899, #db2777);
+                    border-radius: 50%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-size: 2rem;
+                    color: white;
+                    margin-bottom: 25px;
+                }
+
+                .belief-card-title {
+                    font-size: 1.4rem;
+                    font-weight: 600;
+                    color: #1a1a1a;
+                    margin-bottom: 15px;
+                }
+
+                .belief-card-text {
+                    color: #666;
+                    line-height: 1.7;
+                    font-size: 1rem;
+                }
+
+                /* Milestone Section */
+                .milestone-section {
+                    background: white;
+                    padding: 80px 0;
+                    position: relative;
+                }
+
+                .milestone-grid {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                    gap: 40px;
+                    margin-top: 50px;
+                }
+
+                .milestone-card {
+                    text-align: center;
+                    padding: 30px;
+                    background: linear-gradient(135deg, #fff5f7, #ffffff);
+                    border-radius: 20px;
+                    border: 2px solid #fce7f3;
+                    transition: all 0.3s ease;
+                }
+
+                .milestone-card:hover {
+                    transform: translateY(-5px);
+                    border-color: #ec4899;
+                }
+
+                .milestone-number {
+                    font-size: 3.5rem;
+                    font-weight: 700;
+                    color: #ec4899;
+                    font-family: 'Georgia', serif;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    margin-bottom: 15px;
+                }
+
+                .milestone-label {
+                    font-size: 1.1rem;
+                    color: #666;
+                    font-weight: 500;
+                }
+
+                /* Mission Vision Section */
+                .mission-vision-section {
+                    padding: 100px 0;
+                    position: relative;
+                }
+
+                .mission-vision-grid {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+                    gap: 50px;
+                    margin-top: 60px;
+                }
+
+                .mission-vision-card {
+                    background: white;
+                    padding: 50px 40px;
+                    border-radius: 25px;
+                    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+                    position: relative;
+                    overflow: hidden;
+                    transition: all 0.4s ease;
+                }
+
+                .mission-vision-card::before {
+                    content: '';
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 6px;
+                    height: 100%;
+                    background: linear-gradient(180deg, #ec4899, #db2777);
+                }
+
+                .mv-icon {
+                    width: 80px;
+                    height: 80px;
+                    background: linear-gradient(135deg, #ec4899, #db2777);
+                    border-radius: 20px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-size: 2.5rem;
+                    color: white;
+                    margin-bottom: 25px;
+                }
+
+                .mv-title {
+                    font-size: 2rem;
+                    font-weight: 700;
+                    color: #1a1a1a;
+                    margin-bottom: 20px;
+                    font-family: 'Georgia', serif;
+                }
+
+                .mv-text {
+                    color: #666;
+                    line-height: 1.8;
+                    font-size: 1.05rem;
+                    margin-bottom: 20px;
+                }
+
+                .mv-list {
+                    list-style: none;
+                    padding: 0;
+                    margin: 0;
+                }
+
+                .mv-list li {
+                    padding: 10px 0;
+                    color: #666;
+                    position: relative;
+                    padding-left: 30px;
+                }
+
+                .mv-list li::before {
+                    content: '✓';
+                    position: absolute;
+                    left: 0;
+                    color: #ec4899;
+                    font-weight: bold;
+                    font-size: 1.2rem;
+                }
+
+                /* Team Section Styles */
+                .vastu-team-section {
+                    position: relative;
+                    padding: 100px 0;
+                    overflow: hidden;
+                }
+
+                .vastu-team-card {
+                    position: relative;
+                    background: white;
+                    border-radius: 20px;
+                    overflow: hidden;
+                    transition: all 0.4s ease;
+                    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+                    border: 2px solid transparent;
+                }
+
+                .vastu-team-card:hover {
+                    border-color: #ec4899;
+                }
+
+                .hover-overlay-vastu {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background: linear-gradient(135deg, rgba(236, 72, 153, 0.9) 0%, rgba(219, 39, 119, 0.8) 100%);
+                    z-index: 2;
+                    pointer-events: none;
+                }
+
+                .team-thumb-vastu {
+                    position: relative;
+                    overflow: hidden;
+                    height: 320px;
+                }
+
+                .team-thumb-vastu img {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                    transition: transform 0.6s ease;
+                }
+
+                .vastu-team-card:hover .team-thumb-vastu img {
+                    transform: scale(1.1);
+                }
+
+                .om-symbol {
+                    position: absolute;
+                    top: 20px;
+                    right: 20px;
+                    width: 50px;
+                    height: 50px;
+                    background: rgba(236, 72, 153, 0.9);
+                    border-radius: 50%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    color: white;
+                    font-size: 1.5rem;
+                    font-weight: bold;
+                    z-index: 3;
+                    opacity: 0;
+                    transform: scale(0);
+                    transition: all 0.4s ease;
+                }
+
+                .vastu-team-card:hover .om-symbol {
+                    opacity: 1;
+                    transform: scale(1);
+                }
+
+                .team-content-vastu {
+                    padding: 25px;
+                    position: relative;
+                    z-index: 3;
+                    background: white;
+                }
+
+                .team-name-vastu {
+                    font-size: 1.3rem;
+                    font-weight: 700;
+                    color: #1a1a1a;
+                    margin-bottom: 8px;
+                    font-family: 'Georgia', serif;
+                }
+
+                .team-name-vastu a {
+                    color: #1a1a1a;
+                    text-decoration: none;
+                    transition: color 0.3s ease;
+                }
+
+                .team-name-vastu a:hover {
+                    color: #ec4899;
+                }
+
+                .team-position-vastu {
+                    display: block;
+                    color: #ec4899;
+                    font-size: 0.95rem;
+                    font-weight: 500;
+                    margin-bottom: 15px;
+                }
+
+                .vastu-divider {
+                    width: 60px;
+                    height: 3px;
+                    background: linear-gradient(90deg, #ec4899, #db2777);
+                    margin: 15px 0;
+                    border-radius: 2px;
+                }
+
+                .social-links-vastu {
+                    display: flex;
+                    gap: 12px;
+                    list-style: none;
+                    padding: 0;
+                    margin: 0;
+                }
+
+                .social-links-vastu li a {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    width: 38px;
+                    height: 38px;
+                    background: #fff5f7;
+                    color: #ec4899;
+                    border-radius: 50%;
+                    transition: all 0.3s ease;
+                    text-decoration: none;
+                }
+
+                .social-links-vastu li a:hover {
+                    background: #ec4899;
+                    color: white;
+                    transform: translateY(-3px);
+                }
+
+                @media (max-width: 768px) {
+                    .banner-title {
+                        font-size: 2.5rem;
+                    }
+                    .mission-vision-grid {
+                        grid-template-columns: 1fr;
+                    }
+                    .team-thumb-vastu {
+                        height: 280px;
+                    }
+                }
+            `}</style>
+
             <div className="cursor d-none d-lg-block"></div>
-            <a href="#" id="scroll-top" className="back-to-top-btn">
-                <i className="fa-solid fa-arrow-up"></i>
-            </a>
-            <div>
-                <div id="smooth-content">
-                    <section className="quanto-hero-about-section overflow-hidden">
-                        <div className="container custom-container">
-                            <div className="row g-4 align-items-end">
-                                <div className="col-lg-9 col-xxl-10">
-                                    <div className="quanto-hero-about__content move-anim" data-delay="0.45">
-                                        <h1 className="title">
-                                            California-based team driving creative branding solutions
-                                        </h1>
-                                    </div>
-                                </div>
-                                <div className="col-lg-3 col-xxl-2">
-                                    <div className="quanto-hero-about__info fade-anim" data-delay="0.60">
-                                        <h4 className="rating-point">4.8</h4>
-                                        <div className="stars">
-                                            <ul className="custom-ul">
-                                                {[...Array(5)].map((_, index) => (
-                                                    <li key={index}>
-                                                        <svg
-                                                            xmlns="http://www.w3.org/2000/svg"
-                                                            width="24"
-                                                            height="24"
-                                                            viewBox="0 0 24 24"
-                                                            fill="none"
-                                                        >
-                                                            <path
-                                                                fillRule="evenodd"
-                                                                clipRule="evenodd"
-                                                                d="M14.8328 9.16783L12 0L9.16718 9.16783H0L7.41641 14.8339L4.58359 24.0017L12 18.3357L19.4164 24.0017L16.9734 16.0956L12.6545 17.7925L16.5841 14.8355L16.5836 14.8339L24 9.16783H14.8328Z"
-                                                                fill="#0F0F0F"
-                                                            />
-                                                        </svg>
-                                                    </li>
-                                                ))}
-                                            </ul>
-                                        </div>
-                                        <p className="word-anim" data-delay="0.60">
-                                            2500+ reviews based on client feedback
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
-                    <div className="quanto-video-area style-2 overflow-hidden">
-                        <div className="container custom-container position-relative">
-                            <a href="#quanto-funfacts-section" className="scroll-down section-link">
-                                Scroll down
-                                <img src="./assets/images/icons/scroll-down.svg" alt="Scroll down" loading="lazy" />
-                            </a>
-                            <div className="row">
-                                <div className="col-12">
-                                    <video
-                                        muted
-                                        autoPlay
-                                        loop
-                                        playsInline
-                                        src="https://res.cloudinary.com/ducryslbe/video/upload/v1740329511/Quanto/video.sakebul.com.mp4"
-                                        className="quanto-video"
-                                        id="quanto-video-2"
-                                        data-speed="0.8"
-                                        onError={(e) => console.error("Video failed to load", e)}
-                                    />
-                                    <button className="play-btn">Play</button>
-                                </div>
-                            </div>
-                        </div>
+            <div className="preloader">
+                <div className="spinner-wrap">
+                    <div className="preloader-logo">
+                        <img src="/assets/images/VastuLogo.png" alt="Preloader" className="img-fluid" loading="lazy" />
                     </div>
-                    <section id="quanto-funfacts-section" className="quanto-funfacts-section section-padding-top overflow-hidden">
+                    <div className="spinner"></div>
+                </div>
+            </div>
+            <Link to="#header" id="scroll-top" className="back-to-top-btn section-link">
+                <i className="fa-solid fa-arrow-up"></i>
+            </Link>
+
+            <div className="vastu-page">
+                <div id="smooth-content">
+                    {/* Banner Section */}
+                    <section className="vastu-banner">
+                        <svg className="mandala-bg" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="100" cy="100" r="80" fill="none" stroke="#be185d" strokeWidth="2"/>
+                            <circle cx="100" cy="100" r="60" fill="none" stroke="#be185d" strokeWidth="1.8"/>
+                            <circle cx="100" cy="100" r="40" fill="none" stroke="#be185d" strokeWidth="1.5"/>
+                            <circle cx="100" cy="100" r="20" fill="none" stroke="#be185d" strokeWidth="1.2"/>
+                            {[...Array(12)].map((_, i) => (
+                                <line 
+                                    key={i}
+                                    x1="100" 
+                                    y1="100" 
+                                    x2={100 + 80 * Math.cos((i * 30) * Math.PI / 180)} 
+                                    y2={100 + 80 * Math.sin((i * 30) * Math.PI / 180)}
+                                    stroke="#be185d" 
+                                    strokeWidth="1.5"
+                                />
+                            ))}
+                        </svg>
+
+                        <div className="floating-symbols">
+                            <div className="floating-symbol" style={{top: '10%', left: '5%'}}>🕉️</div>
+                            <div className="floating-symbol" style={{top: '20%', right: '8%'}}>✨</div>
+                            <div className="floating-symbol" style={{top: '60%', left: '3%'}}>☸️</div>
+                            <div className="floating-symbol" style={{top: '70%', right: '5%'}}>🪷</div>
+                            <div className="floating-symbol" style={{top: '40%', left: '50%'}}>🔱</div>
+                        </div>
+
+                        <div className="container">
+                            <div className="banner-content fade-anim" data-direction="bottom">
+                                <h1 className="banner-title word-anim">Transforming Spaces, Enriching Lives</h1>
+                                <p className="banner-subtitle move-anim" data-delay="0.3">Ancient Wisdom for Modern Living</p>
+                                <p className="banner-description move-anim" data-delay="0.45">
+                                    We blend timeless Vastu Shastra principles with contemporary design to create harmonious spaces that promote prosperity, health, and peace.
+                                </p>
+                            </div>
+                        </div>
+                    </section>
+
+                    {/* Belief Section */}
+                    
+                    {/* <section className="quanto-about-area2 bg-color-white section-padding-top">
                         <div className="container custom-container">
                             <div className="row">
-                                <div className="col-12">
-                                    <div className="quanto-funfacts__wrapper">
-                                        {[
-                                            { value: 17, text: "Years of agency experience", unit: "+" },
-                                            { value: 220, text: "Successfully projects done", unit: "+" },
-                                            { value: 46, text: "World-wide team members", unit: "+" },
-                                            { value: 98, text: "Clients satisfied & retention", unit: "%" },
-                                        ].map((fact, index) => (
-                                            <div key={index} className="quanto-funfact-box fade-anim" data-delay="0.30" data-direction="right">
-                                                <h2 className="counter-item d-inline-flex align-items-center">
-                                                    <span className="odometer d-inline-block" data-odometer-final={fact.value}>0</span>
-                                                    <em>{fact.unit}</em>
-                                                </h2>
-                                                <span className="funfact-info">{fact.text}</span>
+                                <div className="col-xl-9 col-xxl-8 mx-auto">
+                                    <div className="quanto__header text-center text-lg-start">
+                                        <h3 className="title move-anim">
+                                            We believe in the power of Vastu to elevate living spaces and bring prosperity
+                                        </h3>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="row g-4 justify-content-between row-padding-top overflow-hidden">
+                                <div className="col-md-6 col-xl-5 col-xxl-4 d-flex align-items-xl-center order-1 order-xl-0 overflow-hidden">
+                                    <div className="img_reveal overflow-hidden">
+                                        <img
+                                            src="/assets/images/about/about-thumb-2-1.png"
+                                            alt="Vastu consultation"
+                                            className="w-100"
+                                            loading="lazy"
+                                        />
+                                    </div>
+                                </div>
+                                <div className="col-xl-5 col-xxl-4 order-0 order-xl-1">
+                                    <div className="section-content">
+                                        <p className="move-anim" data-duration="0.01">
+                                            Our approach is rooted in ancient Vastu Shastra wisdom, harmonizing the five elements to create spaces that promote health, wealth, and happiness. We understand your unique needs and transform them into balanced environments that resonate with positive energy.
+                                        </p>
+                                        <p className="move-anim" data-duration="0.01">
+                                            Whether it's a residential property, commercial space, or spiritual sanctuary, we apply authentic Vastu principles with meticulous attention to directional alignments, energy flow, and cosmic balance.
+                                        </p>
+                                        <Link className="quanto-link-btn" to="/about">
+                                            More about us
+                                            <span>
+                                                <i className="fa-solid fa-arrow-right arry1"></i>
+                                                <i className="fa-solid fa-arrow-right arry2"></i>
+                                            </span>
+                                        </Link>
+                                        <figure className="overflow-hidden">
+                                            <div className="img_reveal overflow-hidden">
+                                                <img
+                                                    src="/assets/images/about/about-thumb-2-2.png"
+                                                    alt="Vastu design"
+                                                    loading="lazy"
+                                                />
                                             </div>
-                                        ))}
+                                        </figure>
+                                    </div>
+                                </div>
+                                <div className="col-md-6 col-xl-2 d-flex align-items-xl-center order-xl-2 overflow-hidden">
+                                    <div className="img_reveal overflow-hidden">
+                                        <img
+                                            src="/assets/images/about/about-thumb-2-3.png"
+                                            alt="Vastu architecture"
+                                            className="w-100"
+                                            loading="lazy"
+                                        />
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </section>
+                        
+                        <div className="container custom-container section-margin-top">
+                            <div className="belief-grid">
+                                <div className="belief-card">
+                                    <div className="belief-icon">🏛️</div>
+                                    <h4 className="belief-card-title">Traditional Wisdom</h4>
+                                    <p className="belief-card-text">
+                                        Rooted in thousands of years of Vedic knowledge, we apply authentic Vastu principles to every project with precision and care.
+                                    </p>
+                                </div>
+
+                                <div className="belief-card">
+                                    <div className="belief-icon">✨</div>
+                                    <h4 className="belief-card-title">Energy Balance</h4>
+                                    <p className="belief-card-text">
+                                        We create spaces that harmonize the five elements and optimize positive energy flow throughout your property.
+                                    </p>
+                                </div>
+
+                                <div className="belief-card">
+                                    <div className="belief-icon">🧭</div>
+                                    <h4 className="belief-card-title">Directional Science</h4>
+                                    <p className="belief-card-text">
+                                        Precise alignment and placement based on cardinal directions to maximize benefits and minimize doshas.
+                                    </p>
+                                </div>
+
+                                <div className="belief-card">
+                                    <div className="belief-icon">💎</div>
+                                    <h4 className="belief-card-title">Holistic Approach</h4>
+                                    <p className="belief-card-text">
+                                        We consider every aspect of your space - from architecture to interior design - for complete cosmic harmony.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </section> */}
+
                     <section className="quanto-about-area2 bg-color-white section-padding-top">
                         <div className="container custom-container">
                             <div className="row">
@@ -599,7 +909,7 @@ const About = () => {
                                 </div>
                             </div>
                         </div>
-                        <div className="marquee-container section-margin-top fade-anim">
+                        {/* <div className="marquee-container section-margin-top fade-anim">
                             <div className="marquee">
                                 <a className="marquee-item-container" href="contact.html">
                                     <div className="marquee-item">
@@ -610,73 +920,170 @@ const About = () => {
                                     </div>
                                 </a>
                             </div>
-                        </div>
+                        </div> */}
                     </section>
-                    <section className="quanto-awards-area section-padding-top-bottom overflow-hidden">
+
+                    {/* Milestone Section */}
+                    <section className="milestone-section">
                         <div className="container custom-container">
-                            <div className="row justify-content-end">
-                                <div className="col-lg-10 col-xl-8 col-xxl-7">
-                                    {[
-                                        { title: "Winner - Best eCommerce Websites", info: "Awwwards ─ 2023" },
-                                        { title: "Awarded - Top Creative Agency in United State", info: "Envato Elements ─ 2022" },
-                                        { title: "Mentioned - Honorable Mentioned", info: "Design Community ─ 2022" },
-                                        { title: "Winner - Behance Portfolio Review", info: "Behance ─ 2021" },
-                                        { title: "Winner - Featured App Design of the Week", info: "UI/UX Global Award ─ 2019" },
-                                    ].map((award, index) => (
-                                        <div key={index} className="quanto-awards-box fade-anim">
-                                            <h6 className="awards-title">{award.title}</h6>
-                                            <span className="awards-info">{award.info}</span>
-                                        </div>
-                                    ))}
+                            <div className="text-center">
+                                <h3 className="belief-title word-anim">Our Journey in Numbers</h3>
+                            </div>
+                            <div className="milestone-grid">
+                                <div className="milestone-card fade-anim" data-delay="0.2">
+                                    <div className="milestone-number counter-item">
+                                        <span className="odometer" data-odometer-final="15">0</span>
+                                        <em>+</em>
+                                    </div>
+                                    <p className="milestone-label">Years of Experience</p>
+                                </div>
+
+                                <div className="milestone-card fade-anim" data-delay="0.4">
+                                    <div className="milestone-number counter-item">
+                                        <span className="odometer" data-odometer-final="500">0</span>
+                                        <em>+</em>
+                                    </div>
+                                    <p className="milestone-label">Projects Completed</p>
+                                </div>
+
+                                <div className="milestone-card fade-anim" data-delay="0.6">
+                                    <div className="milestone-number counter-item">
+                                        <span className="odometer" data-odometer-final="25">0</span>
+                                        <em>+</em>
+                                    </div>
+                                    <p className="milestone-label">Expert Team Members</p>
+                                </div>
+
+                                <div className="milestone-card fade-anim" data-delay="0.8">
+                                    <div className="milestone-number counter-item">
+                                        <span className="odometer" data-odometer-final="98">0</span>
+                                        <em>%</em>
+                                    </div>
+                                    <p className="milestone-label">Client Satisfaction</p>
                                 </div>
                             </div>
                         </div>
                     </section>
-                    <section className="quanto-team-area section-padding-bottom">
+
+                    {/* Mission & Vision Section */}
+                    {/* <section className="mission-vision-section">
                         <div className="container custom-container">
-                            <div className="row gx-4 gy-2 align-items-end">
+                            <div className="text-center mb-5">
+                                <h3 className="belief-title word-anim">Our Mission & Vision</h3>
+                            </div>
+                            
+                            <div className="mission-vision-grid">
+                                <div className="mission-vision-card fade-anim" data-direction="left">
+                                    <div className="mv-icon">🎯</div>
+                                    <h4 className="mv-title">Our Mission</h4>
+                                    <p className="mv-text">
+                                        To bring the ancient science of Vastu Shastra into modern living spaces, creating environments that promote health, wealth, and happiness for all our clients.
+                                    </p>
+                                    <ul className="mv-list">
+                                        <li>Preserve and promote traditional Vastu knowledge</li>
+                                        <li>Provide accessible and practical Vastu solutions</li>
+                                        <li>Create harmonious spaces for every budget</li>
+                                        <li>Educate people about energy balance in architecture</li>
+                                        <li>Integrate Vastu with modern design aesthetics</li>
+                                    </ul>
+                                </div>
+
+                                <div className="mission-vision-card fade-anim" data-direction="right">
+                                    <div className="mv-icon">🌟</div>
+                                    <h4 className="mv-title">Our Vision</h4>
+                                    <p className="mv-text">
+                                        To become the most trusted name in Vastu consultation globally, transforming millions of lives by creating spaces that resonate with positive cosmic energy.
+                                    </p>
+                                    <ul className="mv-list">
+                                        <li>Lead the Vastu industry with innovation</li>
+                                        <li>Expand our services to international markets</li>
+                                        <li>Build a community of Vastu practitioners</li>
+                                        <li>Research and validate Vastu principles scientifically</li>
+                                        <li>Make every space a source of prosperity</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </section> */}
+                    <VastuMissionVision/>
+
+                    {/* Team Section */}
+                    <section className="vastu-team-section">
+                        <svg className="mandala-bg" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" style={{left: '-200px', top: '50%'}}>
+                            <circle cx="100" cy="100" r="80" fill="none" stroke="#be185d" strokeWidth="2"/>
+                            <circle cx="100" cy="100" r="60" fill="none" stroke="#be185d" strokeWidth="1.8"/>
+                            <circle cx="100" cy="100" r="40" fill="none" stroke="#be185d" strokeWidth="1.5"/>
+                            <circle cx="100" cy="100" r="20" fill="none" stroke="#be185d" strokeWidth="1.2"/>
+                            {[...Array(12)].map((_, i) => (
+                                <line 
+                                    key={i}
+                                    x1="100" 
+                                    y1="100" 
+                                    x2={100 + 80 * Math.cos((i * 30) * Math.PI / 180)} 
+                                    y2={100 + 80 * Math.sin((i * 30) * Math.PI / 180)}
+                                    stroke="#be185d" 
+                                    strokeWidth="1.5"
+                                />
+                            ))}
+                        </svg>
+
+                        <div className="container custom-container position-relative" style={{zIndex: 2}}>
+                            <div className="row gx-4 gy-2 align-items-end mb-5">
                                 <div className="col-md-9 col-xl-7 col-xxl-6">
                                     <div className="quanto__header">
-                                        <h3 className="title text-center text-md-start fade-anim" data-direction="left">
-                                            Meet our innovative team members
+                                        <h3 className="belief-title text-center text-md-start fade-anim word-anim" data-delay="0.30" data-direction="left">
+                                            Meet Our Vastu Experts
                                         </h3>
                                     </div>
                                 </div>
                                 <div className="col-md-3 col-xl-5 col-xxl-6">
                                     <div className="quanto__headerr d-flex justify-content-center justify-content-lg-end">
-                                        <a className="quanto-link-btn" href="team.html">
-                                            Join the team
+                                        <Link to="/join-team" className="quanto-link-btn">
+                                            Join Our Team
                                             <span>
                                                 <i className="fa-solid fa-arrow-right arry1"></i>
                                                 <i className="fa-solid fa-arrow-right arry2"></i>
                                             </span>
-                                        </a>
+                                        </Link>
                                     </div>
                                 </div>
                             </div>
-                            <div className="row g-4 g-sm-3 g-md-4 row-padding-top">
+
+                            <div className="row gx-4 gy-5 gx-sm-3 gx-md-4">
                                 {[
-                                    { name: "Tony Lixivel", position: "Lead Full Stack Developer", img: "./assets/images/team/team-1.png" },
-                                    { name: "Daniel Schrier", position: "Senior Product Designer", img: "./assets/images/team/team-2.png" },
-                                    { name: "Audrey Tassel", position: "Administrative & HR Assistant", img: "./assets/images/team/team-3.png" },
-                                    { name: "Tanguy Caruel", position: "Chief Technology Officer", img: "./assets/images/team/team-4.png" },
+                                    { name: "Acharya Rajesh Kumar", position: "Chief Vastu Consultant", img: "/assets/images/team/team-1.png", link: "/team-details" },
+                                    { name: "Dr. Priya Sharma", position: "Senior Vastu Architect", img: "/assets/images/team/team-2.png", link: "/team-details" },
+                                    { name: "Pandit Vikram Singh", position: "Vedic Vastu Specialist", img: "/assets/images/team/team-3.png", link: "/team-details" },
+                                    { name: "Anjali Mehta", position: "Residential Vastu Expert", img: "/assets/images/team/team-4.png", link: "/team-details" },
                                 ].map((member, index) => (
                                     <div key={index} className="col-sm-6 col-md-6 col-lg-4 col-xl-3">
-                                        <div className="quanto-team-box fade-anim" data-delay={0.30 + index * 0.15} data-direction="right">
-                                            <figure className="team-thumb">
-                                                <img src={member.img} alt="team" className="w-100" loading="lazy" />
-                                                <ul className="custom-ul">
-                                                    <li><a href="#"><i className="fa-brands fa-facebook-f"></i></a></li>
-                                                    <li><a href="#"><i className="fa-brands fa-x-twitter"></i></a></li>
-                                                    <li><a href="#"><i className="fa-brands fa-instagram"></i></a></li>
-                                                    <li><a href="#"><i className="fa-brands fa-linkedin-in"></i></a></li>
-                                                </ul>
+                                        <div className="vastu-team-card fade-anim" data-delay={0.30 + index * 0.15} data-direction="bottom">
+                                            <figure className="team-thumb-vastu">
+                                                <img src={member.img} alt={member.name} className="w-100" loading="lazy" />
+                                                <div className="om-symbol">ॐ</div>
                                             </figure>
-                                            <div className="team-content">
-                                                <h6 className="team-member-name">
-                                                    <a href="team-details.html">{member.name}</a>
+                                            <div className="team-content-vastu">
+                                                <h6 className="team-name-vastu word-anim" data-delay={0.30 + index * 0.15}>
+                                                    <Link to={member.link}>{member.name}</Link>
                                                 </h6>
-                                                <span className="team-member-position">{member.position}</span>
+                                                <span className="team-position-vastu move-anim" data-delay={0.45 + index * 0.15}>
+                                                    {member.position}
+                                                </span>
+                                                <div className="vastu-divider"></div>
+                                                {/* <ul className="social-links-vastu">
+                                                    <li>
+                                                        <a href="#"><i className="fa-brands fa-facebook-f"></i></a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="#"><i className="fa-brands fa-instagram"></i></a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="#"><i className="fa-brands fa-linkedin-in"></i></a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="#"><i className="fa-brands fa-whatsapp"></i></a>
+                                                    </li>
+                                                </ul> */}
                                             </div>
                                         </div>
                                     </div>
@@ -684,85 +1091,6 @@ const About = () => {
                             </div>
                         </div>
                     </section>
-                    <section className="quanto-testimonial3-section bg-color-2 section-padding-top-bottom">
-                        <div className="container custom-container">
-                            <div className="row g-4 justify-content-between overflow-hidden">
-                                <div className="col-lg-6 col-xxl-5 pe-xxl-0">
-                                    <div className="quanto__header h-100">
-                                        <h3 className="title fade-anim" data-delay="0.30" data-direction="left">
-                                            What clients say about our company
-                                        </h3>
-                                    </div>
-                                </div>
-                                <div className="col-lg-6 col-xxl-5">
-                                    <div className="swiper testimonial3-slider fade-anim" data-delay="0.30" data-direction="right">
-                                        <div className="swiper-wrapper">
-                                            {[
-                                                { name: "Jenny Bennett", designation: "Senior Marketing Manager at Caya", quote: "Quanto team quickly understood our business requirements and were proactive and flexible with our ongoing support and developments. You can definitely trust them for complex project requirements as they are top-notch in their field and we can only recommend it." },
-                                                { name: "Jenny Bennett", designation: "Senior Marketing Manager at Caya", quote: "Quanto team quickly understood our business requirements and were proactive and flexible with our ongoing support and developments. You can definitely trust them for complex project requirements as they are top-notch in their field and we can only recommend it." },
-                                            ].map((testimonial, index) => (
-                                                <div key={index} className="swiper-slide">
-                                                    <div className="testimonial3-content">
-                                                        <p>{testimonial.quote}</p>
-                                                        <div className="client-info">
-                                                            <h5 className="client-name">{testimonial.name}</h5>
-                                                            <span className="client-designation">{testimonial.designation}</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            ))}
-                                        </div>
-                                    </div>
-                                    <div className="testimonial3-navigation">
-                                        <div className="next-btn bg-color-white">
-                                            <i className="fa-solid fa-angle-left"></i>
-                                        </div>
-                                        <div className="prev-btn bg-color-white">
-                                            <i className="fa-solid fa-angle-right"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                                <style>
-                                    {
-                                        `
-                                        #smooth-wrapper {
-    min-height: 100vh;
-    position: relative;
-}
-
-#smooth-content {
-    min-height: 100%;
-    padding-bottom: 120px; /* Reserve space for footer */
-}
-                                        `
-                                    }
-                                </style>
-                            </div>
-                        </div>
-                    </section>
-                    <div className="quanto-clients-area bg-color-2 section-padding-bottom">
-                        <div className="container custom-container">
-                            <div className="row g-4">
-                                <div className="col-12">
-                                    <p>We worked with largest global brands</p>
-                                </div>
-                                <div className="col-12 clients__box-wrapper">
-                                    {[
-                                        { logo: logo3, delay: 3000 },
-                                        { logo: logo4, delay: 0.45 },
-                                        { logo: logo5, delay: 0.60 },
-                                        { logo: logo6, delay: 0.75 },
-                                        { logo: logo7, delay: 0.90 },
-                                        { logo: logo8, delay: 1.05 },
-                                    ].map((client, index) => (
-                                        <div key={index} className="client-box fade-anim" data-delay={client.delay} data-direction="right">
-                                            <img src={client.logo} alt="client-logo" loading="lazy" />
-                                        </div>
-                                    ))}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
         </>

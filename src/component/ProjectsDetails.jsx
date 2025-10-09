@@ -13,7 +13,7 @@ import Aos from 'aos';
 // Register GSAP plugins
 gsap.registerPlugin(ScrollTrigger, ScrollSmoother, SplitText);
 
-const PortfolioDetails = () => {
+const ProjectsDetails = () => {
     const smootherRef = useRef(null);
     const gsapContext = useRef(null);
 
@@ -223,7 +223,7 @@ const PortfolioDetails = () => {
             <div className="preloader">
                 <div className="spinner-wrap">
                     <div className="preloader-logo">
-                        <img src="/assets/images/preloader.svg" alt="Preloader" className="img-fluid" loading="lazy" />
+                        <img src="/assets/images/VastuLogo.png" alt="Preloader" className="img-fluid" loading="lazy" />
                     </div>
                     <div className="spinner"></div>
                 </div>
@@ -338,4 +338,4 @@ const PortfolioDetails = () => {
     );
 };
 
-export default PortfolioDetails;
+export default ProjectsDetails;
