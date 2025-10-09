@@ -25,7 +25,7 @@ gsap.registerPlugin(ScrollTrigger, ScrollSmoother, SplitText);
 // Register Swiper modules
 Swiper.use([Navigation, Autoplay, EffectFade]);
 
-const Portfolio = () => {
+const Projects = () => {
     const swiperInstances = useRef([]);
     const smootherRef = useRef(null);
     const gsapContext = useRef(null);
@@ -439,4 +439,4 @@ const Portfolio = () => {
     );
 };
 
-export default Portfolio;
+export default Projects;

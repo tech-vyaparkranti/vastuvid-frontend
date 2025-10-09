@@ -8,8 +8,8 @@ import TeamDetails from './component/TeamDetails';
 import Contact from './component/Contact';
 import Blog from './component/Blog';
 import BlogDetails from './component/BlogDetails';
-import Portfolio from './component/portfolio';
-import PortfolioDetails from './component/PortfolioDetails';
+import Portfolio from './component/Projects';
+import PortfolioDetails from './component/ProjectsDetails';
 import Faq from './component/Faq';
 import ErrorPage from './component/ErrorPage';
 import Pricing from './component/Pricing';
@@ -18,6 +18,9 @@ import Footer from './component/Footer';
 import Login from './component/Login';
 import Dashboard from './component/Dashboard';
 import ProtectedRoute from './component/ProtectedRoute';
+import About2 from './component/About2';
+import Projects from './component/Projects';
+import ProjectsDetails from './component/ProjectsDetails';
 
 const App = () => {
   return (
@@ -44,10 +47,13 @@ const App = () => {
         <Route path="/contact" element={<Contact />} />
         <Route path="/blog" element={<Blog />} />
         <Route path="/blog-details" element={<BlogDetails />} />
-        <Route path="/portfolio" element={<Portfolio />} />
-        <Route path="/portfolio-details" element={<PortfolioDetails />} />
+        {/* <Route path="/portfolio" element={<Portfolio />} /> */}
+        {/* <Route path="/portfolio-details" element={<PortfolioDetails />} /> */}
+        <Route path="/projects" element={<Projects />} />
+         <Route path="/projects-details" element={<ProjectsDetails />} />
         <Route path="/faq" element={<Faq />} />
         <Route path="/pricing" element={<Pricing />} />
+        <Route path='/about2' element={<About2/>}/>
         <Route path="/*" element={<ErrorPage />} />
       </Routes>
       {/* </Layout> */}

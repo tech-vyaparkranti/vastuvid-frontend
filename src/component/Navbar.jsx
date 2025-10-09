@@ -289,7 +289,7 @@ const Navbar = () => {
                                                     </li>
                                                 </ul> */}
                                             </li>
-                                            <li class="menu-item-has-children">
+                                            {/* <li class="menu-item-has-children">
                                                 <Link to="#">Pages</Link>
                                                 <ul class="sub-menu">
                                                     <li><Link to="/about">About Us</Link></li>
@@ -310,11 +310,20 @@ const Navbar = () => {
                                                     </li>
 
                                                 </ul>
-                                            </li>
-                                            <li >
+                                            </li> */}
+                                            <li><Link to="/about">About Us</Link></li>
+                                            <li > <Link to="/service">Service</Link></li>
+                                            <li>
+                                                        <Link to="/pricing">Packages</Link>
+                                                    </li>
+                                                    <li>
+                                                        <Link to="/projects">Projects</Link>
+                                                    </li>
+     
+                                            {/* <li >
                                                 <Link to="/portfolio">Portfolio</Link>
 
-                                            </li>
+                                            </li> */}
                                             <li >
                                                 <Link to="/blog">Blog</Link>
 

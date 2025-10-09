@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { Link } from 'react-router-dom'; // Import Link for SPA navigation
+import { Link } from 'react-router-dom'; 
 import 'swiper/css';
 import { SplitText } from 'gsap/SplitText';
 import 'swiper/css/navigation';
@@ -20,7 +20,7 @@ gsap.registerPlugin(ScrollTrigger, ScrollSmoother, SplitText);
 // Register Swiper modules
 Swiper.use([Navigation, Autoplay, EffectFade]);
 
-const Pricing = () => {
+const Service = () => {
     const swiperInstances = useRef([]);
     const smootherRef = useRef(null);
     const gsapContext = useRef(null);
@@ -70,7 +70,7 @@ const Pricing = () => {
                 });
             }
 
-            // Odometer Counter (optional, if you want to add counters to the pricing page)
+            // Odometer Counter (optional, if you want to add counters to the service page)
             document.querySelectorAll(".counter-item .odometer").forEach((el) => {
                 const odometer = new Odometer({
                     el: el,
@@ -91,7 +91,7 @@ const Pricing = () => {
                 observer.observe(el);
             });
 
-            // Swiper Sliders (optional, if you want to add a slider to the pricing page)
+            // Swiper Sliders (optional, if you want to add a slider to the service page)
             const initializeSwiper = (selector, config) => {
                 const element = document.querySelector(selector);
                 if (element) {
@@ -103,85 +103,11 @@ const Pricing = () => {
             };
 
             // Smooth Scrolling
-            if (window.innerWidth > 767 && document.querySelector("#has_smooth")) {
-                smootherRef.current = ScrollSmoother.create({
-                    smooth: 0.9,
-                    effects: window.innerWidth < 1500 ? false : true,
-                    smoothTouch: 0.1,
-                    normalizeScroll: { allowNestedScroll: true },
-                    ignoreMobileResize: true,
-                });
-            }
 
-            // GSAP Sticky for FAQ Header
-            document.querySelectorAll(".gsap-sticky").forEach((stickyElement) => {
-                ScrollTrigger.create({
-                    trigger: stickyElement,
-                    start: "top 100px",
-                    endTrigger: ".gsap-scroll",
-                    end: "bottom bottom",
-                    pin: true,
-                    pinSpacing: false,
-                });
-            });
 
-            // Hover Overlay Animations for Pricing Boxes
-            document.querySelectorAll(".quanto-pricing-box").forEach((box) => {
-                const overlay = document.createElement("div");
-                overlay.className = "hover-overlay";
-                box.insertBefore(overlay, box.firstChild);
-                gsap.set(overlay, { autoAlpha: 0, x: 0, y: 0 });
+            // Hover Overlay Animations for Service and Pricing Boxes
 
-                const getDirection = (box, event) => {
-                    const rect = box.getBoundingClientRect();
-                    const mouseX = event.clientX - rect.left;
-                    const mouseY = event.clientY - rect.top;
-                    const centerX = rect.width / 2;
-                    const centerY = rect.height / 2;
-                    const relativeX = mouseX - centerX;
-                    const relativeY = mouseY - centerY;
-                    const angle = Math.atan2(relativeY, relativeX);
-                    const degrees = angle * (180 / Math.PI);
-                    if (degrees >= -45 && degrees <= 45) return "right";
-                    if (degrees > 45 && degrees <= 135) return "bottom";
-                    if (degrees > 135 || degrees <= -135) return "left";
-                    return "top";
-                };
-
-                box.addEventListener("mouseenter", (e) => {
-                    const direction = getDirection(box, e);
-                    const animProps = {
-                        autoAlpha: 1,
-                        x: 0,
-                        y: 0,
-                        duration: 0.5,
-                        ease: "power2.out",
-                    };
-                    const distance = 100;
-                    if (direction === "right") animProps.startX = `${distance}%`;
-                    if (direction === "left") animProps.startX = `-${distance}%`;
-                    if (direction === "bottom") animProps.startY = `${distance}%`;
-                    if (direction === "top") animProps.startY = `-${distance}%`;
-                    gsap.fromTo(overlay, { autoAlpha: 0, x: animProps.startX || 0, y: animProps.startY || 0 }, animProps);
-                });
-
-                box.addEventListener("mouseleave", (e) => {
-                    const direction = getDirection(box, e);
-                    const animProps = {
-                        autoAlpha: 0,
-                        duration: 0.5,
-                        ease: "power2.in",
-                    };
-                    const distance = 100;
-                    if (direction === "right") animProps.x = `${distance}%`;
-                    if (direction === "left") animProps.x = `-${distance}%`;
-                    if (direction === "bottom") animProps.y = `${distance}%`;
-                    if (direction === "top") animProps.y = `-${distance}%`;
-                    gsap.to(overlay, animProps);
-                });
-            });
-
-            // Move Animation for Pricing and FAQ Content
+            // Move Animation for Service and Pricing Content
             document.querySelectorAll(".move-anim").forEach((splitTextLine) => {
                 const delay_value = splitTextLine.getAttribute("data-delay") || 0.1;
                 const tl = gsap.timeline({
@@ -206,7 +132,7 @@ const Pricing = () => {
                 });
             });
 
-            // Fade Animation for Pricing Boxes and FAQ Items
+            // Fade Animation for Service and Pricing Boxes
             document.querySelectorAll(".fade-anim").forEach((item) => {
                 const fade_direction = item.getAttribute("data-direction") || "bottom";
                 const onscroll_value = item.getAttribute("data-on-scroll") || 1;
@@ -316,44 +242,28 @@ const Pricing = () => {
     return (
         <>
             <div className="cursor d-none d-lg-block"></div>
-            <div className="preloader">
-                <div className="spinner-wrap">
-                    <div className="preloader-logo">
-                        <img src="/assets/images/VastuLogo.png" alt="Preloader" className="img-fluid" loading="lazy" />
-                    </div>
-                    <div className="spinner"></div>
-                </div>
-            </div>
             <Link to="#header" id="scroll-top" className="back-to-top-btn section-link">
                 <i className="fa-solid fa-arrow-up"></i>
             </Link>
-            <div >
+            <div>
                 <div id="smooth-content">
-                    <section className="quanto-hero-pricing-section section-padding-bottom overflow-hidden">
-                        <div className="container custom-container">
-                            <div className="row g-4">
-                                <div className="col-lg-12 col-xxl-11">
-                                    <div className="quanto-hero-pricing__content move-anim" data-delay="0.45">
-                                        <h1 className="title word-anim" data-delay="0.60">Delivering quality that fits your budget</h1>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
+                    
                     <div className="quanto-video-area style-2 overflow-hidden">
                         <div className="container custom-container position-relative">
-                            <Link to="#quanto-pricing-area" className="scroll-down section-link">
+                            <Link to="#service-section" className="scroll-down section-link">
                                 Scroll down
-                                <img src="/assets/images/icons/scroll-down.svg" alt="Scroll down" loading="lazy" />
+                                <img src="assets/images/icons/scroll-down.svg" alt="Scroll down" loading="lazy" />
                             </Link>
                             <div className="row">
                                 <div className="col-12">
                                     <div className="quanto-hero__thumb text-end fade-anim" data-delay="0.30" data-direction="bottom">
                                         <img
-                                            src="/assets/images/hero/common-hero-thumb-5.png"
+                                            // src="assets/images/hero/common-hero-thumb.png"
+                                            src="ServiceImages/horse.webp"
                                             alt="hero-thumb"
                                             data-speed="0.8"
                                             className="w-100"
+                                            height="h-50"
                                             loading="lazy"
                                         />
                                     </div>
@@ -361,7 +271,49 @@ const Pricing = () => {
                             </div>
                         </div>
                     </div>
-                    <section id="quanto-pricing-area" className="quanto-pricing-area bg-color-white section-padding-top-bottom">
+                    <section className="quanto-service2-section section-padding-top-bottom overflow-hidden" id="service-section">
+                        <div className="container custom-container">
+                            <div className="row gx-4 gy-5 justify-content-between">
+                                <div className="col-12 col-xl-6 col-xxl-5">
+                                    <div className="quanto__header text-center text-lg-start">
+                                        <h3 className="title move-anim word-anim" data-delay="0.30">We help you to build digital business</h3>
+                                    </div>
+                                </div>
+                                <div className="col-12 col-xl-6 col-xxl-6">
+                                    <div className="row g-114 quanto-service2__row">
+                                        {[
+                                            { title: "Advanced Digital Solution", icon: "assets/images/service/service-icon-1.svg", desc: "Brand identity design a the have to success whether you breath onfire quanto agency." },
+                                            { title: "UI/UX & Product Innovation", icon: "assets/images/service/service-icon-2.svg", desc: "Brand identity design a the have to success whether you breath onfire quanto agency." },
+                                            { title: "Market Analysis & Planning", icon: "assets/images/service/service-icon-3.svg", desc: "Brand identity design a the have to success whether you breath onfire quanto agency." },
+                                            { title: "Business Campaign Strategy", icon: "assets/images/service/service-icon-4.svg", desc: "Brand identity design a the have to success whether you breath onfire quanto agency." },
+                                        ].map((service, index) => (
+                                            <div key={index} className="col-md-6 fade-anim" data-delay={0.30 + index * 0.15} data-direction="right">
+                                                <div className="quanto-service-box style-2">
+                                                    <div className="quanto-iconbox-icon">
+                                                        <img src={service.icon} alt="service-icon" loading="lazy" />
+                                                    </div>
+                                                    <div className="quanto-iconbox-data">
+                                                        <div className="quanto-iconbox-data-wrapper">
+                                                            <h5 className="word-anim" data-delay={0.30 + index * 0.15}>{service.title}</h5>
+                                                            <p className="move-anim" data-delay={0.45 + index * 0.15}>{service.desc}</p>
+                                                        </div>
+                                                        <Link to="/service-details" className="quanto-link-btn">
+                                                            View details
+                                                            <span>
+                                                                <i className="fa-solid fa-arrow-right arry1"></i>
+                                                                <i className="fa-solid fa-arrow-right arry2"></i>
+                                                            </span>
+                                                        </Link>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    <section className="quanto-pricing-area bg-color-2 section-padding-top-bottom">
                         <div className="container custom-container">
                             <div className="row">
                                 <div className="col-12">
@@ -379,7 +331,7 @@ const Pricing = () => {
                                     { title: "Enterprise", price: "$2900", desc: "Ideal for small businesses or startups." },
                                 ].map((plan, index) => (
                                     <div key={index} className="col-md-6 col-xl-4">
-                                        <div className="quanto-pricing-box bg-color-2 fade-anim" data-delay={0.30 + index * 0.15} data-direction="right">
+                                        <div className="quanto-pricing-box bg-white fade-anim" data-delay={0.30 + index * 0.15} data-direction="right">
                                             <h5 className="pricing-title word-anim" data-delay={0.30 + index * 0.15}>{plan.title}</h5>
                                             <p className="pricing-info move-anim" data-delay={0.45 + index * 0.15}>{plan.desc}</p>
                                             <h3 className="pricing move-anim" data-delay={0.60 + index * 0.15}>{plan.price}</h3>
@@ -412,7 +364,7 @@ const Pricing = () => {
                                                     ))}
                                                 </ul>
                                             </div>
-                                            <Link to="/contact" className="quanto-link-btn btn-pill bg-color-2">
+                                            <Link to="/contact" className="quanto-link-btn btn-pill">
                                                 Go with this plan
                                                 <span>
                                                     <i className="fa-solid fa-arrow-right arry1"></i>
@@ -425,90 +377,6 @@ const Pricing = () => {
                             </div>
                         </div>
                     </section>
-                    <section className="quanto-faq-area section-padding-bottom bg-color-white">
-                        <div className="container custom-container">
-                            <div className="row g-4 justify-content-between">
-                                <div className="col-lg-6 col-xl-5 col-xxl-4 gsap-sticky">
-                                    <div className="quanto__header">
-                                        <h3 className="title fade-anim word-anim" data-delay="0.30" data-direction="left">
-                                            Questions and answers
-                                        </h3>
-                                    </div>
-                                </div>
-                                <div className="col-lg-6 col-xl-7 col-xxl-7 gsap-scroll">
-                                    <div className="accordion quanto-faq-accordion" id="accordionExample">
-                                        {[
-                                            {
-                                                id: "collapseOne",
-                                                question: "What happens after the design is ready & I approve it?",
-                                                answer: "Once you approve the design, we move to the next steps based on your project needs, such as development, implementation, or delivery of final assets. For most projects, this phase is completed within 2-3 business days, ensuring a swift transition while maintaining top-notch quality.",
-                                                expanded: true,
-                                            },
-                                            {
-                                                id: "collapseTwo",
-                                                question: "Can you work with wireframes or our existing designs?",
-                                                answer: "Absolutely, we can work with your wireframes or existing designs. We’ll refine and enhance them to align with your vision, ensuring a seamless integration with our design process.",
-                                            },
-                                            {
-                                                id: "collapseThree",
-                                                question: "Do you charge for additional revisions?",
-                                                answer: "We include a set number of revisions in all our plans to ensure your satisfaction. Additional revisions beyond the included amount may incur a fee, which we’ll discuss transparently with you.",
-                                            },
-                                            {
-                                                id: "collapseFour",
-                                                question: "I have an agency. Can I outsource work to you?",
-                                                answer: "Yes, we partner with agencies to provide white-label design and development services. Contact us to discuss how we can support your projects seamlessly.",
-                                            },
-                                            {
-                                                id: "collapseFive",
-                                                question: "What do I need to give you to get started?",
-                                                answer: "To get started, provide us with your project brief, brand guidelines, any existing assets (like logos or wireframes), and your goals. We’ll take it from there to create a tailored solution.",
-                                            },
-                                            {
-                                                id: "collapseSix",
-                                                question: "How does the agile manifesto address planning?",
-                                                answer: "The Agile Manifesto emphasizes adaptive planning, encouraging iterative development and continuous feedback to ensure flexibility and alignment with evolving project needs.",
-                                            },
-                                            {
-                                                id: "collapseSeven",
-                                                question: "What is a statement of work in project management?",
-                                                answer: "A Statement of Work (SOW) is a document that outlines the project’s scope, deliverables, timeline, and responsibilities, serving as a clear agreement between the client and the service provider.",
-                                            },
-                                            {
-                                                id: "collapseEight",
-                                                question: "How to become an agile project manager?",
-                                                answer: "To become an Agile project manager, gain experience in project management, learn Agile methodologies (like Scrum or Kanban), earn certifications (e.g., PMI-ACP or Certified ScrumMaster), and develop skills in leadership and collaboration.",
-                                            },
-                                        ].map((faq, index) => (
-                                            <div key={index} className="accordion-item fade-anim" data-delay={0.30 + index * 0.15}>
-                                                <h6 className="accordion-header">
-                                                    <button
-                                                        className={`accordion-button ${faq.expanded ? '' : 'collapsed'}`}
-                                                        type="button"
-                                                        data-bs-toggle="collapse"
-                                                        data-bs-target={`#${faq.id}`}
-                                                        aria-expanded={faq.expanded ? 'true' : 'false'}
-                                                        aria-controls={faq.id}
-                                                    >
-                                                        <span className="word-anim" data-delay={0.30 + index * 0.15}>{faq.question}</span>
-                                                    </button>
-                                                </h6>
-                                                <div
-                                                    id={faq.id}
-                                                    className={`accordion-collapse collapse ${faq.expanded ? 'show' : ''}`}
-                                                    data-bs-parent="#accordionExample"
-                                                >
-                                                    <div className="accordion-body">
-                                                        <p className="move-anim" data-delay={0.45 + index * 0.15}>{faq.answer}</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        ))}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
                 </div>
 
             </div>
@@ -516,4 +384,4 @@ const Pricing = () => {
     );
 };
 
-export default Pricing;
+export default Service;
