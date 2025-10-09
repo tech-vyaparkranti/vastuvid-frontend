@@ -1,5 +1,5 @@
-import React, { useLayoutEffect } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect, useLayoutEffect } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import $ from "jquery"
 import logo from "../assets/images/logo.png"
 const Navbar = () => {
@@ -131,6 +131,8 @@ const Navbar = () => {
         };
 
     }, [])
+
+    const location = useLocation();
     return (
         <>
             <div class="quanto-menu-wrapper">
@@ -259,6 +261,10 @@ const Navbar = () => {
                 background:white;
               
                 }
+                
+                .otherPath a{
+                color :#63334E !important;
+                }
                 .sticky-menu a,
 .sticky-menu .nav-link,
 .sticky-menu .menu-item {
@@ -277,7 +283,7 @@ const Navbar = () => {
 
                 `}
             </style>
-            <header class="quanto-header main-header" id="sticky-menu">
+            <header className="quanto-header main-header" id="sticky-menu">
                 <div class="sticky-wrap">
                     <div class="sticky-active">
                         <div class="container custom-container">
@@ -290,7 +296,7 @@ const Navbar = () => {
                                     </div>
                                 </div>
                                 <div class="col text-end text-lg-center">
-                                    <nav class="main-menu menu-style1 d-none d-lg-block">
+                                    <nav className={`main-menu menu-style1 d-none d-lg-block ${location.pathname !== '/' ? 'otherPath' : ''}`} >
                                         <ul>
                                             <li>
                                                 <Link to="/">Home</Link>
