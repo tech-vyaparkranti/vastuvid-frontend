@@ -272,29 +272,6 @@ const Index = () => {
                 }
             });
 
-            // Swiper Slider
-            if (typeof Swiper !== 'undefined') {
-                const testimonialSlider = new Swiper('.quanto-testimonial__content-slider', {
-                    loop: true,
-                    slidesPerView: 1,
-                    spaceBetween: 20,
-                    navigation: {
-                        nextEl: '.next-btn',
-                        prevEl: '.prev-btn',
-                    },
-                    autoplay: {
-                        delay: 3000,
-                        disableOnInteraction: false,
-                    },
-                    thumbs: {
-                        swiper: new Swiper('.quanto-testimonial__thumb-slider', {
-                            loop: true,
-                            slidesPerView: 1,
-                            spaceBetween: 20,
-                        }),
-                    },
-                });
-            }
 
             // Marquee
             document.querySelectorAll('.marquee').forEach((marquee) => {
@@ -462,7 +439,10 @@ const Index = () => {
                     },
                 });
             });
+
+
         });
+
 
         // Cleanup
         return () => {
