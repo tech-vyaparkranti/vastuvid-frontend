@@ -390,7 +390,10 @@ const Index = () => {
             const video = heroVideoRef.current;
             const playBtn = playBtnRef.current;
             if (video && playBtn) {
-                video.pause();
+                const videoSpeed = 1.5; // Example: 0.5 for half speed (slower)
+                // Example: 1.5 for one and a half speed (faster)
+
+                video.playbackRate = videoSpeed;
                 const handlePlay = () => {
                     video.play();
                     playBtn.classList.add('disabled');
@@ -548,11 +551,12 @@ const Index = () => {
                                     </div>
                                 </div>
                             </div> */}
+
                             <div className="row">
                                 <div className="col-lg-12 " style={{ padding: "0px" }}>
                                     <div class="quanto-hero__thumb section-margin-top">
                                         <div class="video-wrapper">
-                                            <video ref={heroVideoRef} loop="" muted="" autoplay="" playsinline="">
+                                            <video ref={heroVideoRef} loop="" muted autoplay="" playsinline="">
                                                 <source
                                                     src={video4}
                                                     type="video/mp4"
@@ -564,6 +568,7 @@ const Index = () => {
                             </div>
                         </div>
                     </section>
+
 
                     <section className="quanto-about-section section-padding-top overflow-hidden">
                         <div className="container custom-container">
@@ -617,8 +622,53 @@ const Index = () => {
                     </section>
 
                     <section className="quanto-project-section bg-color-primary section-padding-top-bottom overflow-hidden" ref={horizontalScrollRef}>
+
+                        <style>
+                            {`
+     .sacred-geometry {
+            position: absolute;
+            width: 800px;
+            height: 800px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            opacity: 0.15;
+        }
+
+        .rotating-square {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border: 2px solid white;
+            animation: rotateSquare 30s linear infinite;
+        }
+
+        .rotating-square:nth-child(2) {
+            animation-delay: -10s;
+            border-color: white;
+        }
+
+        .rotating-square:nth-child(3) {
+            animation-delay: -20s;
+            border-color: white;
+        }
+
+        @keyframes rotateSquare {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+    `}
+                        </style>
+
                         <div className="container custom-container">
+
                             <div className="row g-0 gy-4 gy-md-0 justify-content-between">
+                                <div class="sacred-geometry">
+                                    <div class="rotating-square"></div>
+                                    <div class="rotating-square"></div>
+                                    <div class="rotating-square"></div>
+                                </div>
                                 <div className="col-12 col-md-5 order-1 order-md-0">
                                     <div className="row g-0">
                                         {[
