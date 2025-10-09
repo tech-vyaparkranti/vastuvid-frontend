@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { Link } from 'react-router-dom'; // Import Link for SPA navigation
+import { Link } from 'react-router-dom'; 
 import 'swiper/css';
 import { SplitText } from 'gsap/SplitText';
 import 'swiper/css/navigation';
@@ -247,7 +247,7 @@ const Service = () => {
             </Link>
             <div>
                 <div id="smooth-content">
-                    <section className="quanto-hero-service-section section-padding-bottom overflow-hidden">
+                    {/* <section className="quanto-hero-service-section section-padding-bottom overflow-hidden">
                         <div className="container custom-container">
                             <div className="row g-4">
                                 <div className="col-lg-12 col-xxl-11">
@@ -257,21 +257,23 @@ const Service = () => {
                                 </div>
                             </div>
                         </div>
-                    </section>
+                    </section> */}
                     <div className="quanto-video-area style-2 overflow-hidden">
                         <div className="container custom-container position-relative">
                             <Link to="#service-section" className="scroll-down section-link">
                                 Scroll down
-                                <img src="./assets/images/icons/scroll-down.svg" alt="Scroll down" loading="lazy" />
+                                <img src="assets/images/icons/scroll-down.svg" alt="Scroll down" loading="lazy" />
                             </Link>
                             <div className="row">
                                 <div className="col-12">
                                     <div className="quanto-hero__thumb text-end fade-anim" data-delay="0.30" data-direction="bottom">
                                         <img
-                                            src="./assets/images/hero/common-hero-thumb.png"
+                                            // src="assets/images/hero/common-hero-thumb.png"
+                                            src="ServiceImages/horse.webp"
                                             alt="hero-thumb"
                                             data-speed="0.8"
                                             className="w-100"
+                                            height="h-50"
                                             loading="lazy"
                                         />
                                     </div>
@@ -290,10 +292,10 @@ const Service = () => {
                                 <div className="col-12 col-xl-6 col-xxl-6">
                                     <div className="row g-114 quanto-service2__row">
                                         {[
-                                            { title: "Advanced Digital Solution", icon: "./assets/images/service/service-icon-1.svg", desc: "Brand identity design a the have to success whether you breath onfire quanto agency." },
-                                            { title: "UI/UX & Product Innovation", icon: "./assets/images/service/service-icon-2.svg", desc: "Brand identity design a the have to success whether you breath onfire quanto agency." },
-                                            { title: "Market Analysis & Planning", icon: "./assets/images/service/service-icon-3.svg", desc: "Brand identity design a the have to success whether you breath onfire quanto agency." },
-                                            { title: "Business Campaign Strategy", icon: "./assets/images/service/service-icon-4.svg", desc: "Brand identity design a the have to success whether you breath onfire quanto agency." },
+                                            { title: "Advanced Digital Solution", icon: "assets/images/service/service-icon-1.svg", desc: "Brand identity design a the have to success whether you breath onfire quanto agency." },
+                                            { title: "UI/UX & Product Innovation", icon: "assets/images/service/service-icon-2.svg", desc: "Brand identity design a the have to success whether you breath onfire quanto agency." },
+                                            { title: "Market Analysis & Planning", icon: "assets/images/service/service-icon-3.svg", desc: "Brand identity design a the have to success whether you breath onfire quanto agency." },
+                                            { title: "Business Campaign Strategy", icon: "assets/images/service/service-icon-4.svg", desc: "Brand identity design a the have to success whether you breath onfire quanto agency." },
                                         ].map((service, index) => (
                                             <div key={index} className="col-md-6 fade-anim" data-delay={0.30 + index * 0.15} data-direction="right">
                                                 <div className="quanto-service-box style-2">

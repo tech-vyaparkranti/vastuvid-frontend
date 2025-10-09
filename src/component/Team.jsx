@@ -332,7 +332,7 @@ const Team = () => {
             </Link>
             <div >
                 <div id="smooth-content">
-                    <section className="quanto-hero-team-section section-padding-bottom overflow-hidden">
+                    {/* <section className="quanto-hero-team-section section-padding-bottom overflow-hidden">
                         <div className="container custom-container">
                             <div className="row g-4">
                                 <div className="col-lg-12 col-xxl-11">
@@ -342,7 +342,7 @@ const Team = () => {
                                 </div>
                             </div>
                         </div>
-                    </section>
+                    </section> */}
                     <div className="quanto-video-area style-2 overflow-hidden">
                         <div className="container custom-container position-relative">
                             <Link to="#quanto-team-area" className="scroll-down section-link">
@@ -353,7 +353,7 @@ const Team = () => {
                                 <div className="col-12">
                                     <div className="quanto-hero__thumb text-center fade-anim" data-delay="0.30" data-direction="bottom">
                                         <img
-                                            src="/assets/images/hero/common-hero-thumb-4.png"
+                                            src="/ServiceImages/vastuKrishn.webp"
                                             alt="hero-thumb"
                                             data-speed="0.8"
                                             className="w-100"
