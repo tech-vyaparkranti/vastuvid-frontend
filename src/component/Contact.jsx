@@ -294,6 +294,31 @@ const Contact = () => {
             <Link to="#scroll-top" id="scroll-top" className="back-to-top-btn">
                 <i className="fa-solid fa-arrow-up"></i>
             </Link>
+            <style>
+                {
+                    `
+                    .quanto-hero-section {
+  padding-top: 200px;
+}
+@media only screen and (max-width: 1399.98px) {
+  .quanto-hero-section {
+    padding-top: 160px;
+  }
+}
+@media only screen and (max-width: 1199.98px) {
+  .quanto-hero-section {
+    padding-top: 150px;
+  }
+}
+@media only screen and (max-width: 991.98px) {
+  .quanto-hero-section {
+    padding-top: 130px;
+  }
+}
+
+                    `
+                }
+            </style>
             <div >
                 <div id="smooth-content">
                     <section className="quanto-hero-section section-padding-bottom overflow-hidden">

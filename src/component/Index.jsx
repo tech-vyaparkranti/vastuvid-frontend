@@ -15,7 +15,7 @@ import { ScrollToPlugin } from 'gsap/ScrollToPlugin';
 import { SplitText } from 'gsap/SplitText';
 import img1 from "../assets/images/clients/logo-3.png";
 import video4 from "../assets/images/video.mp4"
-
+import client from "../assets/images/client.webp"
 // Register GSAP plugins
 gsap.registerPlugin(ScrollTrigger, ScrollSmoother, ScrollToPlugin, SplitText);
 
@@ -143,17 +143,17 @@ const Index = () => {
                 mm.add('(min-width: 768px)', () => {
                     const videoWrapper = heroThumb.querySelector('.video-wrapper');
                     if (videoWrapper) {
-                        const tp_hero = gsap.timeline({
+                        gsap.to(videoWrapper, {
+                            width: '100%',
+                            ease: 'power2.inOut',
+                            duration: 2, // ⚡ plays smoothly
                             scrollTrigger: {
                                 trigger: heroThumb,
-                                start: 'top 70',
-                                pin: true,
-                                scrub: 1,
-                                pinSpacing: true,
-                                end: 'bottom top',
-                            },
+                                start: 'top 80%', // 👈 when section top reaches 80% of viewport
+                                toggleActions: 'play none none none', // 👈 plays once
+                                markers: false  // set true for debugging
+                            }
                         });
-                        tp_hero.to(videoWrapper, { width: '100%', duration: 1.5, ease: 'power2.inOut' });
                     }
                 });
             }
@@ -243,7 +243,7 @@ const Index = () => {
                 gsap.set(splitt.lines, { color: '#ddd', overflow: 'hidden' });
                 splitt.lines.forEach((target) => {
                     gsap.to(target, {
-                        color: '#000000',
+                        color: '#63334E',
                         duration: 1,
                         ease: 'power2.out',
                         backgroundPositionX: 0,
@@ -390,7 +390,10 @@ const Index = () => {
             const video = heroVideoRef.current;
             const playBtn = playBtnRef.current;
             if (video && playBtn) {
-                video.pause();
+                const videoSpeed = 1.5; // Example: 0.5 for half speed (slower)
+                // Example: 1.5 for one and a half speed (faster)
+
+                video.playbackRate = videoSpeed;
                 const handlePlay = () => {
                     video.play();
                     playBtn.classList.add('disabled');
@@ -498,8 +501,8 @@ const Index = () => {
             </Link>
             <div >
                 <div id="smooth-content">
-                    <section className="quanto-hero-section overflow-hidden">
-                        <div className="container custom-container">
+                    <section className="quanto-hero-section">
+                        <div className="container-fluid custom-container">
                             {/* <div className="row">
                                 <div className="col-12 position-relative">
                                     <div className="quanto-hero__content move-anim" data-delay="0.45">
@@ -548,11 +551,12 @@ const Index = () => {
                                     </div>
                                 </div>
                             </div> */}
+
                             <div className="row">
-                                <div className="col-lg-12">
-                                    <div class="quanto-hero__thumb ">
+                                <div className="col-lg-12 " style={{ padding: "0px" }}>
+                                    <div class="quanto-hero__thumb section-margin-top">
                                         <div class="video-wrapper">
-                                            <video ref={heroVideoRef} loop="" muted="" autoplay="" playsinline="">
+                                            <video ref={heroVideoRef} loop="" muted autoplay="" playsinline="">
                                                 <source
                                                     src={video4}
                                                     type="video/mp4"
@@ -565,7 +569,8 @@ const Index = () => {
                         </div>
                     </section>
 
-                    {/* <section className="quanto-about-section section-padding-top overflow-hidden">
+
+                    <section className="quanto-about-section section-padding-top overflow-hidden">
                         <div className="container custom-container">
                             <div className="row justify-content-end">
                                 <div className="col-lg-10 col-xl-9 col-xxl-10">
@@ -577,7 +582,7 @@ const Index = () => {
                                             <p>
                                                 Whether it's crafting a visually stunning brand identity, designing immersive digital experiences, or developing strategic marketing campaigns, we approach each project with meticulous attention to detail and an unwavering dedication to quality.
                                             </p>
-                                            <Link to="/about" className="quanto-link-btn section-link">
+                                            <Link to="/about" className="quanto-link-btn section-link" style={{ color: " #63334E", fontSize: "24px" }}>
                                                 More about us
                                                 <span>
                                                     <i className="fa-solid fa-arrow-right arry1"></i>
@@ -589,42 +594,7 @@ const Index = () => {
                                 </div>
                             </div>
                         </div>
-                    </section> */}
-
-                    <section className="quanto-about-section section-padding-top overflow-hidden">
-    <div className="container custom-container">
-        <div className="row justify-content-end align-items-center">
-            <div className="col-lg-2 col-xl-3 col-xxl-2">
-                <div className="quanto-about__image move-anim" data-delay="0.30">
-                    <img 
-                        src="/path-to-your-image.jpg" 
-                        alt="About Us" 
-                        className="img-fluid"
-                    />
-                </div>
-            </div>
-            <div className="col-lg-10 col-xl-9 col-xxl-10">
-                <div className="quanto-about__content">
-                    <h4 className="move-anim text_invert" data-delay="0.45">
-                        Our digital strategies and design expertise focus on promoting social economy businesses, cutting-edge brands, and eco-friendly products to motivate consumers to make informed decisions towards sustainable products and services
-                    </h4>
-                    <div className="about-info row-margin-top move-anim" data-delay="0.60">
-                        <p>
-                            Whether it's crafting a visually stunning brand identity, designing immersive digital experiences, or developing strategic marketing campaigns, we approach each project with meticulous attention to detail and an unwavering dedication to quality.
-                        </p>
-                        <Link to="/about" className="quanto-link-btn section-link">
-                            More about us
-                            <span>
-                                <i className="fa-solid fa-arrow-right arry1"></i>
-                                <i className="fa-solid fa-arrow-right arry2"></i>
-                            </span>
-                        </Link>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
+                    </section>
 
                     <section className="quanto-funfacts-section section-padding-top-bottom overflow-hidden">
                         <div className="container custom-container">
@@ -652,8 +622,53 @@ const Index = () => {
                     </section>
 
                     <section className="quanto-project-section bg-color-primary section-padding-top-bottom overflow-hidden" ref={horizontalScrollRef}>
+
+                        <style>
+                            {`
+     .sacred-geometry {
+            position: absolute;
+            width: 800px;
+            height: 800px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            opacity: 0.15;
+        }
+
+        .rotating-square {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border: 2px solid white;
+            animation: rotateSquare 30s linear infinite;
+        }
+
+        .rotating-square:nth-child(2) {
+            animation-delay: -10s;
+            border-color: white;
+        }
+
+        .rotating-square:nth-child(3) {
+            animation-delay: -20s;
+            border-color: white;
+        }
+
+        @keyframes rotateSquare {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+    `}
+                        </style>
+
                         <div className="container custom-container">
+
                             <div className="row g-0 gy-4 gy-md-0 justify-content-between">
+                                <div class="sacred-geometry">
+                                    <div class="rotating-square"></div>
+                                    <div class="rotating-square"></div>
+                                    <div class="rotating-square"></div>
+                                </div>
                                 <div className="col-12 col-md-5 order-1 order-md-0">
                                     <div className="row g-0">
                                         {[
@@ -746,7 +761,7 @@ const Index = () => {
                                             </div>
                                             <div className="quanto-iconbox-data">
                                                 <div className="quanto-iconbox-data-wrapper">
-                                                    <h5>{service.title}</h5>
+                                                    <h5 style={{ color: "#63334E" }}>{service.title}</h5>
                                                     <p>Brand identity design is key to success with Quanto agency.</p>
                                                 </div>
                                                 <Link to="/service-details" className="quanto-link-btn section-link">
@@ -769,7 +784,7 @@ const Index = () => {
                             <div className="row">
                                 <div className="col-12">
                                     <div className="quanto__header">
-                                        <h3 className="title word-anim" data-delay="0.30" data-direction="right">
+                                        <h3 className="title word-anim" style={{ color: " #63334E !important" }} data-delay="0.30" data-direction="right">
                                             Client testimonials
                                         </h3>
                                     </div>
@@ -848,7 +863,7 @@ const Index = () => {
                                         <div className="quanto__header logo">
                                             {['Logo1', 'Logo2'].map((logo, index) => (
                                                 <div key={index} className="client-box fade-anim" data-delay={0.30 + index * 0.15} data-direction="right">
-                                                    <img src={`https://via.placeholder.com/100x40/000/fff?text=${logo}`} alt="Client logo" loading="lazy" />
+                                                    <img src={client} alt="Client logo" loading="lazy" />
                                                 </div>
                                             ))}
                                         </div>
@@ -933,7 +948,7 @@ const Index = () => {
                         </div>
                     </section>
 
-                    {/* <section className="quanto-pricing-section section-padding-top-bottom overflow-hidden">
+                    <section className="quanto-pricing-section section-padding-top-bottom overflow-hidden">
                         <div className="container custom-container">
                             <div className="row">
                                 <div className="col-12">
@@ -989,9 +1004,9 @@ const Index = () => {
                                 ))}
                             </div>
                         </div>
-                    </section> */}
+                    </section>
 
-                    {/* <section className="quanto-team-section section-padding-top-bottom overflow-hidden">
+                    <section className="quanto-team-section section-padding-top-bottom overflow-hidden">
                         <div className="container custom-container">
                             <div className="row">
                                 <div className="col-12">
@@ -1015,7 +1030,7 @@ const Index = () => {
                                 ))}
                             </div>
                         </div>
-                    </section> */}
+                    </section>
                 </div>
             </div>
         </>

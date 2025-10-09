@@ -183,16 +183,7 @@ const About = () => {
                 }
             });
 
-            // Smooth Scrolling
-            if (window.innerWidth > 767 && document.querySelector("#has_smooth")) {
-                smootherRef.current = ScrollSmoother.create({
-                    smooth: 0.9,
-                    effects: window.innerWidth < 1500 ? false : true,
-                    smoothTouch: 0.1,
-                    normalizeScroll: { allowNestedScroll: true },
-                    ignoreMobileResize: true,
-                });
-            }
+
 
             // Hover Overlay Animations
             document.querySelectorAll(".quanto-pricing-box, .process-box").forEach((box) => {
@@ -420,22 +411,6 @@ const About = () => {
 
 
             // Section Jump
-            document.querySelectorAll(".section-link").forEach((link) => {
-                link.addEventListener("click", (event) => {
-                    event.preventDefault();
-                    const targetID = link.getAttribute("href");
-                    if (targetID === "#header") {
-                        gsap.to(window, { duration: 1.5, scrollTo: { y: 0 }, ease: "power2.inOut" });
-                    } else {
-                        const targetSection = document.querySelector(targetID);
-                        if (targetSection) {
-                            gsap.to(window, { duration: 1, scrollTo: { y: targetSection, offsetY: 50 } });
-                        } else {
-                            console.error(`Section with ID ${targetID} does not exist.`);
-                        }
-                    }
-                });
-            });
 
             // Team Animations
             if (window.innerWidth >= 992) {
