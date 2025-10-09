@@ -176,20 +176,52 @@ const Index = () => {
             }
 
             // Horizontal Scroll
+            // const horizontalSection = horizontalScrollRef.current;
+            // if (window.innerWidth > 1199 && horizontalSection) {
+
+            //     gsap.to(horizontalSection, {
+            //         x: () => horizontalSection.scrollWidth * -1,
+            //         xPercent: 100,
+            //         scrollTrigger: {
+            //             trigger: horizontalSection,
+            //             start: 'center center',
+            //             end: '+=10px',
+            //             pin: horizontalSection,
+            //             scrub: true,
+            //             invalidateOnRefresh: true,
+            //         },
+            //     });
+            // }
+
+
+            // Horizontal Scroll
             const horizontalSection = horizontalScrollRef.current;
             if (window.innerWidth > 1199 && horizontalSection) {
+                // Wait for images to load before creating scroll trigger
+                const images = horizontalSection.querySelectorAll('img');
+                const imagePromises = Array.from(images).map(img => {
+                    if (img.complete) return Promise.resolve();
+                    return new Promise(resolve => {
+                        img.onload = resolve;
+                        img.onerror = resolve;
+                    });
+                });
 
-                gsap.to(horizontalSection, {
-                    x: () => horizontalSection.scrollWidth * -1,
-                    xPercent: 100,
-                    scrollTrigger: {
-                        trigger: horizontalSection,
-                        start: 'center center',
-                        end: '+=10px',
-                        pin: horizontalSection,
-                        scrub: true,
-                        invalidateOnRefresh: true,
-                    },
+                Promise.all(imagePromises).then(() => {
+                    gsap.to(horizontalSection, {
+                        x: () => horizontalSection.scrollWidth * -1,
+                        xPercent: 100,
+                        scrollTrigger: {
+                            trigger: horizontalSection,
+                            start: 'center center',
+                            end: '+=10px',
+                            pin: horizontalSection,
+                            scrub: true,
+                            invalidateOnRefresh: true,
+                        },
+                    });
+                    // Refresh after setting up
+                    ScrollTrigger.refresh();
                 });
             }
 
