@@ -253,7 +253,31 @@ const Navbar = () => {
                     </div>
                 </div>
             </div>
-            <header class="quanto-header main-header bg-color-white" id="sticky-menu">
+            <style>
+                {`
+                .sticky-menu{
+                background:white;
+              
+                }
+                .sticky-menu a,
+.sticky-menu .nav-link,
+.sticky-menu .menu-item {
+  color: #63334E !important;
+}
+ .sticky-menu .quanto-link-btn{
+ color:white !important;;
+ }
+                .header-logo {
+                margin-top:5px;
+  background-color: rgba(255, 255, 255, 10); /* white with slight transparency */
+  padding: 8px;             /* some space around the logo */
+  border-radius: 8px;       /* rounded corners (optional) */
+  display: inline-block;    /* make the background fit the logo */
+}
+
+                `}
+            </style>
+            <header class="quanto-header main-header" id="sticky-menu">
                 <div class="sticky-wrap">
                     <div class="sticky-active">
                         <div class="container custom-container">

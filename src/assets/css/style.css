@@ -1083,6 +1083,7 @@ body::-webkit-scrollbar-thumb {
 
 
 
+
 @media only screen and (min-width: 992px) {
   .quanto-header.v6 .sticky-wrap {
     padding-block: 14px;
@@ -1178,7 +1179,7 @@ h3 {
 }
 
 .main-menu a {
-  color: #63334E !important;
+  color: white !important;
   font-weight: 700;
   position: relative;
   font-size: 20px;
@@ -4660,9 +4661,9 @@ a.quanto-default-btn.sm-size {
   }
 }
 
-.testimonial-content {
+/* .testimonial-content {
   margin-top: 240px;
-}
+} */
 
 @media only screen and (max-width: 1599.98px) {
   .testimonial-content {

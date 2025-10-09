@@ -2,6 +2,8 @@ import React, { useEffect, useRef, useState, useCallback } from 'react';
 import { Link } from 'react-router-dom'; // Import Link for SPA navigation
 import Swiper from 'swiper';
 import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
 import Odometer from 'odometer';
 import 'odometer/themes/odometer-theme-minimal.css';
 import Aos from 'aos';
@@ -16,6 +18,19 @@ import { SplitText } from 'gsap/SplitText';
 import img1 from "../assets/images/clients/logo-3.png";
 import video4 from "../assets/images/video.mp4"
 import client from "../assets/images/client.webp"
+import construction from "../assets/images/construction.png"
+import working1 from "../assets/images/working1.png"
+import working2 from "../assets/images/working2.png"
+import working3 from "../assets/images/working3.png"
+import working4 from "../assets/images/working4.png"
+import working5 from "../assets/images/working5.png"
+import working6 from "../assets/images/working6.png"
+import bgImage from "../assets/images/testimonial.png"
+import service1 from "../assets/images/service1.png"
+import service2 from "../assets/images/service2.png"
+import service3 from "../assets/images/service3.png"
+import service4 from "../assets/images/service3.png"
+
 // Register GSAP plugins
 gsap.registerPlugin(ScrollTrigger, ScrollSmoother, ScrollToPlugin, SplitText);
 
@@ -53,6 +68,47 @@ const Index = () => {
             counterItemRefs.current[index] = el;
         }
     }, []);
+    useEffect(() => {
+        let services = null;
+        try {
+            services = new Swiper('.swipers', {
+                loop: true,
+                speed: 1000, // Increased for smoother transitions
+                spaceBetween: 30,
+                slidesPerView: 1,
+                pagination: {
+                    el: '.swiper-pagination',
+                    clickable: true,
+                },
+                autoplay: {
+                    delay: 5000, // 5s delay for better pacing
+                    disableOnInteraction: false,
+                    pauseOnMouseEnter: true,
+                },
+                breakpoints: {
+                    640: { slidesPerView: 2, loopAdditionalSlides: 4 },
+                    1024: { slidesPerView: 3, loopAdditionalSlides: 4 },
+                    1400: { slidesPerView: 4, loopAdditionalSlides: 4 },
+                },
+            });
+            console.log('Swiper initialized:', services);
+        } catch (error) {
+            console.error('Swiper initialization failed:', error);
+        }
+
+        // Cleanup Swiper instance on component unmount
+        return () => {
+            if (services && typeof services.destroy === 'function') {
+                try {
+                    services.destroy(true, true);
+                    console.log('Swiper destroyed');
+                } catch (error) {
+                    console.error('Swiper destroy failed:', error);
+                }
+            }
+        };
+    }, []);
+
 
     useEffect(() => {
         // Initialize AOS
@@ -501,10 +557,32 @@ const Index = () => {
                         </div>
                     </section>
 
-                    <section className="quanto-about-section section-padding-top overflow-hidden">
-                        <div className="container custom-container">
+                    <section className="quanto-about-section section-padding-top overflow-hidden " style={{ paddingTop: "30px" }}>
+
+                        <div className="container custom-container" >
+                            <div className="row " style={{ marginBottom: "50px" }}>
+                                <div className="col-12 col-lg-9 col-xl-7 col-xxl-6">
+                                    <div className="quanto__header fade-anim" data-delay="0.30" data-direction="left">
+                                        <h3 className="title word-anim" data-delay="0.45">About Us</h3>
+                                    </div>
+                                </div>
+                            </div>
                             <div className="row justify-content-end">
-                                <div className="col-lg-10 col-xl-9 col-xxl-10">
+                                <div
+                                    className='col-lg-5'
+                                    data-aos='fade-left'
+                                    data-aos-delay='300'
+                                    data-aos-duration='1000'
+                                >
+                                    <img
+                                        className='img-fluid'
+                                        style={{ width: "100%", height: "auto" }}
+                                        src={construction}
+                                        alt="Construction"
+                                    />
+                                </div>
+
+                                <div className="col-lg-7 ">
                                     <div className="quanto-about__content">
                                         <h4 className="move-anim text_invert" data-delay="0.45">
                                             Our digital strategies and design expertise focus on promoting social economy businesses, cutting-edge brands, and eco-friendly products to motivate consumers to make informed decisions towards sustainable products and services
@@ -552,60 +630,89 @@ const Index = () => {
                         </div>
                     </section>
 
-                    <section className="quanto-project-section bg-color-primary section-padding-top-bottom overflow-hidden" ref={horizontalScrollRef}>
-
+                    <section className="quanto-project-section bg-color-primary section-padding-top-bottom overflow-hidden position-relative" style={{ minHeight: "300px" }}>
                         <style>
                             {`
-     .sacred-geometry {
-            position: absolute;
-            width: 800px;
-            height: 800px;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            opacity: 0.15;
-        }
+            .sacred-geometry {
+                position: absolute;
+                width: min(800px, 80vw);
+                height: min(800px, 80vw);
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                opacity: 0.15;
+                z-index: 1;
+                pointer-events: none;
+            }
 
-        .rotating-square {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            border: 2px solid white;
-            animation: rotateSquare 30s linear infinite;
-        }
+            .rotating-square {
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                border: 2px solid white;
+                animation: rotateSquare 30s linear infinite;
+                transform-origin: center center;
+            }
 
-        .rotating-square:nth-child(2) {
-            animation-delay: -10s;
-            border-color: white;
-        }
+            .rotating-square:nth-child(2) {
+                animation-delay: -10s;
+                border-color: white;
+            }
 
-        .rotating-square:nth-child(3) {
-            animation-delay: -20s;
-            border-color: white;
-        }
+            .rotating-square:nth-child(3) {
+                animation-delay: -20s;
+                border-color: white;
+            }
 
-        @keyframes rotateSquare {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
+            @keyframes rotateSquare {
+                from { transform: rotate(0deg); }
+                to { transform: rotate(360deg); }
+            }
 
-    `}
+            /* Ensure content is above animation */
+            .container.custom-container {
+                position: relative;
+                z-index: 2;
+            }
+
+            /* Responsive adjustments */
+            @media (max-width: 768px) {
+                .sacred-geometry {
+                    width: min(500px, 90vw);
+                    height: min(500px, 90vw);
+                    opacity: 0.1;
+                }
+                
+                .rotating-square {
+                    border-width: 1px;
+                }
+            }
+
+            @media (max-width: 480px) {
+                .sacred-geometry {
+                    width: min(300px, 95vw);
+                    height: min(300px, 95vw);
+                    opacity: 0.08;
+                }
+            }
+        `}
                         </style>
 
-                        <div className="container custom-container">
+                        {/* Sacred Geometry Animation */}
+                        <div className="sacred-geometry">
+                            <div className="rotating-square"></div>
+                            <div className="rotating-square"></div>
+                            <div className="rotating-square"></div>
+                        </div>
 
+                        <div className="container custom-container">
                             <div className="row g-0 gy-4 gy-md-0 justify-content-between">
-                                <div class="sacred-geometry">
-                                    <div class="rotating-square"></div>
-                                    <div class="rotating-square"></div>
-                                    <div class="rotating-square"></div>
-                                </div>
                                 <div className="col-12 col-md-5 order-1 order-md-0">
                                     <div className="row g-0">
                                         {[
-                                            { title: 'Kinetic Sandscapes', category: 'Branding', img: img1 },
-                                            { title: 'Brooklyn Brewery', category: 'Photography', img: img1 },
-                                            { title: 'Regenerative Farming', category: 'Branding', img: img1 },
+                                            { title: 'Kinetic Sandscapes', category: 'Branding', img: working1 },
+                                            { title: 'Brooklyn Brewery', category: 'Photography', img: working2 },
+                                            { title: 'Regenerative Farming', category: 'Branding', img: working3 },
                                         ].map((project, index) => (
                                             <div key={index} className={`col-md-${index === 0 ? '12' : index === 1 ? '8 mx-auto' : '12'} project-row-gap`}>
                                                 <div className="quanto-project-box overflow-hidden fade-anim" data-delay={0.30 + index * 0.15}>
@@ -641,9 +748,9 @@ const Index = () => {
                                             </div>
                                         </div>
                                         {[
-                                            { title: 'Hopscotch Payments', category: 'Development', img: 'https://via.placeholder.com/500x350/9013fe/fff?text=Hopscotch+Payments', className: 'col-md-10 ms-auto project-row-gap' },
-                                            { title: 'Stories Worthwhile', category: 'UI/UX Design', img: 'https://via.placeholder.com/450x300/f5a623/fff?text=Stories+Worthwhile', className: 'col-md-9 me-auto project-row-gap' },
-                                            { title: 'Fintech Accelerator', category: 'UI/UX Design', img: 'https://via.placeholder.com/500x350/50e3c2/fff?text=Fintech+Accelerator', className: 'col-md-10 ms-auto' },
+                                            { title: 'Hopscotch Payments', category: 'Development', img: working4, className: 'col-md-10 ms-auto project-row-gap' },
+                                            { title: 'Stories Worthwhile', category: 'UI/UX Design', img: working5, className: 'col-md-9 me-auto project-row-gap' },
+                                            { title: 'Fintech Accelerator', category: 'UI/UX Design', img: working6, className: 'col-md-10 ms-auto' },
                                         ].map((project, index) => (
                                             <div key={index} className={project.className}>
                                                 <div className="quanto-project-box overflow-hidden fade-anim" data-delay={0.30 + (index + 3) * 0.15}>
@@ -669,52 +776,360 @@ const Index = () => {
                         </div>
                     </section>
 
-                    <section className="quanto-service-section section-padding-top-bottom overflow-hidden">
+                    <section className="quanto-service-section section-padding-top-bottom overflow-hidden position-relative">
+                        <style>
+                            {`
+          /* Vastu-inspired mandala background animation */
+          .vastu-background {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            overflow: hidden;
+            z-index: 0;
+            pointer-events: none;
+          }
+
+          .vastu-mandala {
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            opacity: 0.08;
+          }
+
+          .vastu-square {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border: 3px solid red;
+            animation: rotateClockwise 40s linear infinite;
+            transform-origin: center center;
+          }
+
+          .vastu-square-outer {
+            position: absolute;
+            width: 120%;
+            height: 120%;
+            top: -10%;
+            left: -10%;
+            border: 2px solid red;
+            animation: rotateCounterClockwise 50s linear infinite;
+            transform-origin: center center;
+          }
+
+          .vastu-diamond {
+            position: absolute;
+            width: 80%;
+            height: 80%;
+            top: 10%;
+            left: 10%;
+            border: 2px solid red;
+            transform: rotate(45deg);
+            animation: pulse 8s ease-in-out infinite;
+            transform-origin: center center;
+          }
+
+          .vastu-circle {
+            position: absolute;
+            width: 60%;
+            height: 60%;
+            top: 20%;
+            left: 20%;
+            border: 2px solid red;
+            border-radius: 50%;
+            animation: breathe 6s ease-in-out infinite;
+          }
+
+          .vastu-point {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: radial-gradient(circle, red, transparent);
+            border-radius: 50%;
+            animation: energyPulse 3s ease-in-out infinite;
+          }
+
+          .vastu-point:nth-child(1) {
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            animation-delay: 0s;
+          }
+
+          .vastu-point:nth-child(2) {
+            top: 15%;
+            right: 15%;
+            animation-delay: 0.5s;
+          }
+
+          .vastu-point:nth-child(3) {
+            top: 50%;
+            right: 0;
+            transform: translateY(-50%);
+            animation-delay: 1s;
+          }
+
+          .vastu-point:nth-child(4) {
+            bottom: 15%;
+            right: 15%;
+            animation-delay: 1.5s;
+          }
+
+          .vastu-point:nth-child(5) {
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            animation-delay: 2s;
+          }
+
+          .vastu-point:nth-child(6) {
+            bottom: 15%;
+            left: 15%;
+            animation-delay: 2.5s;
+          }
+
+          .vastu-point:nth-child(7) {
+            top: 50%;
+            left: 0;
+            transform: translateY(-50%);
+            animation-delay: 3s;
+          }
+
+          .vastu-point:nth-child(8) {
+            top: 15%;
+            left: 15%;
+            animation-delay: 3.5s;
+          }
+
+          @keyframes rotateClockwise {
+            from { transform: translate(-50%, -50%) rotate(0deg); }
+            to { transform: translate(-50%, -50%) rotate(360deg); }
+          }
+
+          @keyframes rotateCounterClockwise {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(-360deg); }
+          }
+
+          @keyframes pulse {
+            0%, 100% {
+              transform: rotate(45deg) scale(1);
+              opacity: 0.25;
+            }
+            50% {
+              transform: rotate(45deg) scale(1.1);
+              opacity: 0.4;
+            }
+          }
+
+          @keyframes breathe {
+            0%, 100% {
+              transform: scale(1);
+              opacity: 0.2;
+            }
+            50% {
+              transform: scale(1.15);
+              opacity: 0.35;
+            }
+          }
+
+          @keyframes energyPulse {
+            0%, 100% {
+              transform: scale(1);
+              opacity: 0.4;
+            }
+            50% {
+              transform: scale(2);
+              opacity: 0;
+            }
+          }
+
+          .vastu-grid {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            opacity: 0.05;
+          }
+
+          .grid-line-h {
+            position: absolute;
+            width: 100%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(99, 51, 78, 0.3), transparent);
+            left: 0;
+          }
+
+          .grid-line-v {
+            position: absolute;
+            height: 100%;
+            width: 1px;
+            background: linear-gradient(180deg, transparent, rgba(99, 51, 78, 0.3), transparent);
+            top: 0;
+          }
+
+          .grid-line-h:nth-child(1) { top: 25%; }
+          .grid-line-h:nth-child(2) { top: 50%; }
+          .grid-line-h:nth-child(3) { top: 75%; }
+          .grid-line-v:nth-child(4) { left: 25%; }
+          .grid-line-v:nth-child(5) { left: 50%; }
+          .grid-line-v:nth-child(6) { left: 75%; }
+
+          @media (max-width: 768px) {
+            .vastu-mandala {
+              width: 400px;
+              height: 400px;
+              opacity: 0.06;
+            }
+            
+            .vastu-point {
+              width: 6px;
+              height: 6px;
+            }
+          }
+
+          @media (max-width: 480px) {
+            .vastu-mandala {
+              width: 300px;
+              height: 300px;
+              opacity: 0.05;
+            }
+          }
+
+          .container.custom-container {
+            position: relative;
+            z-index: 1;
+          }
+
+          /* Swiper styles */
+          .swipers {
+            width: 100%;
+            padding: 20px 0;
+            overflow: visible;
+          }
+
+          .swiper-slide{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: transform 0.8s ease;
+          }
+
+          .swiper-slide-active,
+          .swiper-slide-duplicate-active {
+            opacity: 1 !important;
+          }
+
+          .swiper-button-next,
+          .swiper-button-prev {
+            color: #63334E;
+            background: rgba(255, 255, 255, 0.8);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            transition: background 0.3s;
+          }
+
+          .swiper-button-next:hover,
+          .swiper-button-prev:hover {
+            background: rgba(255, 255, 255, 1);
+          }
+
+          .swiper-pagination-bullet {
+            background: #63334E;
+            opacity: 0.5;
+          }
+
+          .swiper-pagination-bullet-active {
+            opacity: 1;
+          }
+
+          /* Prevent conflicts with custom animations */
+          .swiper-slide .quanto-service-box {
+            animation: none !important;
+            transition: none !important;
+          }
+        `}
+                        </style>
+
+                        {/* Vastu-inspired background animation */}
+                        <div className="vastu-background">
+                            <div className="vastu-grid">
+                                <div className="grid-line-h"></div>
+                                <div className="grid-line-h"></div>
+                                <div className="grid-line-h"></div>
+                                <div className="grid-line-v"></div>
+                                <div className="grid-line-v"></div>
+                                <div className="grid-line-v"></div>
+                            </div>
+                            <div className="vastu-mandala">
+                                <div className="vastu-square-outer"></div>
+                                <div className="vastu-square"></div>
+                                <div className="vastu-diamond"></div>
+                                <div className="vastu-circle"></div>
+                                <div className="vastu-point"></div>
+                                <div className="vastu-point"></div>
+                                <div className="vastu-point"></div>
+                                <div className="vastu-point"></div>
+                                <div className="vastu-point"></div>
+                                <div className="vastu-point"></div>
+                                <div className="vastu-point"></div>
+                                <div className="vastu-point"></div>
+                            </div>
+                        </div>
+
                         <div className="container custom-container">
                             <div className="row">
                                 <div className="col-12 col-lg-9 col-xl-7 col-xxl-6">
                                     <div className="quanto__header fade-anim" data-delay="0.30" data-direction="left">
-                                        <h3 className="title word-anim" data-delay="0.45">We help you to build digital business</h3>
+                                        <h3 className="title word-anim" data-delay="0.45">Our Services</h3>
                                     </div>
                                 </div>
                             </div>
-                            <div className="row g-4 row-padding-top">
-                                {[
-                                    { title: 'Brand Strategy', icon: 'https://via.placeholder.com/60x60/4a90e2/fff?text=BS' },
-                                    { title: 'Web Development', icon: 'https://via.placeholder.com/60x60/50c878/fff?text=WD' },
-                                    { title: 'UI/UX Design', icon: 'https://via.placeholder.com/60x60/7ed321/fff?text=UX' },
-                                    { title: 'Digital Marketing', icon: 'https://via.placeholder.com/60x60/f5a623/fff?text=DM' },
-                                ].map((service, index) => (
-                                    <div key={index} className="col-md-6 col-lg-4 col-xxl-3">
-                                        <div className="quanto-service-box move-anim" data-delay={0.30 + index * 0.15}>
-                                            <div className="quanto-iconbox-icon">
-                                                <img src={service.icon} alt={`${service.title} icon`} loading="lazy" />
-                                            </div>
-                                            <div className="quanto-iconbox-data">
-                                                <div className="quanto-iconbox-data-wrapper">
-                                                    <h5 style={{ color: "#63334E" }}>{service.title}</h5>
-                                                    <p>Brand identity design is key to success with Quanto agency.</p>
+                            <div className="swipers row-padding-top">
+                                <div className="swiper-wrapper">
+                                    {[
+                                        { title: 'Architectural Planning', icon: service1 },
+                                        { title: 'Plotted Development', icon: service2 },
+                                        { title: 'Interior Designing', icon: service3 },
+                                        { title: 'Digital Marketing', icon: service4 },
+                                    ].map((service, index) => (
+                                        <div className="swiper-slide" key={index}>
+                                            <div className="quanto-service-box">
+                                                <div className="quanto-iconbox-icon">
+                                                    <img src={service.icon} alt={`${service.title} icon`} style={{ height: "200px" }} loading="lazy" />
                                                 </div>
-                                                <Link to="/service-details" className="quanto-link-btn section-link">
-                                                    View details
-                                                    <span>
-                                                        <i className="fa-solid fa-arrow-right arry1"></i>
-                                                        <i className="fa-solid fa-arrow-right arry2"></i>
-                                                    </span>
-                                                </Link>
+                                                <div className="quanto-iconbox-data">
+                                                    <div className="quanto-iconbox-data-wrapper">
+                                                        <h5 style={{ color: "#63334E" }}>{service.title}</h5>
+                                                        <p>Brand identity design is key to success with Quanto agency.</p>
+                                                    </div>
+                                                    <Link to="/service-details" className="quanto-link-btn section-link">
+                                                        View details
+                                                        <span>
+                                                            <i className="fa-solid fa-arrow-right arry1"></i>
+                                                            <i className="fa-solid fa-arrow-right arry2"></i>
+                                                        </span>
+                                                    </Link>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                ))}
+                                    ))}
+                                </div>
+                                <div className="swiper-pagination"></div>
                             </div>
                         </div>
                     </section>
 
-                    <section className="quanto-testimonial-section section-padding-top overflow-hidden">
-                        <div className="container custom-container">
-                            <div className="row">
+
+                    <section className="quanto-testimonial-section section-padding-top overflow-hidden" style={{ paddingTop: "0px" }}>
+                        <div className="container custom-container" >
+                            <div className="row" style={{ marginBottom: "50px" }}>
                                 <div className="col-12">
-                                    <div className="quanto__header">
+                                    <div className="">
                                         <h3 className="title word-anim" style={{ color: " #63334E !important" }} data-delay="0.30" data-direction="right">
                                             Client testimonials
                                         </h3>
@@ -731,7 +1146,7 @@ const Index = () => {
                                                         className="testimonial-img"
                                                         data-speed="0.8"
                                                         style={{
-                                                            backgroundImage: `ur[](https://via.placeholder.com/300x300/ccc/fff?text=Testimonial+${num})`,
+                                                            backgroundImage: `url(${bgImage})`
                                                         }}
                                                     ></div>
                                                 </div>
