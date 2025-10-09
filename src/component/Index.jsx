@@ -185,7 +185,7 @@ const Index = () => {
                     scrollTrigger: {
                         trigger: horizontalSection,
                         start: 'center center',
-                        end: '+=100px',
+                        end: '+=10px',
                         pin: horizontalSection,
                         scrub: true,
                         invalidateOnRefresh: true,
@@ -664,6 +664,11 @@ const Index = () => {
             from { transform: rotate(0deg); }
             to { transform: rotate(360deg); }
         }
+            .quanto-project-section{
+            min-height: 500px !important;
+
+            }
+
 
     `}
                     </style>
@@ -758,6 +763,269 @@ const Index = () => {
 
                     <section className="quanto-service-section section-padding-top-bottom overflow-hidden position-relative">
 
+                        <style>
+                            {`
+          .vastu-background {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            overflow: hidden;
+            z-index: 0;
+            pointer-events: none;
+          }
+
+          .vastu-mandala {
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            opacity: 0.08;
+          }
+
+          .vastu-square {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border: 3px solid red;
+            animation: rotateClockwise 40s linear infinite;
+            transform-origin: center center;
+          }
+
+          .vastu-square-outer {
+            position: absolute;
+            width: 120%;
+            height: 120%;
+            top: -10%;
+            left: -10%;
+            border: 2px solid red;
+            animation: rotateCounterClockwise 50s linear infinite;
+            transform-origin: center center;
+          }
+
+          .vastu-diamond {
+            position: absolute;
+            width: 80%;
+            height: 80%;
+            top: 10%;
+            left: 10%;
+            border: 2px solid red;
+            transform: rotate(45deg);
+            animation: pulse 8s ease-in-out infinite;
+            transform-origin: center center;
+          }
+
+          .vastu-circle {
+            position: absolute;
+            width: 60%;
+            height: 60%;
+            top: 20%;
+            left: 20%;
+            border: 2px solid red;
+            border-radius: 50%;
+            animation: breathe 6s ease-in-out infinite;
+          }
+
+          .vastu-point {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: radial-gradient(circle, red, transparent);
+            border-radius: 50%;
+            animation: energyPulse 3s ease-in-out infinite;
+          }
+
+          .vastu-point:nth-child(1) {
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            animation-delay: 0s;
+          }
+
+          .vastu-point:nth-child(2) {
+            top: 15%;
+            right: 15%;
+            animation-delay: 0.5s;
+          }
+
+          .vastu-point:nth-child(3) {
+            top: 50%;
+            right: 0;
+            transform: translateY(-50%);
+            animation-delay: 1s;
+          }
+
+          .vastu-point:nth-child(4) {
+            bottom: 15%;
+            right: 15%;
+            animation-delay: 1.5s;
+          }
+
+          .vastu-point:nth-child(5) {
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            animation-delay: 2s;
+          }
+
+          .vastu-point:nth-child(6) {
+            bottom: 15%;
+            left: 15%;
+            animation-delay: 2.5s;
+          }
+
+          .vastu-point:nth-child(7) {
+            top: 50%;
+            left: 0;
+            transform: translateY(-50%);
+            animation-delay: 3s;
+          }
+
+          .vastu-point:nth-child(8) {
+            top: 15%;
+            left: 15%;
+            animation-delay: 3.5s;
+          }
+
+          @keyframes rotateClockwise {
+            from { transform: translate(-50%, -50%) rotate(0deg); }
+            to { transform: translate(-50%, -50%) rotate(360deg); }
+          }
+
+          @keyframes rotateCounterClockwise {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(-360deg); }
+          }
+
+          @keyframes pulse {
+            0%, 100% {
+              transform: rotate(45deg) scale(1);
+              opacity: 0.25;
+            }
+            50% {
+              transform: rotate(45deg) scale(1.1);
+              opacity: 0.4;
+            }
+          }
+
+          @keyframes breathe {
+            0%, 100% {
+              transform: scale(1);
+              opacity: 0.2;
+            }
+            50% {
+              transform: scale(1.15);
+              opacity: 0.35;
+            }
+          }
+
+          @keyframes energyPulse {
+            0%, 100% {
+              transform: scale(1);
+              opacity: 0.4;
+            }
+            50% {
+              transform: scale(2);
+              opacity: 0;
+            }
+          }
+
+          .vastu-grid {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            opacity: 0.05;
+          }
+
+          .grid-line-h {
+            position: absolute;
+            width: 100%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(99, 51, 78, 0.3), transparent);
+            left: 0;
+          }
+
+          .grid-line-v {
+            position: absolute;
+            height: 100%;
+            width: 1px;
+            background: linear-gradient(180deg, transparent, rgba(99, 51, 78, 0.3), transparent);
+            top: 0;
+          }
+
+          .grid-line-h:nth-child(1) { top: 25%; }
+          .grid-line-h:nth-child(2) { top: 50%; }
+          .grid-line-h:nth-child(3) { top: 75%; }
+          .grid-line-v:nth-child(4) { left: 25%; }
+          .grid-line-v:nth-child(5) { left: 50%; }
+          .grid-line-v:nth-child(6) { left: 75%; }
+
+          @media (max-width: 768px) {
+            .vastu-mandala {
+              width: 400px;
+              height: 400px;
+              opacity: 0.06;
+            }
+            
+            .vastu-point {
+              width: 6px;
+              height: 6px;
+            }
+          }
+
+          @media (max-width: 480px) {
+            .vastu-mandala {
+              width: 300px;
+              height: 300px;
+              opacity: 0.05;
+            }
+          }
+
+          .container.custom-container {
+            position: relative;
+            z-index: 1;
+          }
+
+          /* Swiper styles */
+          .swiper {
+            width: 100%;
+            padding: 20px 0;
+          }
+
+          .swiper-slide {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+          }
+
+          .swiper-button-next,
+          .swiper-button-prev {
+            color: #63334E;
+            background: rgba(255, 255, 255, 0.8);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            transition: background 0.3s;
+          }
+
+          .swiper-button-next:hover,
+          .swiper-button-prev:hover {
+            background: rgba(255, 255, 255, 1);
+          }
+
+          .swiper-pagination-bullet {
+            background: #63334E;
+            opacity: 0.5;
+          }
+
+          .swiper-pagination-bullet-active {
+            opacity: 1;
+          }
+        `}
+                        </style>
 
                         {/* Vastu-inspired background animation */}
                         <div className="vastu-background">
