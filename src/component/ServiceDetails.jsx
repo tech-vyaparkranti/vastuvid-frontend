@@ -274,7 +274,7 @@ const ServiceDetails = () => {
             </Link>
             <div >
                 <div id="smooth-content">
-                    <section className="quanto-hero-common-section section-padding-bottom overflow-hidden">
+                     {/* <section className="quanto-hero-common-section section-padding-bottom overflow-hidden">
                         <div className="container custom-container">
                             <div className="row g-4 justify-content-center">
                                 <div className="col-lg-12 col-xl-10 col-xxl-9">
@@ -284,7 +284,7 @@ const ServiceDetails = () => {
                                 </div>
                             </div>
                         </div>
-                    </section>
+                    </section>  */}
                     <div className="quanto-video-area style-2 overflow-hidden">
                         <div className="container custom-container position-relative">
                             <Link to="#quanto-service-details-section" className="scroll-down section-link">
@@ -295,10 +295,11 @@ const ServiceDetails = () => {
                                 <div className="col-12">
                                     <div className="quanto-hero__thumb text-center fade-anim" data-delay="0.30" data-direction="bottom">
                                         <img
-                                            src="/assets/images/hero/common-hero-thumb-2.png"
+                                            src="ServiceImages/horse.webp"
                                             alt="hero-thumb"
                                             data-speed="0.8"
                                             className="w-100"
+                                            style={{ height:"750px"}}
                                             loading="lazy"
                                         />
                                     </div>

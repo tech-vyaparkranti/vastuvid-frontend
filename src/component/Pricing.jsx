@@ -1,5 +1,7 @@
+
+
 import React, { useEffect, useRef } from 'react';
-import { Link } from 'react-router-dom'; // Import Link for SPA navigation
+import { Link } from 'react-router-dom';
 import 'swiper/css';
 import { SplitText } from 'gsap/SplitText';
 import 'swiper/css/navigation';
@@ -24,12 +26,32 @@ const Pricing = () => {
     const swiperInstances = useRef([]);
     const smootherRef = useRef(null);
     const gsapContext = useRef(null);
+    const bannerRef = useRef(null);
+    const particlesRef = useRef([]);
 
     useEffect(() => {
+        // Create floating particles animation for banner
+        const createParticles = () => {
+            const banner = bannerRef.current;
+            if (!banner) return;
+
+            for (let i = 0; i < 15; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'vastu-particle';
+                particle.style.left = `${Math.random() * 100}%`;
+                particle.style.animationDelay = `${Math.random() * 5}s`;
+                particle.style.animationDuration = `${5 + Math.random() * 10}s`;
+                banner.appendChild(particle);
+                particlesRef.current.push(particle);
+            }
+        };
+
+        createParticles();
+
         Aos.init({
             duration: 2000,
-            once: false, // Allow animations to replay on scroll
-            mirror: true, // Animate elements when scrolling past them again
+            once: false,
+            mirror: true,
         });
 
         // GSAP Context for cleanup
@@ -70,7 +92,7 @@ const Pricing = () => {
                 });
             }
 
-            // Odometer Counter (optional, if you want to add counters to the pricing page)
+            // Odometer Counter
             document.querySelectorAll(".counter-item .odometer").forEach((el) => {
                 const odometer = new Odometer({
                     el: el,
@@ -91,7 +113,7 @@ const Pricing = () => {
                 observer.observe(el);
             });
 
-            // Swiper Sliders (optional, if you want to add a slider to the pricing page)
+            // Swiper Sliders
             const initializeSwiper = (selector, config) => {
                 const element = document.querySelector(selector);
                 if (element) {
@@ -181,7 +203,7 @@ const Pricing = () => {
                 });
             });
 
-            // Move Animation for Pricing and FAQ Content
+            // Move Animation
             document.querySelectorAll(".move-anim").forEach((splitTextLine) => {
                 const delay_value = splitTextLine.getAttribute("data-delay") || 0.1;
                 const tl = gsap.timeline({
@@ -206,7 +228,7 @@ const Pricing = () => {
                 });
             });
 
-            // Fade Animation for Pricing Boxes and FAQ Items
+            // Fade Animation
             document.querySelectorAll(".fade-anim").forEach((item) => {
                 const fade_direction = item.getAttribute("data-direction") || "bottom";
                 const onscroll_value = item.getAttribute("data-on-scroll") || 1;
@@ -233,7 +255,7 @@ const Pricing = () => {
                 gsap.from(item, animation_settings);
             });
 
-            // Word Animation for Titles
+            // Word Animation
             document.querySelectorAll(".word-anim").forEach((word_anim_item) => {
                 const stagger_value = parseFloat(word_anim_item.getAttribute("data-stagger") || 0.04);
                 const translateX_value = word_anim_item.getAttribute("data-translateX") || false;
@@ -260,7 +282,7 @@ const Pricing = () => {
                 gsap.from(split_word.words, animation_settings);
             });
 
-            // Image Parallax Animation for Hero Thumbnail
+            // Image Parallax Animation
             document.querySelectorAll(".quanto-hero__thumb").forEach((thumb) => {
                 const image = thumb.querySelector("img");
                 const dataSpeed = parseFloat(thumb.querySelector("img").getAttribute("data-speed") || 0.8);
@@ -276,7 +298,7 @@ const Pricing = () => {
                 });
             });
 
-            // Section Jump for Scroll Links
+            // Section Jump
             document.querySelectorAll(".section-link").forEach((link) => {
                 link.addEventListener("click", (event) => {
                     event.preventDefault();
@@ -287,8 +309,6 @@ const Pricing = () => {
                         const targetSection = document.querySelector(targetID);
                         if (targetSection) {
                             gsap.to(window, { duration: 1, scrollTo: { y: targetSection, offsetY: 50 } });
-                        } else {
-                            console.error(`Section with ID ${targetID} does not exist.`);
                         }
                     }
                 });
@@ -297,24 +317,91 @@ const Pricing = () => {
 
         // Cleanup
         return () => {
+            particlesRef.current.forEach(particle => particle.remove());
+            particlesRef.current = [];
             swiperInstances.current.forEach((swiper) => swiper.destroy(true, true));
             if (smootherRef.current) smootherRef.current.kill();
             gsapContext.current.revert();
-            window.removeEventListener("scroll", () => { });
-            window.removeEventListener("mousemove", () => { });
-            document.querySelectorAll("a, .cursor-pointer").forEach((item) => {
-                item.removeEventListener("mouseover", () => { });
-                item.removeEventListener("mouseout", () => { });
-            });
-            document.querySelectorAll(".section-link").forEach((link) => {
-                link.removeEventListener("click", () => { });
-            });
-            console.log("Cleaned up animations and event listeners");
         };
     }, []);
 
     return (
         <>
+            <style>{`
+                @keyframes floatParticle {
+                    0% { transform: translateY(100vh) translateX(0) rotate(0deg); opacity: 0; }
+                    10% { opacity: 1; }
+                    90% { opacity: 1; }
+                    100% { transform: translateY(-100vh) translateX(50px) rotate(360deg); opacity: 0; }
+                }
+                
+                @keyframes float {
+                    0%, 100% { transform: translateY(0px) rotate(0deg); }
+                    50% { transform: translateY(-20px) rotate(5deg); }
+                }
+                
+                @keyframes pulse {
+                    0%, 100% { transform: scale(1); opacity: 0.4; }
+                    50% { transform: scale(1.05); opacity: 0.6; }
+                }
+                
+                @keyframes glow {
+                    0%, 100% { box-shadow: 0 0 30px rgba(236, 72, 153, 0.4), 0 0 60px rgba(168, 85, 247, 0.3); }
+                    50% { box-shadow: 0 0 50px rgba(236, 72, 153, 0.6), 0 0 100px rgba(168, 85, 247, 0.5); }
+                }
+                
+                .vastu-particle {
+                    position: absolute;
+                    width: 8px;
+                    height: 8px;
+                    background: linear-gradient(135deg, #ec4899, #a855f7, #ffffff);
+                    border-radius: 50%;
+                    animation: floatParticle linear infinite;
+                    pointer-events: none;
+                    z-index: 1;
+                    box-shadow: 0 0 10px rgba(236, 72, 153, 0.5);
+                }
+                
+                .vastu-banner {
+                    position: relative;
+                    background: linear-gradient(135deg, #fce7f3 0%, #ffffff 25%, #f3e8ff 50%, #ffffff 75%, #fce7f3 100%);
+                    overflow: hidden;
+                }
+                
+                .vastu-banner::before {
+                    content: '';
+                    position: absolute;
+                    top: -50%;
+                    left: -50%;
+                    width: 200%;
+                    height: 200%;
+                    background: radial-gradient(circle, rgba(236, 72, 153, 0.1) 0%, transparent 70%);
+                    animation: float 6s ease-in-out infinite;
+                }
+                
+                .vastu-banner::after {
+                    content: '';
+                    position: absolute;
+                    bottom: -50%;
+                    right: -50%;
+                    width: 200%;
+                    height: 200%;
+                    background: radial-gradient(circle, rgba(168, 85, 247, 0.1) 0%, transparent 70%);
+                    animation: float 8s ease-in-out infinite reverse;
+                }
+                
+                .decorative-circle {
+                    position: absolute;
+                    border-radius: 50%;
+                    animation: pulse 3s ease-in-out infinite;
+                }
+                
+                .vastu-compass {
+                    animation: glow 3s ease-in-out infinite;
+                    filter: drop-shadow(0 0 20px rgba(236, 72, 153, 0.3));
+                }
+            `}</style>
+
             <div className="cursor d-none d-lg-block"></div>
             <div className="preloader">
                 <div className="spinner-wrap">
@@ -327,19 +414,11 @@ const Pricing = () => {
             <Link to="#header" id="scroll-top" className="back-to-top-btn section-link">
                 <i className="fa-solid fa-arrow-up"></i>
             </Link>
-            <div >
+            
+            <div>
                 <div id="smooth-content">
-                    <section className="quanto-hero-pricing-section section-padding-bottom overflow-hidden">
-                        <div className="container custom-container">
-                            <div className="row g-4">
-                                <div className="col-lg-12 col-xxl-11">
-                                    <div className="quanto-hero-pricing__content move-anim" data-delay="0.45">
-                                        <h1 className="title word-anim" data-delay="0.60">Delivering quality that fits your budget</h1>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
+                   
+                    {/* Existing Video Area Section */}
                     <div className="quanto-video-area style-2 overflow-hidden">
                         <div className="container custom-container position-relative">
                             <Link to="#quanto-pricing-area" className="scroll-down section-link">
@@ -350,10 +429,11 @@ const Pricing = () => {
                                 <div className="col-12">
                                     <div className="quanto-hero__thumb text-end fade-anim" data-delay="0.30" data-direction="bottom">
                                         <img
-                                            src="/assets/images/hero/common-hero-thumb-5.png"
+                                            src="ServiceImages/vastuKrishn.webp"
                                             alt="hero-thumb"
                                             data-speed="0.8"
                                             className="w-100"
+                                            style={{height:"750px" }}
                                             loading="lazy"
                                         />
                                     </div>
@@ -361,6 +441,8 @@ const Pricing = () => {
                             </div>
                         </div>
                     </div>
+
+                    {/* Rest of your existing sections remain unchanged */}
                     <section id="quanto-pricing-area" className="quanto-pricing-area bg-color-white section-padding-top-bottom">
                         <div className="container custom-container">
                             <div className="row">
@@ -425,7 +507,7 @@ const Pricing = () => {
                             </div>
                         </div>
                     </section>
-                    <section className="quanto-faq-area section-padding-bottom bg-color-white">
+                    {/* <section className="quanto-faq-area section-padding-bottom bg-color-white">
                         <div className="container custom-container">
                             <div className="row g-4 justify-content-between">
                                 <div className="col-lg-6 col-xl-5 col-xxl-4 gsap-sticky">
@@ -438,6 +520,90 @@ const Pricing = () => {
                                 <div className="col-lg-6 col-xl-7 col-xxl-7 gsap-scroll">
                                     <div className="accordion quanto-faq-accordion" id="accordionExample">
                                         {[
+                                            {
+                                                id: "collapseOne",
+                                                question: "What happens after the design is ready & I approve it?",
+                                                answer: "Once you approve the design, we move to the next steps based on your project needs, such as development, implementation, or delivery of final assets. For most projects, this phase is completed within 2-3 business days, ensuring a swift transition while maintaining top-notch quality.",
+                                                expanded: true,
+                                            },
+                                            {
+                                                id: "collapseTwo",
+                                                question: "Can you work with wireframes or our existing designs?",
+                                                answer: "Absolutely, we can work with your wireframes or existing designs. We'll refine and enhance them to align with your vision, ensuring a seamless integration with our design process.",
+                                            },
+                                            {
+                                                id: "collapseThree",
+                                                question: "Do you charge for additional revisions?",
+                                                answer: "We include a set number of revisions in all our plans to ensure your satisfaction. Additional revisions beyond the included amount may incur a fee, which we'll discuss transparently with you.",
+                                            },
+                                            {
+                                                id: "collapseFour",
+                                                question: "I have an agency. Can I outsource work to you?",
+                                                answer: "Yes, we partner with agencies to provide white-label design and development services. Contact us to discuss how we can support your projects seamlessly.",
+                                            },
+                                            {
+                                                id: "collapseFive",
+                                                question: "What do I need to give you to get started?",
+                                                answer: "To get started, provide us with your project brief, brand guidelines, any existing assets (like logos or wireframes), and your goals. We'll take it from there to create a tailored solution.",
+                                            },
+                                            {
+                                                id: "collapseSix",
+                                                question: "How does the agile manifesto address planning?",
+                                                answer: "The Agile Manifesto emphasizes adaptive planning, encouraging iterative development and continuous feedback to ensure flexibility and alignment with evolving project needs.",
+                                            },
+                                            {
+                                                id: "collapseSeven",
+                                                question: "What is a statement of work in project management?",
+                                                answer: "A Statement of Work (SOW) is a document that outlines the project's scope, deliverables, timeline, and responsibilities, serving as a clear agreement between the client and the service provider.",
+                                            },
+                                            {
+                                                id: "collapseEight",
+                                                question: "How to become an agile project manager?",
+                                                answer: "To become an Agile project manager, gain experience in project management, learn Agile methodologies (like Scrum or Kanban), earn certifications (e.g., PMI-ACP or Certified ScrumMaster), and develop skills in leadership and collaboration.",
+                                            },
+                                        ].map((faq, index) => (
+                                            <div key={index} className="accordion-item fade-anim" data-delay={0.30 + index * 0.15}>
+                                                <h6 className="accordion-header">
+                                                    <button
+                                                        className={`accordion-button ${faq.expanded ? '' : 'collapsed'}`}
+                                                        type="button"
+                                                        data-bs-toggle="collapse"
+                                                        data-bs-target={`#${faq.id}`}
+                                                        aria-expanded={faq.expanded ? 'true' : 'false'}
+                                                        aria-controls={faq.id}
+                                                    >
+                                                        <span className="word-anim" data-delay={0.30 + index * 0.15}>{faq.question}</span>
+                                                    </button>
+                                                </h6>
+                                                <div
+                                                    id={faq.id}
+                                                    className={`accordion-collapse collapse ${faq.expanded ? 'show' : ''}`}
+                                                    data-bs-parent="#accordionExample"
+                                                >
+                                                    <div className="accordion-body">
+                                                        <p className="move-anim" data-delay={0.45 + index * 0.15}>{faq.answer}</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section> */}
+                    <section className="quanto-faq-area section-padding-bottom bg-color-white">
+                         <div className="container custom-container">
+                             <div className="row g-4 justify-content-between">
+                                 <div className="col-lg-6 col-xl-5 col-xxl-4 gsap-sticky">
+                                     <div className="quanto__header">
+                                         <h3 className="title fade-anim word-anim" data-delay="0.30" data-direction="left">
+                                             Questions and answers
+                                         </h3>
+                                     </div>
+                                 </div>
+                                 <div className="col-lg-6 col-xl-7 col-xxl-7 gsap-scroll">
+                                     <div className="accordion quanto-faq-accordion" id="accordionExample">
+                                         {[
                                             {
                                                 id: "collapseOne",
                                                 question: "What happens after the design is ready & I approve it?",
@@ -510,7 +676,6 @@ const Pricing = () => {
                         </div>
                     </section>
                 </div>
-
             </div>
         </>
     );

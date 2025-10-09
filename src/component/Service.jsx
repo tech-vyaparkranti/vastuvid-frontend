@@ -254,7 +254,7 @@ const Service = () => {
 
                 .quanto-service-box.style-2:hover {
                     transform: translateY(-10px);
-                    border-color: #FF69B4;
+                    border-color: #7e1449ff;
                     box-shadow: 0 15px 40px rgba(255, 105, 180, 0.3);
                 }
 
@@ -281,7 +281,7 @@ const Service = () => {
                 }
 
                 .quanto-service-box.style-2:hover h5 {
-                    color: #FF69B4;
+                    color: #75224bff;
                 }
 
                 .quanto-link-btn {
@@ -295,7 +295,7 @@ const Service = () => {
                 }
 
                 .quanto-service-box.style-2:hover .quanto-link-btn {
-                    color: #FF69B4;
+                    color: #75224bff;
                 }
 
                 .quanto-service-box.style-2:hover .quanto-link-btn span {
@@ -332,8 +332,8 @@ const Service = () => {
                 }
 
                 .view-more-btn {
-                    background: linear-gradient(135deg, #FF69B4 0%, #FF1493 100%);
-                    border: 2px solid #FF69B4;
+                    background: linear-gradient(135deg, #841c4e 0%, #63113dff 100%);
+                    border: 2px solid #75224bff;
                     color: white;
                     padding: 15px 35px;
                     cursor: pointer;
@@ -380,7 +380,7 @@ const Service = () => {
 
                 @keyframes pulse {
                     0%, 100% {
-                        box-shadow: 0 0 0 0 rgba(255, 105, 180, 0.7);
+                        box-shadow: 0 0 0 0 rgba(129, 15, 72, 0.7);
                     }
                     50% {
                         box-shadow: 0 0 0 10px rgba(255, 105, 180, 0);
@@ -412,7 +412,7 @@ const Service = () => {
                                             alt="hero-thumb"
                                             data-speed="0.8"
                                             className="w-100"
-                                            height="h-50"
+                                            style={{height:"750px" }}
                                             loading="lazy"
                                         />
                                     </div>
