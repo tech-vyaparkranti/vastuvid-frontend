@@ -1,10 +1,10 @@
 import React, { useEffect, useRef } from 'react';
-import logo3 from "../assets/images/clients/logo-3.png";
-import logo4 from "../assets/images/clients/logo-4.png";
-import logo5 from "../assets/images/clients/logo-5.png";
-import logo6 from "../assets/images/clients/logo-6.png";
-import logo7 from "../assets/images/clients/logo-7.png";
-import logo8 from "../assets/images/clients/logo-8.png";
+// import logo3 from "assets/images/project/logo2.jpg";
+// import logo4 from "assets/images/project/logo3.jpg";
+// import logo5 from "assets/images/project/logo4.jpg";
+// import logo6 from "assets/images/project/logo5.jpg";
+// import logo7 from "assets/images/project/org1.webp";
+// import logo8 from "assets/images/project/logo2.jpg";
 import 'swiper/css';
 import { SplitText } from 'gsap/SplitText';
 import 'swiper/css/navigation';
@@ -19,6 +19,7 @@ import { Swiper } from 'swiper';
 import { Navigation, Autoplay, EffectFade } from 'swiper/modules';
 import Odometer from 'odometer';
 import Aos from 'aos';
+import { Link } from 'react-router-dom';
 
 // Register GSAP plugins
 gsap.registerPlugin(ScrollTrigger, ScrollSmoother, SplitText);
@@ -33,16 +34,13 @@ const Projects = () => {
     useEffect(() => {
         Aos.init({
             duration: 2000,
-            once: false, // Allow animations to replay on scroll
-            mirror: true, // Animate elements when scrolling past them again
+            once: false,
+            mirror: true,
         });
 
-        // GSAP Context for cleanup
         gsapContext.current = gsap.context(() => {
-            // Preloader
             $(".preloader").delay(800).fadeOut("slow");
 
-            // Sticky Menu
             const handleScroll = () => {
                 const scroll = window.scrollY;
                 if (scroll > 50) {
@@ -55,13 +53,11 @@ const Projects = () => {
             };
             window.addEventListener("scroll", handleScroll);
 
-            // Set Background Image
             $("[data-bg-src]").each(function () {
                 const src = $(this).attr("data-bg-src");
                 $(this).css("background-image", `url(${src})`).addClass("background-image").removeAttr("data-bg-src");
             });
 
-            // Custom Cursor
             const cursor = document.querySelector(".cursor");
             if (cursor) {
                 const editCursor = (e) => {
@@ -75,7 +71,6 @@ const Projects = () => {
                 });
             }
 
-            // Odometer Counter (optional, if you want to add counters to the portfolio page)
             document.querySelectorAll(".counter-item .odometer").forEach((el) => {
                 const odometer = new Odometer({
                     el: el,
@@ -96,7 +91,6 @@ const Projects = () => {
                 observer.observe(el);
             });
 
-            // Swiper Sliders
             const initializeSwiper = (selector, config) => {
                 const element = document.querySelector(selector);
                 if (element) {
@@ -107,7 +101,6 @@ const Projects = () => {
                 return null;
             };
 
-            // Portfolio Slider
             initializeSwiper(".quanto-project__slider", {
                 slidesPerView: 1,
                 loop: true,
@@ -124,7 +117,6 @@ const Projects = () => {
                 },
             });
 
-            // Smooth Scrolling
             if (window.innerWidth > 767 && document.querySelector("#has_smooth")) {
                 smootherRef.current = ScrollSmoother.create({
                     smooth: 0.9,
@@ -135,7 +127,6 @@ const Projects = () => {
                 });
             }
 
-            // Hover Overlay Animations for Project Boxes
             document.querySelectorAll(".quanto-project-box").forEach((box) => {
                 const overlay = document.createElement("div");
                 overlay.className = "hover-overlay";
@@ -191,7 +182,6 @@ const Projects = () => {
                 });
             });
 
-            // Move Animation for Portfolio Content
             document.querySelectorAll(".move-anim").forEach((splitTextLine) => {
                 const delay_value = splitTextLine.getAttribute("data-delay") || 0.1;
                 const tl = gsap.timeline({
@@ -216,7 +206,6 @@ const Projects = () => {
                 });
             });
 
-            // Fade Animation for Project Boxes
             document.querySelectorAll(".fade-anim").forEach((item) => {
                 const fade_direction = item.getAttribute("data-direction") || "bottom";
                 const onscroll_value = item.getAttribute("data-on-scroll") || 1;
@@ -243,7 +232,6 @@ const Projects = () => {
                 gsap.from(item, animation_settings);
             });
 
-            // Word Animation for Project Titles
             document.querySelectorAll(".word-anim").forEach((word_anim_item) => {
                 const stagger_value = parseFloat(word_anim_item.getAttribute("data-stagger") || 0.04);
                 const translateX_value = word_anim_item.getAttribute("data-translateX") || false;
@@ -270,7 +258,6 @@ const Projects = () => {
                 gsap.from(split_word.words, animation_settings);
             });
 
-            // Image Reveal Animation for Project Thumbnails
             document.querySelectorAll(".img_reveal").forEach((img_reveal) => {
                 const image = img_reveal.querySelector("img");
                 const tl = gsap.timeline({
@@ -284,7 +271,21 @@ const Projects = () => {
                     .from(image, { xPercent: 100, scale: 1.5, ease: "power2.out", duration: 1.5 }, "-=1.5");
             });
 
-            // Section Jump for Scroll Links
+            document.querySelectorAll(".quanto-hero__thumb").forEach((thumb) => {
+                const image = thumb.querySelector("img");
+                const dataSpeed = parseFloat(thumb.querySelector("img").getAttribute("data-speed") || 0.8);
+                gsap.to(image, {
+                    yPercent: 20 * (1 - dataSpeed),
+                    ease: "none",
+                    scrollTrigger: {
+                        trigger: thumb,
+                        start: "top bottom",
+                        end: "bottom top",
+                        scrub: true,
+                    },
+                });
+            });
+
             document.querySelectorAll(".section-link").forEach((link) => {
                 link.addEventListener("click", (event) => {
                     event.preventDefault();
@@ -295,73 +296,236 @@ const Projects = () => {
                         const targetSection = document.querySelector(targetID);
                         if (targetSection) {
                             gsap.to(window, { duration: 1, scrollTo: { y: targetSection, offsetY: 50 } });
-                        } else {
-                            console.error(`Section with ID ${targetID} does not exist.`);
                         }
                     }
                 });
             });
         });
 
-        // Cleanup
         return () => {
             swiperInstances.current.forEach((swiper) => swiper.destroy(true, true));
             if (smootherRef.current) smootherRef.current.kill();
             gsapContext.current.revert();
-            window.removeEventListener("scroll", () => { });
-            window.removeEventListener("mousemove", () => { });
-            document.querySelectorAll("a, .cursor-pointer").forEach((item) => {
-                item.removeEventListener("mouseover", () => { });
-                item.removeEventListener("mouseout", () => { });
-            });
-            document.querySelectorAll(".section-link").forEach((link) => {
-                link.removeEventListener("click", () => { });
-            });
-            console.log("Cleaned up animations and event listeners");
         };
     }, []);
 
     return (
         <>
+            <style>{`
+                .quanto-project-box {
+                    position: relative;
+                    overflow: hidden;
+                    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+                    border-radius: 12px;
+                }
+                .word-anim {
+                    color:#63334E;
+                    font-size:105px;
+                }
+
+                .quanto-project-box::after {
+                    content: '';
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background: linear-gradient(135deg, rgba(255, 105, 180, 0.1), rgba(255, 20, 147, 0.1));
+                    opacity: 0;
+                    transition: opacity 0.4s ease;
+                    pointer-events: none;
+                    z-index: 1;
+                }
+
+                .quanto-project-box:hover::after {
+                    opacity: 1;
+                }
+
+                .quanto-project-box:hover {
+                    transform: translateY(-15px) scale(1.02);
+                    box-shadow: 0 20px 50px rgba(255, 105, 180, 0.3);
+                }
+
+                .quanto-project-thumb {
+                    position: relative;
+                    overflow: hidden;
+                }
+
+                .quanto-project-thumb::before {
+                    content: '';
+                    position: absolute;
+                    top: 0;
+                    left: -100%;
+                    width: 100%;
+                    height: 100%;
+                    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+                    transition: left 0.7s ease;
+                    z-index: 2;
+                }
+
+                .quanto-project-box:hover .quanto-project-thumb::before {
+                    left: 100%;
+                }
+
+                .quanto-project-thumb img {
+                    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+                }
+
+                .quanto-project-box:hover .quanto-project-thumb img {
+                    transform: scale(1.15) rotate(2deg);
+                }
+
+                .quanto-project-content {
+                    position: relative;
+                    z-index: 2;
+                    transition: all 0.3s ease;
+                }
+
+                .quanto-project-content h5 {
+                    transition: all 0.3s ease;
+                }
+
+                .quanto-project-box:hover .quanto-project-content h5 {
+                    color: #790845ff;
+                    transform: translateX(10px);
+                }
+
+                .quanto-project-date {
+                    transition: all 0.3s ease;
+                    display: inline-block;
+                }
+
+                .quanto-project-box:hover .quanto-project-date {
+                    color: #790845ff;
+                    transform: translateX(10px);
+                }
+
+                .quanto-project-date i {
+                    transition: transform 0.3s ease;
+                    display: inline-block;
+                }
+
+                .quanto-project-box:hover .quanto-project-date i {
+                    transform: rotate(180deg);
+                }
+
+                @keyframes floatAnimation {
+                    0%, 100% { transform: translateY(0px); }
+                    50% { transform: translateY(-10px); }
+                }
+
+                .quanto-project-box:hover {
+                    animation: floatAnimation 3s ease-in-out infinite;
+                }
+
+                .hover-overlay {
+                    background: linear-gradient(135deg, rgba(255, 105, 180, 0.15), rgba(255, 20, 147, 0.15));
+                }
+
+                .client-box {
+                    transition: all 0.3s ease;
+                }
+
+                .client-box:hover {
+                    transform: scale(1.1) rotate(3deg);
+                    filter: drop-shadow(0 5px 15px rgba(255, 105, 180, 0.3));
+                }
+
+                .banner-overlay {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background: linear-gradient(135deg, rgba(255, 105, 180, 0.2), rgba(255, 20, 147, 0.2));
+                    pointer-events: none;
+                }
+
+                .project-banner-text {
+                    color:#8d1350ff;
+                    text-shadow: 2px 2px 4px rgba(57, 54, 54, 0.3);
+                    background: linear-gradient(135deg, #8d1350ff, #720540ff);
+                    -webkit-background-clip: text;
+                    -webkit-text-fill-color: transparent;
+                    background-clip: text;
+                }
+            `}</style>
             <div className="cursor d-none d-lg-block"></div>
-            <a href="#" id="scroll-top" className="back-to-top-btn section-link">
+            <a href="#header" id="scroll-top" className="back-to-top-btn section-link">
                 <i className="fa-solid fa-arrow-up"></i>
             </a>
-            <div >
+            <div>
                 <div id="smooth-content">
-                    <section className="quanto-hero-faq-section section-padding-bottom overflow-hidden">
+                    {/* Banner Section */}
+                    <div className="quanto-video-area style-2 overflow-hidden">
+                        <div className="container custom-container position-relative">
+                            {/* <a href="#project-section" className="scroll-down section-link">
+                                Scroll down
+                                <img src="assets/images/icons/scroll-down.svg" alt="Scroll down" loading="lazy" />
+                            </a> */}
+                            <div className="row">
+                                <div className="col-12">
+                                    <div className="quanto-hero__thumb text-end fade-anim" data-delay="0.30" data-direction="bottom" style={{ position: 'relative' }}>
+                                        <div className="banner-overlay"></div>
+                                        <img
+                                            src="assets/images/project/projectBanner.webp"
+                                            alt="project-banner"
+                                            data-speed="0.8"
+                                            className="w-100"
+                                            loading="lazy"
+                                            style={{height:'700px',objectFit:'contain'}}
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <section className="quanto-hero-faq-section overflow-hidden" id="project-section">
                         <div className="container custom-container">
                             <div className="row g-4">
                                 <div className="col-lg-12 col-xxl-11">
+                                    {/* <div className="quanto-hero-common__content move-anim" data-delay="0.45">
+                                        <h1 className="title word-anim project-banner-text" data-delay="0.60">
+                                            Harmonizing Spaces with Ancient Wisdom
+                                        </h1>
+                                        <p className="move-anim" data-delay="0.75" style={{ fontSize: '1.2rem', marginTop: '20px', color: '#666' }}>
+                                            Transforming environments through the timeless principles of Vastu Shastra
+                                        </p>
+                                    </div> */}
                                     <div className="quanto-hero-common__content move-anim" data-delay="0.45">
                                         <h1 className="title word-anim" data-delay="0.60">
-                                            Creating unforgettable digital impressions
+                                            Harmonizing Spaces with Ancient Wisdom
                                         </h1>
+                                        <p className="move-anim" data-delay="0.75" style={{ fontSize: '1.2rem', marginTop: '20px', color: 'rgb(113 4 45)' }}>
+                                            Transforming environments through the timeless principles of Vastu Shastra
+                                        </p>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </section>
+
                     <section className="quanto-project-section bg-color-white section-padding-bottom overflow-hidden">
                         <div className="container custom-container">
                             <div className="row g-0 gy-4 gy-md-0 justify-content-between">
                                 <div className="col-12 col-md-5 order-1 order-md-0">
                                     <div className="row g-0">
                                         {[
-                                            { title: "Kinetic Sandscapes", img: "./assets/images/project/project-1.png", year: "2024", category: "Branding" },
-                                            { title: "Brooklyn Brewery", img: "./assets/images/project/project-3.png", year: "2024", category: "Photography" },
-                                            { title: "Regenerative Farming", img: "./assets/images/project/project-5.png", year: "2024", category: "Branding" },
+                                            { title: "Residential Vastu Design", img: "./assets/images/project/residencialVastu.webp", year: "2024", category: "Home Consultation" },
+                                            { title: "Commercial Space Alignment", img: "./assets/images/project/commercialImage.webp", year: "2024", category: "Office Design" },
+                                            { title: "Temple Architecture", img: "./assets/images/project/templeArch.jpg", year: "2024", category: "Sacred Spaces" },
                                         ].map((project, index) => (
                                             <div key={index} className="col-md-12 project-row-gap">
                                                 <div className="quanto-project-box overflow-hidden fade-anim" data-delay={0.30 + index * 0.15} data-direction="left">
-                                                    <a href="portfolio-details.html">
+                                                    <Link to='/projects-details'>
                                                         <div className="quanto-project-thumb overflow-hidden img_reveal">
                                                             <img src={project.img} alt="project-thumb" className="w-100" loading="lazy" />
                                                         </div>
-                                                    </a>
+                                                    </Link>
                                                     <div className="quanto-project-content">
                                                         <h5 className="text-color-primary line-clamp-1 word-anim" data-delay={0.30 + index * 0.15}>
-                                                            <a href="portfolio-details.html">{project.title}</a>
+                                                            <Link to='/projects-details'>{project.title}</Link>
                                                         </h5>
                                                         <span className="quanto-project-date text-color-primary move-anim" data-delay={0.45 + index * 0.15}>
                                                             {project.year}
@@ -380,20 +544,20 @@ const Projects = () => {
                                             <div className="quanto__header text-center text-md-end"></div>
                                         </div>
                                         {[
-                                            { title: "Hopscotch Payments", img: "./assets/images/project/project-2.png", year: "2024", category: "Development" },
-                                            { title: "Stories Worthwhile", img: "./assets/images/project/project-4.png", year: "2024", category: "UI/UX Design" },
-                                            { title: "Fintech Accelerator", img: "./assets/images/project/project-6.png", year: "2024", category: "UI/UX Design" },
+                                            { title: "Industrial Vastu Planning", img: "./assets/images/project/Vastu-For-Factory.jpg", year: "2024", category: "Factory Layout" },
+                                            { title: "Garden & Landscape Design", img: "./assets/images/project/garden.jpg", year: "2024", category: "Outdoor Spaces" },
+                                            { title: "Remedial Solutions", img: "./assets/images/project/ramedic.webp", year: "2024", category: "Corrections" },
                                         ].map((project, index) => (
                                             <div key={index} className={`col-md-${index === 0 ? '10 ms-auto' : index === 1 ? '9 me-auto' : '10 ms-auto'} project-row-gap`}>
                                                 <div className="quanto-project-box overflow-hidden fade-anim" data-delay={0.30 + index * 0.15} data-direction="right">
-                                                    <a href="portfolio-details.html">
+                                                    <Link to='/projects-details'>
                                                         <div className="quanto-project-thumb overflow-hidden img_reveal">
                                                             <img src={project.img} alt="project-thumb" className="w-100" loading="lazy" />
                                                         </div>
-                                                    </a>
+                                                    </Link>
                                                     <div className="quanto-project-content">
                                                         <h5 className="text-color-primary line-clamp-1 word-anim" data-delay={0.30 + index * 0.15}>
-                                                            <a href="portfolio-details.html">{project.title}</a>
+                                                            <Link to='/projects-details'>{project.title}</Link>
                                                         </h5>
                                                         <span className="quanto-project-date text-color-primary move-anim" data-delay={0.45 + index * 0.15}>
                                                             {project.year}
@@ -409,20 +573,21 @@ const Projects = () => {
                             </div>
                         </div>
                     </section>
+
                     <div className="quanto-clients-area bg-color-2 section-padding-bottom">
                         <div className="container custom-container">
                             <div className="row g-4">
                                 <div className="col-12">
-                                    <p className="move-anim" data-delay="0.30">We worked with largest global brands</p>
+                                    <p className="move-anim" data-delay="0.30">Trusted by leading organizations worldwide</p>
                                 </div>
                                 <div className="col-12 clients__box-wrapper">
                                     {[
-                                        { logo: logo3, delay: 0.30 },
-                                        { logo: logo4, delay: 0.45 },
-                                        { logo: logo5, delay: 0.60 },
-                                        { logo: logo6, delay: 0.75 },
-                                        { logo: logo7, delay: 0.90 },
-                                        { logo: logo8, delay: 1.05 },
+                                        { logo: "assets/images/project/logo4.jpg", delay: 0.30 },
+                                        { logo: "assets/images/project/logo3.png", delay: 0.45 },
+                                        { logo: "assets/images/project/logo4.jpg", delay: 0.60 },
+                                        { logo: "assets/images/project/logo5.jpg", delay: 0.75 },
+                                        { logo: "assets/images/project/logo3.png", delay: 0.90 },
+                                        { logo: "assets/images/project/logo4.jpg", delay: 1.05 },
                                     ].map((client, index) => (
                                         <div key={index} className="client-box fade-anim" data-delay={client.delay} data-direction="right">
                                             <img src={client.logo} alt="client-logo" loading="lazy" />
@@ -433,7 +598,6 @@ const Projects = () => {
                         </div>
                     </div>
                 </div>
-
             </div>
         </>
     );

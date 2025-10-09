@@ -318,49 +318,12 @@ const Contact = () => {
                     `
                 }
             </style>
-            <div >
-                <div id="smooth-content">
-                    <section className="quanto-hero-section section-padding-bottom overflow-hidden">
-                        <div className="container custom-container">
-                            <div className="row g-4">
-                                <div className="col-lg-12 col-xxl-11">
-                                    <div className="quanto-hero-common__content move-anim" data-delay="0.45">
-                                        <h1 className="title word-anim" data-delay="0.60" style={{ color: "#713B72" }}>We’re just a message away to help you</h1>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
-                    <div className="quanto-map-area style-2 overflow-hidden">
-                        <div className="container custom-container position-relative">
-                            <Link to="#quanto-contact-section" className="scroll-down section-link">
-                                Scroll down
-                                <img src="/assets/images/icons/scroll-down.svg" alt="Scroll down" loading="lazy" />
-                            </Link>
-                            <div className="row">
-                                <div className="col-12">
-                                    <iframe
-                                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d6511980.545439102!2d-124.59221413351302!3d37.160355323932215!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x808fb9fe5f285e3d%3A0x8b5109a227086f55!2sCalifornia%2C%20USA!5e0!3m2!1sen!2sbd!4v1739717831300!5m2!1sen!2sbd"
-                                        width="600"
-                                        height="800"
-                                        style={{ border: 0 }}
-                                        allowFullScreen=""
-                                        loading="lazy"
-                                        referrerPolicy="no-referrer-when-downgrade"
-                                        className="d-block w-100 fade-anim"
-                                        data-delay="0.30"
-                                        data-direction="bottom"
-                                    ></iframe>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <section id="quanto-contact-section" className="quanto-contact-section bg-color-white section-padding-top-bottom">
+            <section id="quanto-contact-section" className="quanto-contact-section bg-color-white section-padding-top">
                         <div className="container custom-container">
                             <div className="row g-4 justify-content-between">
                                 <div className="col-lg-6 col-xxl-5">
                                     <div className="quanto-contact__content fade-anim" data-delay="0.30" data-direction="left">
-                                        <h3 className="title word-anim" data-delay="0.30">Let’s create your brand that shines!</h3>
+                                        <h3 className="title word-anim" data-delay="0.30">Let’s create your Space that shines!</h3>
                                         <p className="move-anim" data-delay="0.45">
                                             Whether you’re interested in collaborating with us on your next project or simply want to reach out for a conversation.
                                         </p>
@@ -443,6 +406,44 @@ const Contact = () => {
                             </div>
                         </div>
                     </section>
+            <div >
+                <div id="smooth-content">
+                    <section className="quanto-hero-section section-padding-bottom overflow-hidden">
+                        <div className="container custom-container">
+                            <div className="row g-4">
+                                <div className="col-lg-12 col-xxl-11">
+                                    <div className="quanto-hero-common__content move-anim" data-delay="0.45">
+                                        <h1 className="title word-anim" data-delay="0.60" style={{ color: "#713B72" }}>We’re just a message away to help you</h1>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    <div className="quanto-map-area style-2 overflow-hidden">
+                        <div className="container custom-container position-relative">
+                            <Link to="#quanto-contact-section" className="scroll-down section-link">
+                                Scroll down
+                                <img src="/assets/images/icons/scroll-down.svg" alt="Scroll down" loading="lazy" />
+                            </Link>
+                            <div className="row">
+                                <div className="col-12 section-padding-bottom">
+                                    <iframe
+                                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d6511980.545439102!2d-124.59221413351302!3d37.160355323932215!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x808fb9fe5f285e3d%3A0x8b5109a227086f55!2sCalifornia%2C%20USA!5e0!3m2!1sen!2sbd!4v1739717831300!5m2!1sen!2sbd"
+                                        width="600"
+                                        height="800"
+                                        style={{ border: 0 }}
+                                        allowFullScreen=""
+                                        loading="lazy"
+                                        referrerPolicy="no-referrer-when-downgrade"
+                                        className="d-block w-100 fade-anim"
+                                        data-delay="0.30"
+                                        data-direction="bottom"
+                                    ></iframe>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
                 </div>
 
             </div>

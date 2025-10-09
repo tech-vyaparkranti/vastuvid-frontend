@@ -233,7 +233,7 @@ const ProjectsDetails = () => {
             </Link>
             <div >
                 <div id="smooth-content">
-                    <section className="quanto-hero-common-section section-padding-bottom overflow-hidden">
+                    {/* <section className="quanto-hero-common-section section-padding-bottom overflow-hidden">
                         <div className="container custom-container">
                             <div className="row g-4">
                                 <div className="col-lg-12 col-xxl-11">
@@ -243,21 +243,22 @@ const ProjectsDetails = () => {
                                 </div>
                             </div>
                         </div>
-                    </section>
+                    </section> */}
                     <div className="quanto-image-area style-2 overflow-hidden">
                         <div className="container custom-container position-relative">
-                            <Link to="#quanto-portfolio-details-section" className="scroll-down section-link">
+                            {/* <Link to="#quanto-portfolio-details-section" className="scroll-down section-link">
                                 Scroll down
                                 <img src="/assets/images/icons/scroll-down.svg" alt="Scroll down" loading="lazy" />
-                            </Link>
+                            </Link> */}
                             <div className="row">
                                 <div className="col-12">
                                     <div className="quanto-hero__thumb text-end fade-anim" data-delay="0.30" data-direction="bottom">
                                         <img
-                                            src="/assets/images/portfolio-details/portfolio-details-thumb.png"
+                                            src="/ServiceImages/vastuKrishn.webp"
                                             alt="Image Area"
                                             data-speed="0.8"
                                             className="d-block w-100"
+                                            style={{height:'750px'}}
                                             loading="lazy"
                                         />
                                     </div>
@@ -289,7 +290,7 @@ const ProjectsDetails = () => {
                                             establish a competitive edge in their industry. By combining thoughtful design, strategic
                                             innovation, and a user-first approach, we create products.
                                         </p>
-                                        <Link to="/index" className="quanto-link-btn">
+                                        <Link to="/" className="quanto-link-btn">
                                             Visit live website
                                             <span>
                                                 <i className="fa-solid fa-arrow-right arry1"></i>
@@ -315,9 +316,9 @@ const ProjectsDetails = () => {
                             </div>
                             <div className="row g-3 g-lg-4 section-padding-top">
                                 {[
-                                    '/assets/images/portfolio-details/portfolio-details-fig-1.png',
-                                    '/assets/images/portfolio-details/portfolio-details-fig-2.png',
-                                    '/assets/images/portfolio-details/portfolio-details-fig-3.png',
+                                    '/assets/images/project/ramedic.webp',
+                                    '/assets/images/project/projectBanner.webp',
+                                    '/assets/images/project/templeArch.jpg',
                                 ].map((src, index) => (
                                     <div key={index} className={`col-${index === 2 ? '12' : 'sm-6'} overflow-hidden portfolio-details__image fade-anim`} data-delay={0.30 + index * 0.15}>
                                         <img
@@ -325,6 +326,7 @@ const ProjectsDetails = () => {
                                             alt="portfolio-details-fig"
                                             data-speed="0.8"
                                             className="w-100"
+                                            style={{height:"550px"}}
                                             loading="lazy"
                                         />
                                     </div>

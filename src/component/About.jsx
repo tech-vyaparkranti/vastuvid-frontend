@@ -245,6 +245,19 @@ const About = () => {
                     });
                 });
             });
+
+            document.querySelectorAll(".img_reveal").forEach((img_reveal) => {
+                            const image = img_reveal.querySelector("img");
+                            const tl = gsap.timeline({
+                                scrollTrigger: {
+                                    trigger: img_reveal,
+                                    start: "top 70%",
+                                },
+                            });
+                            tl.set(img_reveal, { autoAlpha: 1 })
+                                .from(img_reveal, { xPercent: -100, ease: "power2.out", duration: 1 })
+                                .from(image, { xPercent: 100, scale: 1.5, ease: "power2.out", duration: 1.5 }, "-=1.5");
+                        });
         });
 
         return () => {
@@ -290,7 +303,7 @@ const About = () => {
 
                 .banner-subtitle {
                     font-size: 1.3rem;
-                    color: #ec4899;
+                    color: #841c4e;
                     font-weight: 500;
                     margin-bottom: 30px;
                 }
@@ -330,7 +343,7 @@ const About = () => {
                     position: absolute;
                     font-size: 2rem;
                     opacity: 0.08;
-                    color: #ec4899;
+                    color: #841c4e;
                 }
 
                 /* Belief Section */
@@ -377,19 +390,19 @@ const About = () => {
                     left: 0;
                     width: 100%;
                     height: 4px;
-                    background: linear-gradient(90deg, #ec4899, #db2777);
+                    background: linear-gradient(90deg, #841c4e, #db2777);
                 }
 
                 .belief-card:hover {
                     transform: translateY(-10px);
-                    border-color: #ec4899;
+                    border-color: #5b1135ff;
                     box-shadow: 0 25px 60px rgba(236, 72, 153, 0.2);
                 }
 
                 .belief-icon {
                     width: 70px;
                     height: 70px;
-                    background: linear-gradient(135deg, #ec4899, #db2777);
+                    background: linear-gradient(135deg, #841c4e, #590b2eff);
                     border-radius: 50%;
                     display: flex;
                     align-items: center;
@@ -437,13 +450,13 @@ const About = () => {
 
                 .milestone-card:hover {
                     transform: translateY(-5px);
-                    border-color: #ec4899;
+                    border-color: #841c4e;
                 }
 
                 .milestone-number {
                     font-size: 3.5rem;
                     font-weight: 700;
-                    color: #ec4899;
+                    color: #841c4e;
                     font-family: 'Georgia', serif;
                     display: flex;
                     align-items: center;
@@ -487,13 +500,13 @@ const About = () => {
                     left: 0;
                     width: 6px;
                     height: 100%;
-                    background: linear-gradient(180deg, #ec4899, #db2777);
+                    background: linear-gradient(180deg, #841c4e, #7c073cff);
                 }
 
                 .mv-icon {
                     width: 80px;
                     height: 80px;
-                    background: linear-gradient(135deg, #ec4899, #db2777);
+                    background: linear-gradient(135deg, #841c4e, #6e0434ff);
                     border-radius: 20px;
                     display: flex;
                     align-items: center;
@@ -535,7 +548,7 @@ const About = () => {
                     content: '✓';
                     position: absolute;
                     left: 0;
-                    color: #ec4899;
+                    color: #841c4e;
                     font-weight: bold;
                     font-size: 1.2rem;
                 }
@@ -558,7 +571,7 @@ const About = () => {
                 }
 
                 .vastu-team-card:hover {
-                    border-color: #ec4899;
+                    border-color: #841c4e;
                 }
 
                 .hover-overlay-vastu {
@@ -567,7 +580,7 @@ const About = () => {
                     left: 0;
                     width: 100%;
                     height: 100%;
-                    background: linear-gradient(135deg, rgba(236, 72, 153, 0.9) 0%, rgba(219, 39, 119, 0.8) 100%);
+                    // background: linear-gradient(135deg, rgba(99, 4, 52, 0.9) 0%, rgba(142, 3, 66, 0.8) 100%);
                     z-index: 2;
                     pointer-events: none;
                 }
@@ -595,7 +608,7 @@ const About = () => {
                     right: 20px;
                     width: 50px;
                     height: 50px;
-                    background: rgba(236, 72, 153, 0.9);
+                    background: rgba(121, 11, 66, 0.9);
                     border-radius: 50%;
                     display: flex;
                     align-items: center;
@@ -636,12 +649,12 @@ const About = () => {
                 }
 
                 .team-name-vastu a:hover {
-                    color: #ec4899;
+                    color: #841c4e;
                 }
 
                 .team-position-vastu {
                     display: block;
-                    color: #ec4899;
+                    color: #841c4e;
                     font-size: 0.95rem;
                     font-weight: 500;
                     margin-bottom: 15px;
@@ -650,7 +663,7 @@ const About = () => {
                 .vastu-divider {
                     width: 60px;
                     height: 3px;
-                    background: linear-gradient(90deg, #ec4899, #db2777);
+                    background: linear-gradient(90deg, #841c4e, #80083eff);
                     margin: 15px 0;
                     border-radius: 2px;
                 }
@@ -670,14 +683,14 @@ const About = () => {
                     width: 38px;
                     height: 38px;
                     background: #fff5f7;
-                    color: #ec4899;
+                    color: #841c4e;
                     border-radius: 50%;
                     transition: all 0.3s ease;
                     text-decoration: none;
                 }
 
                 .social-links-vastu li a:hover {
-                    background: #ec4899;
+                    background: #841c4e;
                     color: white;
                     transform: translateY(-3px);
                 }
@@ -849,7 +862,7 @@ const About = () => {
                         </div>
                     </section> */}
 
-                    <section className="quanto-about-area2 bg-color-white section-padding-top">
+                   <section className="quanto-about-area2 bg-color-white section-padding-top">
                         <div className="container custom-container">
                             <div className="row">
                                 <div className="col-xl-9 col-xxl-8 mx-auto">
@@ -864,8 +877,8 @@ const About = () => {
                                 <div className="col-md-6 col-xl-5 col-xxl-4 d-flex align-items-xl-center order-1 order-xl-0 overflow-hidden">
                                     <div className="img_reveal overflow-hidden">
                                         <img
-                                            src="./assets/images/about/about-thumb-2-1.png"
-                                            alt="about-thumb"
+                                            src="./assets/images/project/ramedic.webp"
+                                            alt="vastu Shastra"
                                             className="w-100"
                                             loading="lazy"
                                         />
@@ -889,7 +902,7 @@ const About = () => {
                                         <figure className="overflow-hidden">
                                             <div className="img_reveal overflow-hidden">
                                                 <img
-                                                    src="./assets/images/about/about-thumb-2-2.png"
+                                                    src="./assets/images/project/ramedic.webp"
                                                     alt="about-thumb"
                                                     loading="lazy"
                                                 />
@@ -900,7 +913,7 @@ const About = () => {
                                 <div className="col-md-6 col-xl-2 d-flex align-items-xl-center order-xl-2 overflow-hidden">
                                     <div className="img_reveal overflow-hidden">
                                         <img
-                                            src="./assets/images/about/about-thumb-2-3.png"
+                                            src="./assets/images/project/org1.webp"
                                             alt="about-thumb"
                                             className="w-100"
                                             loading="lazy"
@@ -1051,13 +1064,13 @@ const About = () => {
 
                             <div className="row gx-4 gy-5 gx-sm-3 gx-md-4">
                                 {[
-                                    { name: "Acharya Rajesh Kumar", position: "Chief Vastu Consultant", img: "/assets/images/team/team-1.png", link: "/team-details" },
-                                    { name: "Dr. Priya Sharma", position: "Senior Vastu Architect", img: "/assets/images/team/team-2.png", link: "/team-details" },
-                                    { name: "Pandit Vikram Singh", position: "Vedic Vastu Specialist", img: "/assets/images/team/team-3.png", link: "/team-details" },
-                                    { name: "Anjali Mehta", position: "Residential Vastu Expert", img: "/assets/images/team/team-4.png", link: "/team-details" },
+                                    { name: "Acharya Rajesh Kumar", position: "Chief Vastu Consultant", img: "/assets/images/project/ramedic.webp", link: "/team-details" },
+                                    { name: "Dr. Priya Sharma", position: "Senior Vastu Architect", img: "/assets/images/project/logo3.png", link: "/team-details" },
+                                    { name: "Pandit Vikram Singh", position: "Vedic Vastu Specialist", img: "/assets/images/project/aboutThumb.png", link: "/team-details" },
+                                    { name: "Anjali Mehta", position: "Residential Vastu Expert", img: "/assets/images/project/org1.webp", link: "/team-details" },
                                 ].map((member, index) => (
                                     <div key={index} className="col-sm-6 col-md-6 col-lg-4 col-xl-3">
-                                        <div className="vastu-team-card fade-anim" data-delay={0.30 + index * 0.15} data-direction="bottom">
+                                        <div className="vastu-team-card" data-delay={0.30 + index * 0.15} data-direction="bottom">
                                             <figure className="team-thumb-vastu">
                                                 <img src={member.img} alt={member.name} className="w-100" loading="lazy" />
                                                 <div className="om-symbol">ॐ</div>

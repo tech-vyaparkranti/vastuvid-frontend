@@ -314,7 +314,7 @@ const Navbar = () => {
                                             <li><Link to="/about">About Us</Link></li>
                                             <li > <Link to="/service">Service</Link></li>
                                             <li>
-                                                        <Link to="/pricing">Packages</Link>
+                                                        <Link to="/package">Packages</Link>
                                                     </li>
                                                     <li>
                                                         <Link to="/projects">Projects</Link>

@@ -25,7 +25,7 @@ gsap.registerPlugin(ScrollTrigger, ScrollSmoother, SplitText);
 // Register Swiper modules
 Swiper.use([Navigation, Autoplay, EffectFade]);
 
-const Blog = () => {
+const Projects = () => {
     const swiperInstances = useRef([]);
     const smootherRef = useRef(null);
     const gsapContext = useRef(null);
@@ -75,7 +75,7 @@ const Blog = () => {
                 });
             }
 
-            // Odometer Counter (optional, if you want to add counters to the blog page)
+            // Odometer Counter (optional, if you want to add counters to the portfolio page)
             document.querySelectorAll(".counter-item .odometer").forEach((el) => {
                 const odometer = new Odometer({
                     el: el,
@@ -96,7 +96,7 @@ const Blog = () => {
                 observer.observe(el);
             });
 
-            // Swiper Sliders (optional, if you want to add a slider to the blog page)
+            // Swiper Sliders
             const initializeSwiper = (selector, config) => {
                 const element = document.querySelector(selector);
                 if (element) {
@@ -107,14 +107,14 @@ const Blog = () => {
                 return null;
             };
 
-            // Example: Blog Slider (if you want to add a slider for featured blogs)
-            initializeSwiper(".quanto-blog-slider", {
+            // Portfolio Slider
+            initializeSwiper(".quanto-project__slider", {
                 slidesPerView: 1,
                 loop: true,
                 spaceBetween: 15,
                 navigation: {
-                    nextEl: ".quanto-blog__slider-navigation .next-btn",
-                    prevEl: ".quanto-blog__slider-navigation .prev-btn",
+                    nextEl: ".quanto-project__slider-navigation .next-btn",
+                    prevEl: ".quanto-project__slider-navigation .prev-btn",
                 },
                 breakpoints: {
                     576: { spaceBetween: 20, slidesPerView: 1.3 },
@@ -135,8 +135,8 @@ const Blog = () => {
                 });
             }
 
-            // Hover Overlay Animations for Blog Boxes
-            document.querySelectorAll(".quanto-blog-box").forEach((box) => {
+            // Hover Overlay Animations for Project Boxes
+            document.querySelectorAll(".quanto-project-box").forEach((box) => {
                 const overlay = document.createElement("div");
                 overlay.className = "hover-overlay";
                 box.insertBefore(overlay, box.firstChild);
@@ -191,7 +191,7 @@ const Blog = () => {
                 });
             });
 
-            // Move Animation for Blog Content
+            // Move Animation for Portfolio Content
             document.querySelectorAll(".move-anim").forEach((splitTextLine) => {
                 const delay_value = splitTextLine.getAttribute("data-delay") || 0.1;
                 const tl = gsap.timeline({
@@ -216,7 +216,7 @@ const Blog = () => {
                 });
             });
 
-            // Fade Animation for Blog Boxes
+            // Fade Animation for Project Boxes
             document.querySelectorAll(".fade-anim").forEach((item) => {
                 const fade_direction = item.getAttribute("data-direction") || "bottom";
                 const onscroll_value = item.getAttribute("data-on-scroll") || 1;
@@ -243,7 +243,7 @@ const Blog = () => {
                 gsap.from(item, animation_settings);
             });
 
-            // Word Animation for Blog Titles
+            // Word Animation for Project Titles
             document.querySelectorAll(".word-anim").forEach((word_anim_item) => {
                 const stagger_value = parseFloat(word_anim_item.getAttribute("data-stagger") || 0.04);
                 const translateX_value = word_anim_item.getAttribute("data-translateX") || false;
@@ -270,7 +270,21 @@ const Blog = () => {
                 gsap.from(split_word.words, animation_settings);
             });
 
-            // Section Jump for Pagination
+            // Image Reveal Animation for Project Thumbnails
+            document.querySelectorAll(".img_reveal").forEach((img_reveal) => {
+                const image = img_reveal.querySelector("img");
+                const tl = gsap.timeline({
+                    scrollTrigger: {
+                        trigger: img_reveal,
+                        start: "top 70%",
+                    },
+                });
+                tl.set(img_reveal, { autoAlpha: 1 })
+                    .from(img_reveal, { xPercent: -100, ease: "power2.out", duration: 1 })
+                    .from(image, { xPercent: 100, scale: 1.5, ease: "power2.out", duration: 1.5 }, "-=1.5");
+            });
+
+            // Section Jump for Scroll Links
             document.querySelectorAll(".section-link").forEach((link) => {
                 link.addEventListener("click", (event) => {
                     event.preventDefault();
@@ -310,107 +324,86 @@ const Blog = () => {
     return (
         <>
             <div className="cursor d-none d-lg-block"></div>
-            <a href="#" id="scroll-top" className="back-to-top-btn">
+            <a href="#" id="scroll-top" className="back-to-top-btn section-link">
                 <i className="fa-solid fa-arrow-up"></i>
             </a>
-            <div>
+            <div >
                 <div id="smooth-content">
-                    {/* <section className="quanto-hero-blog-section section-padding-bottom overflow-hidden">
+                    <section className="quanto-hero-faq-section section-padding-bottom overflow-hidden">
                         <div className="container custom-container">
                             <div className="row g-4">
                                 <div className="col-lg-12 col-xxl-11">
-                                    <div className="quanto-hero-blog__content move-anim" data-delay="0.45">
+                                    <div className="quanto-hero-common__content move-anim" data-delay="0.45">
                                         <h1 className="title word-anim" data-delay="0.60">
-                                            Explore latest news and insights
+                                            Creating unforgettable digital impressions
                                         </h1>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </section> */}
-                     <div className="quanto-video-area style-2 overflow-hidden section-padding-bottom">
-                                            <div className="container custom-container position-relative">
-                                                
-                                                <div className="row">
-                                                    <div className="col-12">
-                                                        <div className="quanto-hero__thumb text-end fade-anim" data-delay="0.30" data-direction="bottom">
-                                                            <img
-                                                                src="ServiceImages/horse.webp"
-                                                                alt="hero-thumb"
-                                                                data-speed="0.8"
-                                                                className="w-100"
-                                                                style={{height:"750px" }}
-                                                                loading="lazy"
-                                                            />
+                    </section>
+                    <section className="quanto-project-section bg-color-white section-padding-bottom overflow-hidden">
+                        <div className="container custom-container">
+                            <div className="row g-0 gy-4 gy-md-0 justify-content-between">
+                                <div className="col-12 col-md-5 order-1 order-md-0">
+                                    <div className="row g-0">
+                                        {[
+                                            { title: "Kinetic Sandscapes", img: "./assets/images/project/project-1.png", year: "2024", category: "Branding" },
+                                            { title: "Brooklyn Brewery", img: "./assets/images/project/project-3.png", year: "2024", category: "Photography" },
+                                            { title: "Regenerative Farming", img: "./assets/images/project/project-5.png", year: "2024", category: "Branding" },
+                                        ].map((project, index) => (
+                                            <div key={index} className="col-md-12 project-row-gap">
+                                                <div className="quanto-project-box overflow-hidden fade-anim" data-delay={0.30 + index * 0.15} data-direction="left">
+                                                    <a href="portfolio-details.html">
+                                                        <div className="quanto-project-thumb overflow-hidden img_reveal">
+                                                            <img src={project.img} alt="project-thumb" className="w-100" loading="lazy" />
                                                         </div>
+                                                    </a>
+                                                    <div className="quanto-project-content">
+                                                        <h5 className="text-color-primary line-clamp-1 word-anim" data-delay={0.30 + index * 0.15}>
+                                                            <a href="portfolio-details.html">{project.title}</a>
+                                                        </h5>
+                                                        <span className="quanto-project-date text-color-primary move-anim" data-delay={0.45 + index * 0.15}>
+                                                            {project.year}
+                                                            <i className="bi bi-dash"></i>
+                                                            {project.category}
+                                                        </span>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                    <section className="quanto-blog-section section-padding-bottom overflow-hidden">
-                        {/* <div className="quanto-hero-blog__content move-anim" data-delay="0.45">
-                                        <h1 className="title word-anim" data-delay="0.60">
-                                            Explore latest news and insights
-                                        </h1>
-                                    </div> */}
+                                        ))}
+                                    </div>
+                                </div>
+                                <div className="col-12 col-md-6 order-0 order-md-1">
                                     <div className="row">
                                         <div className="col-12">
-                                            <div className="quanto__header section-padding-bottom">
-                                                <h3 className="title text-center text-lg-start fade-anim word-anim" data-delay="0.30" data-direction="left">
-                                                    Explore latest news and insights
-                                                </h3>
-                                            </div>
+                                            <div className="quanto__header text-center text-md-end"></div>
                                         </div>
-                                    </div>
-                        <div className="container custom-container">
-                            <div className="row gx-4 gy-5">
-                                {[
-                                    { title: "Reveal business opportunities with our five point brand audit", img: "./assets/images/blog/blog-thumb-1.png", date: "March 8, 2024" },
-                                    { title: "Quanto agency revolutionizes work with the power of ai-driven", img: "./assets/images/blog/blog-thumb-2.png", date: "March 8, 2024" },
-                                    { title: "How young leaders can take charge of their professional growth", img: "./assets/images/blog/blog-thumb-3.png", date: "March 8, 2024" },
-                                    { title: "Accessible and Inclusive Design: Welcoming All Users", img: "./assets/images/blog/blog-thumb-4.png", date: "March 8, 2024" },
-                                    { title: "Common UX pain in design related projects you must know", img: "./assets/images/blog/blog-thumb-5.png", date: "March 8, 2024" },
-                                    { title: "How to bring fold to your startup company with Quanto", img: "./assets/images/blog/blog-thumb-6.png", date: "March 8, 2024" },
-                                    { title: "Simple guide to retrieval auto generated read content models", img: "./assets/images/blog/blog-thumb-7.png", date: "March 8, 2024" },
-                                    { title: "How to manage a talented and successful design team", img: "./assets/images/blog/blog-thumb-8.png", date: "March 8, 2024" },
-                                    { title: "We are on the quest for exceptional talent to join our team", img: "./assets/images/blog/blog-thumb-9.png", date: "March 8, 2024" },
-                                ].map((blog, index) => (
-                                    <div key={index} className="col-md-6 col-lg-4">
-                                        <div className="quanto-blog-box fade-anim" data-delay={0.30 + (index % 3) * 0.15} data-direction="right">
-                                            <div className="quanto-blog-thumb">
-                                                <a href="/blog-details">
-                                                    <img src={blog.img} alt="blog-thumb" loading="lazy" />
-                                                </a>
-                                            </div>
-                                            <div className="quanto-blog-content">
-                                                <h5 className="line-clamp-2 word-anim" data-delay={0.30 + (index % 3) * 0.15}>
-                                                    <a href="/blog-details">{blog.title}</a>
-                                                </h5>
-                                                <span className="quanto-blog-date">{blog.date}</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
-                            <div className="row row-padding-top">
-                                <div className="col-12">
-                                    <div className="blog-pagination">
-                                        <nav aria-label="Page navigation example">
-                                            <ul className="pagination justify-content-end align-items-center custom-ul">
-                                                <li className="page-item">
-                                                    <a className="page-link section-link" href="#page1">1</a>
-                                                </li>
-                                                <li className="page-item">
-                                                    <a className="page-link section-link" href="#page2">2</a>
-                                                </li>
-                                                <li className="page-item">
-                                                    <a className="page-link next section-link" href="#next">
-                                                        Next
-                                                        <i className="fa-solid fa-arrow-right"></i>
+                                        {[
+                                            { title: "Hopscotch Payments", img: "./assets/images/project/project-2.png", year: "2024", category: "Development" },
+                                            { title: "Stories Worthwhile", img: "./assets/images/project/project-4.png", year: "2024", category: "UI/UX Design" },
+                                            { title: "Fintech Accelerator", img: "./assets/images/project/project-6.png", year: "2024", category: "UI/UX Design" },
+                                        ].map((project, index) => (
+                                            <div key={index} className={`col-md-${index === 0 ? '10 ms-auto' : index === 1 ? '9 me-auto' : '10 ms-auto'} project-row-gap`}>
+                                                <div className="quanto-project-box overflow-hidden fade-anim" data-delay={0.30 + index * 0.15} data-direction="right">
+                                                    <a href="portfolio-details.html">
+                                                        <div className="quanto-project-thumb overflow-hidden img_reveal">
+                                                            <img src={project.img} alt="project-thumb" className="w-100" loading="lazy" />
+                                                        </div>
                                                     </a>
-                                                </li>
-                                            </ul>
-                                        </nav>
+                                                    <div className="quanto-project-content">
+                                                        <h5 className="text-color-primary line-clamp-1 word-anim" data-delay={0.30 + index * 0.15}>
+                                                            <a href="portfolio-details.html">{project.title}</a>
+                                                        </h5>
+                                                        <span className="quanto-project-date text-color-primary move-anim" data-delay={0.45 + index * 0.15}>
+                                                            {project.year}
+                                                            <i className="bi bi-dash"></i>
+                                                            {project.category}
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        ))}
                                     </div>
                                 </div>
                             </div>
@@ -420,7 +413,7 @@ const Blog = () => {
                         <div className="container custom-container">
                             <div className="row g-4">
                                 <div className="col-12">
-                                    <p>We worked with largest global brands</p>
+                                    <p className="move-anim" data-delay="0.30">We worked with largest global brands</p>
                                 </div>
                                 <div className="col-12 clients__box-wrapper">
                                     {[
@@ -446,4 +439,4 @@ const Blog = () => {
     );
 };
 
-export default Blog;
+export default Projects;
