@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useLayoutEffect } from 'react';
+import React, { useLayoutEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import $ from "jquery"
 import logo from "../assets/images/logo.png"

@@ -6823,7 +6823,7 @@ a.quanto-default-btn.sm-size {
 }
 
 .footer-widgets.contact {
-  max-width: 206px;
+  max-width: 300px;
 }
 
 .footer-widgets.quanto {
@@ -6982,7 +6982,7 @@ a.quanto-default-btn.sm-size {
 
 .footer-widgets .social-links ul {
   display: flex;
-  justify-content: end;
+  /* justify-content: end; */
   flex-wrap: wrap;
   gap: 8px;
 }

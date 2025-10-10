@@ -449,6 +449,9 @@ const Projects = () => {
                     -webkit-text-fill-color: transparent;
                     background-clip: text;
                 }
+                  .quanto-project-section  {
+                  transform:none !important;
+                  }
             `}</style>
             <div className="cursor d-none d-lg-block"></div>
             <a href="#header" id="scroll-top" className="back-to-top-btn section-link">
@@ -473,7 +476,7 @@ const Projects = () => {
                                             data-speed="0.8"
                                             className="w-100"
                                             loading="lazy"
-                                            style={{height:'700px',objectFit:'contain'}}
+                                            style={{ height: '700px', objectFit: 'contain' }}
                                         />
                                     </div>
                                 </div>
@@ -506,7 +509,7 @@ const Projects = () => {
                         </div>
                     </section>
 
-                    <section className="quanto-project-section bg-color-white section-padding-bottom overflow-hidden">
+                    <section className="quanto-project-section bg-color-white section-padding-bottom overflow-hidden" style={{ transform: "none" }}>
                         <div className="container custom-container">
                             <div className="row g-0 gy-4 gy-md-0 justify-content-between">
                                 <div className="col-12 col-md-5 order-1 order-md-0">

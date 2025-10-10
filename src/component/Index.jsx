@@ -15,7 +15,6 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ScrollSmoother } from 'gsap/ScrollSmoother';
 import { ScrollToPlugin } from 'gsap/ScrollToPlugin';
 import { SplitText } from 'gsap/SplitText';
-import img1 from "../assets/images/clients/logo-3.png";
 import video4 from "../assets/images/video.mp4"
 import client from "../assets/images/client.webp"
 import construction from "../assets/images/construction.png"
@@ -195,35 +194,35 @@ const Index = () => {
 
 
             // Horizontal Scroll
-            const horizontalSection = horizontalScrollRef.current;
-            if (window.innerWidth > 1199 && horizontalSection) {
-                // Wait for images to load before creating scroll trigger
-                const images = horizontalSection.querySelectorAll('img');
-                const imagePromises = Array.from(images).map(img => {
-                    if (img.complete) return Promise.resolve();
-                    return new Promise(resolve => {
-                        img.onload = resolve;
-                        img.onerror = resolve;
-                    });
-                });
+            // const horizontalSection = horizontalScrollRef.current;
+            // if (window.innerWidth > 1199 && horizontalSection) {
+            //     // Wait for images to load before creating scroll trigger
+            //     const images = horizontalSection.querySelectorAll('img');
+            //     const imagePromises = Array.from(images).map(img => {
+            //         if (img.complete) return Promise.resolve();
+            //         return new Promise(resolve => {
+            //             img.onload = resolve;
+            //             img.onerror = resolve;
+            //         });
+            //     });
 
-                Promise.all(imagePromises).then(() => {
-                    gsap.to(horizontalSection, {
-                        x: () => horizontalSection.scrollWidth * -1,
-                        xPercent: 100,
-                        scrollTrigger: {
-                            trigger: horizontalSection,
-                            start: 'center center',
-                            end: '+=10px',
-                            pin: horizontalSection,
-                            scrub: true,
-                            invalidateOnRefresh: true,
-                        },
-                    });
-                    // Refresh after setting up
-                    ScrollTrigger.refresh();
-                });
-            }
+            //     Promise.all(imagePromises).then(() => {
+            //         gsap.to(horizontalSection, {
+            //             x: () => horizontalSection.scrollWidth * -1,
+            //             xPercent: 100,
+            //             scrollTrigger: {
+            //                 trigger: horizontalSection,
+            //                 start: 'center center',
+            //                 end: '+=10px',
+            //                 pin: horizontalSection,
+            //                 scrub: true,
+            //                 invalidateOnRefresh: true,
+            //             },
+            //         });
+            //         // Refresh after setting up
+            //         ScrollTrigger.refresh();
+            //     });
+            // }
 
             // Hero Video Animation (Pinning)
             const heroThumb = document.querySelector('.quanto-hero__thumb');
@@ -248,30 +247,29 @@ const Index = () => {
             }
 
             // Move Animation
-            document.querySelectorAll('.move-anim').forEach((splitTextLine) => {
-                const delay_value = parseFloat(splitTextLine.getAttribute('data-delay')) || 0.1;
+            document.querySelectorAll(".move-anim").forEach((splitTextLine) => {
+                const delay_value = splitTextLine.getAttribute("data-delay") || 0.1;
                 const tl = gsap.timeline({
                     scrollTrigger: {
                         trigger: splitTextLine,
-                        start: 'top 85%',
+                        start: "top 85%",
                         duration: 1.3,
-                        toggleActions: 'play none none none',
+                        toggleActions: "play none none none",
                     },
                 });
-                const itemSplitted = new SplitText(splitTextLine, { type: 'lines' });
+                const itemSplitted = new SplitText(splitTextLine, { type: "lines" });
                 gsap.set(splitTextLine, { perspective: 400 });
-                itemSplitted.split({ type: 'lines' });
+                itemSplitted.split({ type: "lines" });
                 tl.from(itemSplitted.lines, {
                     duration: 1,
-                    delay: delay_value,
+                    delay: parseFloat(delay_value),
                     opacity: 0,
                     rotationX: -80,
                     force3D: true,
-                    transformOrigin: 'top center -50',
+                    transformOrigin: "top center -50",
                     stagger: 0.1,
                 });
             });
-
             // Fade Animation
             document.querySelectorAll('.fade-anim').forEach((item) => {
                 const fade_direction = item.getAttribute('data-direction') || 'bottom';
@@ -378,20 +376,19 @@ const Index = () => {
             });
 
             // Image Reveal Animation
-            gsap.utils.toArray('.img_reveal').forEach((img_reveal) => {
-                const image = img_reveal.querySelector('img');
-                if (!image) return;
+            document.querySelectorAll(".img_reveal").forEach((img_reveal) => {
+                const image = img_reveal.querySelector("img");
                 const tl = gsap.timeline({
                     scrollTrigger: {
                         trigger: img_reveal,
-                        start: 'top 90%',
-                        toggleActions: 'play none none none',
+                        start: "top 70%",
                     },
                 });
-                tl.set(img_reveal, { autoAlpha: 1 });
-                tl.from(img_reveal, { duration: 1, xPercent: -100, ease: 'power2.out' });
-                tl.from(image, { duration: 1.5, xPercent: 100, scale: 1.5, ease: Power2.out }, 0);
+                tl.set(img_reveal, { autoAlpha: 1 })
+                    .from(img_reveal, { xPercent: -100, ease: "power2.out", duration: 1 })
+                    .from(image, { xPercent: 100, scale: 1.5, ease: "power2.out", duration: 1.5 }, "-=1.5");
             });
+
 
             // Mouse Hover Effects
             const targetBoxes = document.querySelectorAll('.quanto-pricing-box, .process-box');
@@ -551,7 +548,69 @@ const Index = () => {
             }
         };
     }, []);
+    useEffect(() => {
+        const horizontalSection = horizontalScrollRef.current;
 
+        if (window.innerWidth > 1199 && horizontalSection) {
+            const images = horizontalSection.querySelectorAll('img');
+            const imagePromises = Array.from(images).map(img => {
+                if (img.complete) return Promise.resolve();
+                return new Promise(resolve => {
+                    img.onload = resolve;
+                    img.onerror = resolve;
+                });
+            });
+
+            Promise.all(imagePromises).then(() => {
+                // Kill any existing ScrollTriggers on this element
+                ScrollTrigger.getAll().forEach(st => {
+                    if (st.trigger === horizontalSection) {
+                        st.kill();
+                    }
+                });
+
+                // FIXED: Calculate the actual distance to move
+                const scrollDistance = horizontalSection.scrollWidth - horizontalSection.offsetWidth;
+
+                // Reset position first
+                gsap.set(horizontalSection, { x: 0 });
+
+                const tl = gsap.timeline({
+                    scrollTrigger: {
+                        trigger: horizontalSection,
+                        start: 'top top',
+                        end: () => `+=${scrollDistance}`,
+                        pin: true,
+                        scrub: 1,
+                        invalidateOnRefresh: true,
+                        markers: true,
+                    }
+                });
+
+                tl.fromTo(horizontalSection,
+                    { x: 0 },  // Start from 0
+                    {
+                        x: -scrollDistance,  // Move exactly the scroll distance
+                        ease: 'none',
+                    }
+                );
+
+                // Force refresh after setup
+                requestAnimationFrame(() => {
+                    ScrollTrigger.refresh();
+                });
+            });
+        }
+
+        // Cleanup
+        return () => {
+            ScrollTrigger.getAll().forEach(st => {
+                if (st.trigger === horizontalScrollRef.current) {
+                    st.kill();
+                }
+            });
+        };
+    }, []);
     return (
         <>
             <div className="cursor d-none d-lg-block" ref={cursorRef}></div>
@@ -577,12 +636,55 @@ const Index = () => {
                                 <div className="col-lg-12" style={{ padding: "0px" }}>
                                     <div class="quanto-hero__thumb section-margin-top">
                                         <div class="video-wrapper">
-                                            <video ref={heroVideoRef} loop="" muted autoplay="" playsinline="">
-                                                <source
-                                                    src={video4}
-                                                    type="video/mp4"
-                                                />
-                                            </video>
+                                            <div ref={heroVideoRef} style={{ width: '100%', height: '100vh', overflow: 'hidden', position: 'relative' }}>
+                                                <div
+                                                    ref={heroVideoRef}
+                                                    style={{
+                                                        width: '100%',
+                                                        height: '100vh',
+                                                        overflow: 'hidden',
+                                                        position: 'relative',
+                                                        backgroundColor: '#000' // fallback while video loads
+                                                    }}
+                                                >
+                                                    <iframe
+                                                        width="100%"
+                                                        height="100%"
+                                                        src="https://www.youtube.com/embed/ZK-rNEhJIDs?autoplay=1&mute=1&loop=1&playlist=ZK-rNEhJIDs&controls=0&modestbranding=1&rel=0&showinfo=0&iv_load_policy=3&disablekb=1&playsinline=1"
+                                                        title="YouTube video player"
+                                                        frameBorder="0"
+                                                        allow="autoplay; encrypted-media; picture-in-picture"
+                                                        allowFullScreen
+                                                        style={{
+                                                            pointerEvents: 'none',
+                                                            position: 'absolute',
+                                                            top: '50%',
+                                                            left: '50%',
+                                                            transform: 'translate(-50%, -50%)',
+                                                            width: '100vw',
+                                                            height: '56.25vw', // 16:9 aspect ratio
+                                                            minHeight: '100vh',
+                                                            minWidth: '177.77vh', // 16:9 aspect ratio
+                                                            objectFit: 'cover'
+                                                        }}
+                                                    ></iframe>
+
+                                                    {/* Optional: overlay to ensure logo is hidden on all devices */}
+                                                    <div style={{
+                                                        position: 'absolute',
+                                                        bottom: 0,
+                                                        right: 0,
+                                                        width: '100px',
+                                                        height: '60px',
+                                                        background: 'transparent',
+                                                        pointerEvents: 'none',
+                                                        zIndex: 1
+                                                    }}></div>
+                                                </div>
+                                            </div>
+
+
+
                                         </div>
                                     </div>
                                 </div>
@@ -698,6 +800,7 @@ const Index = () => {
         }
             .quanto-project-section{
             min-height: 500px !important;
+            max-height: 100% !important;
 
             }
 
@@ -1791,7 +1894,7 @@ const Index = () => {
     }
   `}</style>
                     </section>
-                    ```
+
                     {/* <section className="quanto-process-section section-padding-top-bottom overflow-hidden">
                         <div className="container custom-container">
                             <div className="row">
