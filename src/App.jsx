@@ -22,6 +22,7 @@ import ProtectedRoute from './component/ProtectedRoute';
 const App = () => {
   return (
     <BrowserRouter>
+
       <Navbar />
       {/* <Layout> */}
       <Routes>
@@ -51,6 +52,7 @@ const App = () => {
       </Routes>
       {/* </Layout> */}
       <Footer />
+
     </BrowserRouter>
   );
 };

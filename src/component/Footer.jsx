@@ -1,6 +1,19 @@
-import React from 'react'
-
+import React, { useEffect } from 'react'
+import $ from "jquery"
 const Footer = () => {
+    useEffect(() => {
+        $(".marquee").each(function () {
+            var $marquee = $(this);
+            var $itemContainer = $marquee.find(".marquee-item-container");
+            var elements = $itemContainer.find(".marquee-item").length;
+            var repeatCount = elements < 5 ? 5 : elements;
+
+            for (var i = 0; i < repeatCount; i++) {
+                $itemContainer.clone().appendTo($marquee);
+            }
+        });
+
+    }, [])
     return (
         <>
             <footer className="footer-area bg-color-primary overflow-hidden">

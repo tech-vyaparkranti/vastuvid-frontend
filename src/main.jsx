@@ -4,10 +4,18 @@ import App from './App.jsx'
 import "./index.css"
 import { AuthProvider } from './context/AuthContext.jsx'
 
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { ScrollSmoother } from 'gsap/ScrollSmoother';
+import { SplitText } from 'gsap/SplitText';
+gsap.core.globals('ScrollTrigger', ScrollTrigger);
+gsap.core.globals('SplitText', SplitText);
+// ✅ REGISTER PLUGINS HERE, ONCE, GLOBALLY.
+gsap.registerPlugin(ScrollTrigger, ScrollSmoother, SplitText);
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <AuthProvider>
-      <App />
-    </AuthProvider>
+    <App />
   </StrictMode>,
 )
